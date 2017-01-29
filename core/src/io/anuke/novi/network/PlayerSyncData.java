@@ -14,5 +14,5 @@ public class PlayerSyncData extends SyncData{
 		this.ping = ping;
 	}
 	
-	public PlayerSyncData(){ }
+	public PlayerSyncData(){}
 }

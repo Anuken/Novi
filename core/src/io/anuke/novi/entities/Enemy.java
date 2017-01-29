@@ -93,8 +93,8 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 		return predictTargetAngle(x, y, dist / speed);
 	}
 
-	public void Update(){
-		UpdateVelocity();
+	public void update(){
+		updateVelocity();
 		if(!NoviServer.active)data.update(this);
 	}
 

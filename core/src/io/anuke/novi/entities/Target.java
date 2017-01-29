@@ -18,7 +18,7 @@ public class Target extends DestructibleEntity implements Syncable{
 	}
 
 	@Override
-	public void Update(){
+	public void update(){
 		data.update(this);
 	}
 

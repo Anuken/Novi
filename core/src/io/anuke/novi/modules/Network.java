@@ -16,7 +16,7 @@ import io.anuke.ucore.modules.Module;
 public class Network extends Module<Novi>{
 	public static final String ip = System.getProperty("user.name").equals("anuke") ? "localhost" : "107.11.24.144";
 	public static final int port = 7576;
-	public static final int ping = 0;
+	public static int ping = 0;
 	public static final int synctime = 3;
 	private boolean connected = true;
 	private boolean initialconnect = false;
@@ -27,7 +27,7 @@ public class Network extends Module<Novi>{
 			int buffer = (int)Math.pow(2, 7);
 			client = new Client(8192 * buffer, 8192 * buffer);
 			Registrator.register(client.getKryo());
-			client.addListener(new Listen());
+			client.addListener(ping == 0 ? new Listen() : new Listener.LagListener(ping, ping, new Listen()));
 			client.start();
 			client.connect(12000, ip, port, port);
 			ConnectPacket packet = new ConnectPacket();

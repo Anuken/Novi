@@ -28,13 +28,13 @@ public class Bullet extends FlyingEntity implements Damager{
 	}
 
 	@Override
-	public void Update(){
+	public void update(){
 		life += delta();
 		if(life >= type.getLifetime()){
 			RemoveSelf();
 			if(server != null) type.destroyEvent(this);
 		}
-		UpdateVelocity();
+		updateVelocity();
 	}
 
 	@Override

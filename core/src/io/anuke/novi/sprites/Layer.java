@@ -20,7 +20,7 @@ public class Layer implements Comparable<Layer>{
 		SPRITE, TEXT, TEXTURE
 	}
 
-	public void Draw(Renderer renderer){
+	public void draw(Renderer renderer){
 		renderer.batch.setColor(color);
 		//renderer.atlas.findRegion(region).getRegionWidth();
 		x = renderer.overlapx(x, renderer.atlas.findRegion(region).getRegionWidth());

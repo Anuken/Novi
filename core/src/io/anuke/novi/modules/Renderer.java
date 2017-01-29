@@ -22,8 +22,8 @@ import io.anuke.novi.entities.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.sprites.Layer;
 import io.anuke.novi.sprites.LayerList;
-import io.anuke.novi.sprites.NoviAtlas;
 import io.anuke.novi.world.NoviMapRenderer;
+import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.modules.Module;
 import io.anuke.utils.io.GifRecorder;
 
@@ -37,7 +37,7 @@ public class Renderer extends Module<Novi>{
 	public Matrix4 matrix; // matrix used for rendering gui and other things
 	GlyphLayout layout; // used for getting font bounds
 	public OrthographicCamera camera; //a camera, seems self explanatory
-	public NoviAtlas atlas; //texture atlas
+	public Atlas atlas; //texture atlas
 	LayerList layers;
 	int scale = 5; //camera zoom/scale
 	int pixelscale = 1; // pixelation scale
@@ -50,7 +50,7 @@ public class Renderer extends Module<Novi>{
 	public Renderer(){
 		matrix = new Matrix4();
 		batch = new SpriteBatch();
-		atlas = new NoviAtlas(Gdx.files.internal("sprites/Novi.pack"));
+		atlas = new Atlas(Gdx.files.internal("sprites/Novi.pack"));
 		layers = new LayerList();
 		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		font.setUseIntegerPositions(false);
@@ -114,15 +114,15 @@ public class Renderer extends Module<Novi>{
 		if(debug){
 			//	float f = ((WorldUtils.bound(camera.unproject(new Vector3(Gdx.input.getX(),Gdx.graphics.getHeight()/2,0)).x)));
 			font.setColor(Color.ORANGE);
-			font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, gheight());
-			font.draw(batch, "Ping: " + (network.client.getReturnTripTime() + Network.ping * 2), 0, gheight() - 5);
+			font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, ghheight());
+			font.draw(batch, "Ping: " + (network.client.getReturnTripTime() + Network.ping * 2), 0, ghheight() - 5);
 		}
 
 		if( !network.connected() || !network.initialconnect()){
 			color(0, 0, 0, 0.5f);
-			batch.draw(atlas.findRegion("blank"), 0, 0, gwidth(), gheight());
+			batch.draw(atlas.findRegion("blank"), 0, 0, ghwidth(), ghheight());
 			color(Color.WHITE);
-			drawFont(network.initialconnect() ? "Connecting..." : "Failed to connect to server.", gwidth() / 2, gheight() / 2);
+			drawFont(network.initialconnect() ? "Connecting..." : "Failed to connect to server.", ghwidth() / 2, ghheight() / 2);
 		}
 		
 		recorder.update();
@@ -154,7 +154,7 @@ public class Renderer extends Module<Novi>{
 		layers.sort();
 		for(int i = 0;i < layers.count;i ++){
 			Layer layer = layers.layers[i];
-			layer.Draw(this);
+			layer.draw(this);
 		}
 		layers.clear();
 	}
@@ -219,12 +219,12 @@ public class Renderer extends Module<Novi>{
 	}
 
 	//returns screen width / scale
-	public float grwidth(){
+	public float ghwidth(){
 		return Gdx.graphics.getWidth() / GUIscale;
 	}
 
 	//returns screen height / scale
-	public float grheight(){
+	public float ghheight(){
 		return Gdx.graphics.getHeight() / GUIscale;
 	}
 
@@ -270,8 +270,7 @@ public class Renderer extends Module<Novi>{
 
 	//utility/shortcut draw method
 	public void draw(String region, float x, float y){
-
-		batch.draw(atlas.findRegion(region), x - atlas.RegionWidth(region) / 2, y - atlas.RegionHeight(region) / 2);
+		batch.draw(atlas.findRegion(region), x - atlas.regionWidth(region) / 2, y - atlas.regionHeight(region) / 2);
 	}
 
 	public void drawc(String region, float x, float y){
@@ -279,11 +278,11 @@ public class Renderer extends Module<Novi>{
 	}
 
 	public void drawscl(String region, float x, float y, float scl){
-		batch.draw(atlas.findRegion(region), x - atlas.RegionWidth(region) / 2 * scl, y - atlas.RegionHeight(region) / 2 * scl, atlas.RegionHeight(region) * scl, atlas.RegionHeight(region) * scl);
+		batch.draw(atlas.findRegion(region), x - atlas.regionWidth(region) / 2 * scl, y - atlas.regionHeight(region) / 2 * scl, atlas.regionHeight(region) * scl, atlas.regionHeight(region) * scl);
 	}
 
 	public void draw(String region, float x, float y, float rotation){
-		batch.draw(atlas.findRegion(region), x - atlas.RegionWidth(region) / 2, y - atlas.RegionHeight(region) / 2, atlas.RegionWidth(region) / 2, atlas.RegionHeight(region) / 2, atlas.RegionWidth(region), atlas.RegionHeight(region), 1f, 1f, rotation);
+		batch.draw(atlas.findRegion(region), x - atlas.regionWidth(region) / 2, y - atlas.regionHeight(region) / 2, atlas.regionWidth(region) / 2, atlas.regionHeight(region) / 2, atlas.regionWidth(region), atlas.regionHeight(region), 1f, 1f, rotation);
 	}
 
 }

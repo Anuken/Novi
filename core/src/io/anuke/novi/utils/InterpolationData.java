@@ -9,7 +9,7 @@ import io.anuke.novi.entities.FlyingEntity;
 import io.anuke.novi.entities.Player;
 
 public class InterpolationData{
-	static final float correctrange = 40f;
+	static final float correctrange = 20f;
 	static Vector2 temp1 = new Vector2();
 	static Vector2 temp2 = new Vector2();
 	long lastupdate = -1;
@@ -34,7 +34,7 @@ public class InterpolationData{
 		temp1.set(entity.x, entity.y);
 		temp2.set(lastx + entity.x,lasty + entity.y);
 		if(entity instanceof FlyingEntity){
-		//	temp2.add(((FlyingEntity)entity).velocity.cpy());
+			temp2.add(((FlyingEntity)entity).velocity);
 	//		if(entity instanceof Drone)Novi.log("!!!!");
 		}
 		if(entity instanceof Player){

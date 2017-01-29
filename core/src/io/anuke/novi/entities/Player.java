@@ -4,14 +4,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 
-import io.anuke.novi.entities.effects.*;
-import io.anuke.novi.items.*;
+import io.anuke.novi.entities.effects.BreakEffect;
+import io.anuke.novi.entities.effects.Effects;
+import io.anuke.novi.entities.effects.Shockwave;
+import io.anuke.novi.items.ProjectileType;
+import io.anuke.novi.items.Ship;
 import io.anuke.novi.modules.Network;
-import io.anuke.novi.network.*;
+import io.anuke.novi.network.PlayerSyncData;
+import io.anuke.novi.network.SyncData;
+import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.packets.DeathPacket;
-import io.anuke.novi.server.*;
+import io.anuke.novi.server.InputHandler;
+import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.sprites.Layer.LayerType;
-import io.anuke.novi.utils.*;
+import io.anuke.novi.utils.Angles;
+import io.anuke.novi.utils.InterpolationData;
 
 public class Player extends DestructibleEntity implements Syncable{
 	public transient Connection connection;
@@ -34,7 +41,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	@Override
-	public void Update(){
+	public void update(){
 		if(respawntime > 0){
 			respawntime -= delta();
 			if(respawntime <= 0){
@@ -45,9 +52,11 @@ public class Player extends DestructibleEntity implements Syncable{
 		}
 		if(reload > 0) reload -= delta();
 		if(altreload > 0) altreload -= delta();
+		
 		if(NoviServer.active) return; //don't want to do stuff like getting the mouse angle on the server, do we?
+		
 		if( !client) data.update(this);
-		if(client || NoviServer.active)UpdateVelocity();
+		if(client || NoviServer.active) updateVelocity();
 		//updateBounds();
 		velocity.limit(ship.getMaxvelocity() * kiteChange());
 		if(rotation > 360f && !ship.getSpin()) rotation -= 360f;
@@ -111,7 +120,7 @@ public class Player extends DestructibleEntity implements Syncable{
 		}
 	}
 
-	//dying is currently disabled
+	
 	@Override
 	public void deathEvent(){
 		if(server != null){

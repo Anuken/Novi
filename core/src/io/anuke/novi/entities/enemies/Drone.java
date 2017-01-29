@@ -1,14 +1,16 @@
 package io.anuke.novi.entities.enemies;
 
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.Base;
+import io.anuke.novi.entities.Enemy;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.utils.WorldUtils;
 
 public class Drone extends Enemy{
-	float speed = 0.2f;
+	float speed = 0.15f;
 	float turnrange = 80;
 	float offset;
 	float sign = 0;
@@ -43,6 +45,7 @@ public class Drone extends Enemy{
 		if(len < turnrange) add.setAngle((add.angle() + anglechange));
 		add.setAngle(add.angle() + offset);
 		velocity.add(add.setLength(speed * delta()));
+		
 		if(MathUtils.randomBoolean(0.03f)){
 			shoot(ProjectileType.redbullet, targetAngle()-180);
 		}

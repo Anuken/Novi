@@ -9,7 +9,7 @@ public abstract class Effect extends Entity{
 	float lifetime = 100;
 	
 	@Override
-	public final void Update(){
+	public final void update(){
 		life += delta();
 		if(life > lifetime){
 			removeEvent();

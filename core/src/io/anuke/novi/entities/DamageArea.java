@@ -31,7 +31,7 @@ public class DamageArea extends SolidEntity implements Damager{
 	}
 	
 	@Override
-	public void Update(){
+	public void update(){
 		life += delta();
 		if(life > lifetime)RemoveSelf();
 	}

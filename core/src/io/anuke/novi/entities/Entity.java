@@ -25,13 +25,13 @@ public abstract class Entity{
 	private long id;
 	public float x, y;
 
-	abstract public void Update();
+	abstract public void update();
 
 	abstract public void Draw();
 	
 	public void baseUpdate(){
 		updateBounds();
-		Update();
+		update();
 	}
 
 	//used to make entities not fly off the map

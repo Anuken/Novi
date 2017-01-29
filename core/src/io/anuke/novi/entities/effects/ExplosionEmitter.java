@@ -22,7 +22,7 @@ public class ExplosionEmitter extends Entity{
 	}
 	
 	@Override
-	public void Update(){
+	public void update(){
 		life += delta();
 		if(life > lifetime) RemoveSelf();
 	}
