@@ -167,13 +167,13 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	@Override
-	public SyncBuffer writeSync(){
-		return new PlayerSyncBuffer(GetID(), x, y, rotation, respawntime, pingInFrames(), velocity);
+	public SyncData writeSync(){
+		return new PlayerSyncData(GetID(), x, y, rotation, respawntime, pingInFrames(), velocity);
 	}
 
 	@Override
-	public void readSync(SyncBuffer buffer){
-		PlayerSyncBuffer sync = (PlayerSyncBuffer)buffer;
+	public void readSync(SyncData buffer){
+		PlayerSyncData sync = (PlayerSyncData)buffer;
 		velocity = sync.velocity;
 		this.respawntime = sync.respawntime;
 		this.ping = sync.ping;

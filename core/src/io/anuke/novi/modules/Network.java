@@ -14,7 +14,7 @@ import io.anuke.novi.network.packets.*;
 import io.anuke.ucore.modules.Module;
 
 public class Network extends Module<Novi>{
-	public static final String ip = System.getProperty("user.name").equals("cobalt") ? "localhost" : "107.11.48.79";
+	public static final String ip = System.getProperty("user.name").equals("anuke") ? "localhost" : "107.11.24.144";
 	public static final int port = 7576;
 	public static final int ping = 0;
 	public static final int synctime = 3;
@@ -22,12 +22,12 @@ public class Network extends Module<Novi>{
 	private boolean initialconnect = false;
 	Client client;
 
-	public void Init(){
+	public void init(){
 		try{
-			int buffer = (int)Math.pow(2, 6);
+			int buffer = (int)Math.pow(2, 7);
 			client = new Client(8192 * buffer, 8192 * buffer);
 			Registrator.register(client.getKryo());
-			client.addListener(new Listener.LagListener(ping, ping, new Listen()));
+			client.addListener(new Listen());
 			client.start();
 			client.connect(12000, ip, port, port);
 			ConnectPacket packet = new ConnectPacket();
@@ -77,8 +77,9 @@ public class Network extends Module<Novi>{
 				}else if(object instanceof WorldUpdatePacket){
 					WorldUpdatePacket packet = (WorldUpdatePacket)object;
 					getModule(ClientData.class).player.health = packet.health;
-					for(long key : packet.updates.keySet()){
-						((Syncable)Entity.getEntity(key)).readSync(packet.updates.get(key));;
+					for(Long key : packet.updates.keySet()){
+						if(Entity.entityExists(key))
+						((Syncable)Entity.getEntity(key)).readSync(packet.updates.get(key));
 					}
 				}
 			}catch(Exception e){

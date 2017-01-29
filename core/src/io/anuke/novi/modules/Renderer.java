@@ -61,8 +61,9 @@ public class Renderer extends Module<Novi>{
 		Entity.renderer = this;
 		BreakEffect.createChunks();
 	}
-
-	public void Init(){
+	
+	@Override
+	public void init(){
 		camera = new OrthographicCamera(Gdx.graphics.getWidth() / scale, Gdx.graphics.getHeight() / scale);
 		player = getModule(ClientData.class).player;
 		world = getModule(World.class);
@@ -161,7 +162,7 @@ public class Renderer extends Module<Novi>{
 	void updateCamera(){
 		camera.position.set(player.x, player.y, 0f);
 		shakeCamera();
-		//	limitCamera();
+		//limitCamera();
 		camera.update();
 	}
 
@@ -182,7 +183,7 @@ public class Renderer extends Module<Novi>{
 		if(camera.position.y + camera.viewportHeight / 2 * camera.zoom > world.worldHeightPixels()) camera.position.y = world.worldHeightPixels() - camera.viewportHeight / 2 * camera.zoom;
 	}
 
-	public void onResize(int width, int height){
+	public void resize(int width, int height){
 		matrix.setToOrtho2D(0, 0, width / GUIscale, height / GUIscale);
 		camera.setToOrtho(false, width / scale, height / scale); //resize camera
 	}

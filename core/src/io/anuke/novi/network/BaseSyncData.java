@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 import io.anuke.novi.world.BlockUpdate;
 
-public class BaseSyncBuffer extends SyncBuffer{
+public class BaseSyncData extends SyncData{
 	public ArrayList<BlockUpdate> updates;
 	public float rotation;
 	
-	public BaseSyncBuffer(){
+	public BaseSyncData(){
 		
 	}
 	
-	public BaseSyncBuffer(ArrayList<BlockUpdate> updates, float rotation, float x, float y){
+	public BaseSyncData(ArrayList<BlockUpdate> updates, float rotation, float x, float y){
 		this.updates = updates;
 		this.rotation = rotation;
 		this.x = x;

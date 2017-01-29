@@ -172,7 +172,7 @@ public class Base extends Enemy implements Syncable{
 	}
 
 	@Override
-	public SyncBuffer writeSync(){
+	public SyncData writeSync(){
 		ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
 		for(int x = 0;x < size;x ++){
 			for(int y = 0;y < size;y ++){
@@ -181,14 +181,14 @@ public class Base extends Enemy implements Syncable{
 				updates.add(new BlockUpdate(block));
 			}
 		}
-		return new BaseSyncBuffer(updates, rotation, x, y);
+		return new BaseSyncData(updates, rotation, x, y);
 	}
 
 	@Override
-	public void readSync(SyncBuffer buffer){
-		this.rotation = ((BaseSyncBuffer)buffer).rotation;
+	public void readSync(SyncData buffer){
+		this.rotation = ((BaseSyncData)buffer).rotation;
 		data.push(this, buffer.x, buffer.y, 0f);
-		for(BlockUpdate update : ((BaseSyncBuffer)buffer).updates){
+		for(BlockUpdate update : ((BaseSyncData)buffer).updates){
 			update.apply(blocks);
 		}
 	}

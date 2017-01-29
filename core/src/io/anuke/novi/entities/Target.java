@@ -48,12 +48,12 @@ public class Target extends DestructibleEntity implements Syncable{
 	}
 
 	@Override
-	public SyncBuffer writeSync(){
-		return new SyncBuffer(GetID(), x, y);
+	public SyncData writeSync(){
+		return new SyncData(GetID(), x, y);
 	}
 
 	@Override
-	public void readSync(SyncBuffer buffer){
+	public void readSync(SyncData buffer){
 		data.push(this, buffer.x, buffer.y, 0);
 	}
 

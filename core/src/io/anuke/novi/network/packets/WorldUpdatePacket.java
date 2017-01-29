@@ -2,9 +2,9 @@ package io.anuke.novi.network.packets;
 
 import java.util.HashMap;
 
-import io.anuke.novi.network.SyncBuffer;
+import io.anuke.novi.network.SyncData;
 
 public class WorldUpdatePacket{
 	public int health;
-	public HashMap<Long, SyncBuffer> updates = new HashMap<Long, SyncBuffer>();
+	public HashMap<Long, SyncData> updates = new HashMap<Long, SyncData>();
 }

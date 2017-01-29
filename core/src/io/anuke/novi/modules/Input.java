@@ -14,14 +14,21 @@ import io.anuke.ucore.modules.Module;
 public class Input extends Module<Novi> implements InputProcessor{
 	Player player; //player object from ClientData module
 
-	public void Init(){
+	public void init(){
 		player = getModule(ClientData.class).player;
 		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
 	public void update(){
-		if(Gdx.input.isKeyPressed(Keys.ESCAPE)) Gdx.app.exit();
+		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			//for(Thread thread : Thread.getAllStackTraces().keySet()){
+			//	System.out.println(thread + ": " + thread.isDaemon());
+			//}
+				
+			Gdx.app.exit();
+		}
+		
 		if(Gdx.input.isKeyJustPressed(Keys.G)) getModule(LogModule.class).writeFile();
 		if(player.isDead()) return;
 		float angle = -9;

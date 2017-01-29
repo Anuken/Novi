@@ -25,10 +25,10 @@ public class Registrator{
 		k.register(EffectPacket.class);
 		k.register(InputPacket.class);
 		k.register(DeathPacket.class);
-		k.register(SyncBuffer.class);
-		k.register(BaseSyncBuffer.class);
-		k.register(PlayerSyncBuffer.class);
-		k.register(EnemySyncBuffer.class);
+		k.register(SyncData.class);
+		k.register(BaseSyncData.class);
+		k.register(PlayerSyncData.class);
+		k.register(EnemySyncData.class);
 		k.register(Ship.class);
 		k.register(Item.class);
 		k.register(ProjectileType.class);

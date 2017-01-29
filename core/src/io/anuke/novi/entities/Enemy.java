@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.network.EnemySyncBuffer;
-import io.anuke.novi.network.SyncBuffer;
+import io.anuke.novi.network.EnemySyncData;
+import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.utils.InterpolationData;
@@ -105,13 +105,13 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	}
 
 	@Override
-	public SyncBuffer writeSync(){
-		return new EnemySyncBuffer(GetID(), x, y, velocity);
+	public SyncData writeSync(){
+		return new EnemySyncData(GetID(), x, y, velocity);
 	}
 
 	@Override
-	public void readSync(SyncBuffer buffer){
-		EnemySyncBuffer sync = (EnemySyncBuffer)buffer;
+	public void readSync(SyncData buffer){
+		EnemySyncData sync = (EnemySyncData)buffer;
 		velocity = sync.velocity;
 		data.push(this, sync.x, sync.y, 0);
 	}
