@@ -26,14 +26,14 @@ public class Drone extends Enemy{
 	}
 	
 	@Override
-	public void Draw(){
+	public void draw(){
 		renderer.layer("drone", x, y).setRotation(velocity.angle() - 90).addShadow();
 	}
 	
 	public void deathEvent(){
 		super.deathEvent();
 		if(base != null) base.spawned --;
-		new BreakEffect("drone", velocity, 1f).setPosition(x, y).SendSelf();
+		new BreakEffect("drone", velocity, 1f).setPosition(x, y).sendSelf();
 	}
 
 	@Override

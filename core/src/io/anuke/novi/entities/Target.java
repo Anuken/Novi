@@ -31,19 +31,19 @@ public class Target extends DestructibleEntity implements Syncable{
 		b.x = x;
 		b.y = y;
 		b.setShooter(this);
-		b.AddSelf().SendSelf();
+		b.addSelf().sendSelf();
 	}
 
 	public void deathEvent(){
 		int radius = 30;
 		for(int i = 0;i < 30;i ++){
-			new ExplosionEffect().setPosition(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).SendSelf();
+			new ExplosionEffect().setPosition(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).sendSelf();
 		}
-		new Target().setPosition(x + MathUtils.random( 0, radius*2), y + MathUtils.random(0, radius*2)).AddSelf().SendSelf();
+		new Target().setPosition(x + MathUtils.random( 0, radius*2), y + MathUtils.random(0, radius*2)).addSelf().sendSelf();
 	}
 
 	@Override
-	public void Draw(){
+	public void draw(){
 		renderer.layer("tile", x, y);
 	}
 

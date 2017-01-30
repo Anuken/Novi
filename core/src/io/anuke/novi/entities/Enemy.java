@@ -53,7 +53,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	public void deathEvent(){
 		int radius = 20;
 		for(int i = 0;i < 10;i ++){
-			new ExplosionEffect().setPosition(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).SendSelf();
+			new ExplosionEffect().setPosition(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).sendSelf();
 		}
 	}
 
@@ -61,7 +61,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 		Bullet bullet = new Bullet(type, angle);
 		bullet.setPosition(x, y);
 		bullet.setShooter(this);
-		bullet.AddSelf().SendSelf();
+		bullet.addSelf().sendSelf();
 	}
 
 	public Bullet getShoot(ProjectileType type, float angle){

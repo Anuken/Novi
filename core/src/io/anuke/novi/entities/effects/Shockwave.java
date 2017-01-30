@@ -18,7 +18,7 @@ public class Shockwave extends Effect{
 	}
 	
 	@Override
-	public void Draw(){
+	public void draw(){
 		Layer layer = renderer.layer("shockwave", x, y).setScale(scale);
 		float scl = 2f;
 		if(life > lifetime / scl) layer.setColor(new Color(1, 1f, 1f, 1f - (life - lifetime / 2f) / (lifetime / scl)));

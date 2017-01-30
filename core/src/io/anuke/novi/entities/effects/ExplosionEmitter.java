@@ -18,19 +18,19 @@ public class ExplosionEmitter extends Entity{
 	}
 	
 	@Override
-	public void Draw(){
+	public void draw(){
 	}
 	
 	@Override
 	public void update(){
 		life += delta();
-		if(life > lifetime) RemoveSelf();
+		if(life > lifetime) removeSelf();
 	}
 
 	@Override
 	public void serverUpdate(){
 		if(MathUtils.randomBoolean(chance)){
-			new ExplosionEffect().setPosition(x+MathUtils.random(-radius, radius),  y+MathUtils.random(-radius, radius)).SendSelf();
+			new ExplosionEffect().setPosition(x+MathUtils.random(-radius, radius),  y+MathUtils.random(-radius, radius)).sendSelf();
 		}
 		chance -= drag;
 	}

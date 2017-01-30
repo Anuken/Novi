@@ -93,7 +93,7 @@ public class NoviServer{
 						data.playerid = player.GetID();
 						data.entities = Entity.entities;
 						connection.sendTCP(data);
-						server.sendToAllExceptTCP(connection.getID(), player.AddSelf());
+						server.sendToAllExceptTCP(connection.getID(), player.addSelf());
 						players.put(connection.getID(), player.GetID());
 						Novi.log("player id: " + player.GetID() + " connection id: " + connection.getID());
 						Novi.log(player.name + " has joined.");
@@ -127,7 +127,7 @@ public class NoviServer{
 		EntityRemovePacket remove = new EntityRemovePacket();
 		remove.id = entity.GetID();
 		server.sendToAllTCP(remove);
-		entity.RemoveSelf();
+		entity.removeSelf();
 	}
 
 	public void removeEntity(long entityid){
@@ -150,7 +150,7 @@ public class NoviServer{
 	private void addEntities(){
 		//new Base().setPosition(10, 100).AddSelf();
 		for(int i = 1;i < 40;i ++){
-			new Base().setPosition(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).AddSelf();
+			new Base().setPosition(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).addSelf();
 		}
 	}
 }

@@ -9,7 +9,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.entities.effects.*;
-import io.anuke.novi.network.*;
+import io.anuke.novi.network.BaseSyncData;
+import io.anuke.novi.network.SyncData;
+import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.Syncable.GlobalSyncable;
 import io.anuke.novi.utils.Angles;
 import io.anuke.novi.utils.InterpolationData;
@@ -24,15 +26,14 @@ public class Base extends Enemy implements Syncable{
 	private transient Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	public float rotation;
 	public Block[][] blocks;
-	public boolean[][] updated;
+	//public boolean[][] updated;
 	public int spawned;
-	private String texture= "titanship";
+	private String texture = "titanship";
 	transient private InterpolationData data = new InterpolationData();
 
 	{	
 		velocity = new Vector2(0,1);
 		blocks = new Block[size][size];
-		updated = new boolean[size][size];
 		generateBlocks();
 		material.getRectangle().setSize(size * (Material.blocksize + 1), size * (Material.blocksize + 1));
 		updateHealth();
@@ -87,7 +88,7 @@ public class Base extends Enemy implements Syncable{
 	public void checkHealth(Block block, Vector2 pos){
 		if(block.health < 0){
 			block.getMaterial().destroyEvent(this, block.x, block.y);
-			new ExplosionEmitter(10f, 1f, 14f).setPosition(pos.x, pos.y).AddSelf();
+			new ExplosionEmitter(10f, 1f, 14f).setPosition(pos.x, pos.y).addSelf();
 			//	explosion(block.x,block.y);
 		}
 	}
@@ -124,7 +125,7 @@ public class Base extends Enemy implements Syncable{
 
 	//updates a block at x,y so it gets synced
 	public void update(int x, int y){
-		updated[x][y] = true;
+		blocks[x][y].updated = true;
 	}
 
 	public Block getBlockAt(float x, float y){
@@ -148,18 +149,19 @@ public class Base extends Enemy implements Syncable{
 			for(int y = 0;y < size;y ++){
 				if( !blocks[x][y].empty()){
 					Vector2 v = world(x, y);
-					new BreakEffect("ironblock").setPosition(v.x, v.y).SendSelf();
+					new BreakEffect("ironblock").setPosition(v.x, v.y).sendSelf();
 				}
 			}
 		}
-		//if(texture != null)new BreakEffect(texture).setPosition(x, y).SendSelf();
-		new ExplosionEmitter(120, 1.1f, size * Material.blocksize / 2f).setPosition(x, y).AddSelf();
-		new Shockwave().setPosition(x, y).SendSelf();
-		Effects.shake(80f, 60f, x, y);
+		
+		if(texture != null) new BreakEffect(texture, 2f, this.rotation).setPosition(x, y).sendSelf();
+		new ExplosionEmitter(120, 1.1f, size * Material.blocksize / 2f).setPosition(x, y).addSelf();
+		new Shockwave().setPosition(x, y).sendSelf();
+		Effects.shake(80f, 40f, x, y);
 	}
 
 	@Override
-	public void Draw(){
+	public void draw(){
 		data.update(this);
 		for(int x = 0;x < size;x ++){
 			for(int y = 0;y < size;y ++){
@@ -176,9 +178,10 @@ public class Base extends Enemy implements Syncable{
 		ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
 		for(int x = 0;x < size;x ++){
 			for(int y = 0;y < size;y ++){
-				if( !updated[x][y]) continue;
+				if( !blocks[x][y].updated) continue;
 				Block block = blocks[x][y];
 				updates.add(new BlockUpdate(block));
+				blocks[x][y].updated = false;
 			}
 		}
 		return new BaseSyncData(updates, rotation, x, y);
@@ -199,7 +202,6 @@ public class Base extends Enemy implements Syncable{
 			for(int y = 0;y < size;y ++){
 				Block block = blocks[x][y];
 				if(block.empty()) continue;
-				updated[x][y] = false;
 				block.getMaterial().update(block, this);
 			}
 		}

@@ -43,7 +43,7 @@ public enum Material{
 			if(block.reload >= buildtime){
 				Drone drone = (Drone)new Drone().setPosition(worldx(base, block.x, block.y), worldy(base, block.x, block.y));
 				drone.velocity.y = -3;
-				drone.AddSelf().SendSelf();
+				drone.addSelf().sendSelf();
 				drone.base = base;
 				block.reload = 0;
 				base.spawned ++;
@@ -67,8 +67,8 @@ public enum Material{
 				base.update(block.x, block.y);
 				block.reload += Entity.delta();
 				if(block.reload >= reloadtime){
-					base.getShoot(ProjectileType.redbullet, block.rotation + 90).setPosition(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate(3, 5).AddSelf().SendSelf();;
-					base.getShoot(ProjectileType.redbullet, block.rotation + 90).setPosition(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate( -3, 5).AddSelf().SendSelf();;
+					base.getShoot(ProjectileType.redbullet, block.rotation + 90).setPosition(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate(3, 5).addSelf().sendSelf();;
+					base.getShoot(ProjectileType.redbullet, block.rotation + 90).setPosition(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate( -3, 5).addSelf().sendSelf();;
 
 					block.reload = 0;
 				}
@@ -97,7 +97,7 @@ public enum Material{
 				base.update(block.x, block.y);
 				block.reload += Entity.delta();
 				if(block.reload >= reloadtime){
-					base.getShoot(ProjectileType.explosivebullet, block.rotation + 90).setPosition(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate(0, 7).AddSelf().SendSelf();;
+					base.getShoot(ProjectileType.explosivebullet, block.rotation + 90).setPosition(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate(0, 7).addSelf().sendSelf();;
 					block.reload = 0;
 				}
 			}
@@ -121,9 +121,9 @@ public enum Material{
 	static public final int blocksize = 14;
 
 	public void destroyEvent(Base base, int x, int y){
-		new Shockwave(8f, 0.001f, 0.02f).setPosition(worldx(base, x, y), worldy(base, x, y)).SendSelf();
-		new ExplosionEffect().setPosition(worldx(base, x, y), worldy(base, x, y)).SendSelf();
-		new BreakEffect(name(), 2.5f).setPosition(worldx(base, x, y), worldy(base, x, y)).SendSelf();
+		new Shockwave(8f, 0.001f, 0.02f).setPosition(worldx(base, x, y), worldy(base, x, y)).sendSelf();
+		new ExplosionEffect().setPosition(worldx(base, x, y), worldy(base, x, y)).sendSelf();
+		new BreakEffect(name(), base.velocity, 2.5f).setPosition(worldx(base, x, y), worldy(base, x, y)).sendSelf();
 		base.blocks[x][y].setMaterial(Material.ironblock);
 		Effects.shake(40f, 15f, worldx(base, x, y), worldy(base, x, y));
 	}

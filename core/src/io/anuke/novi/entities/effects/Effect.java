@@ -13,7 +13,7 @@ public abstract class Effect extends Entity{
 		life += delta();
 		if(life > lifetime){
 			removeEvent();
-			RemoveSelf();
+			removeSelf();
 		}
 	}
 	
@@ -21,7 +21,7 @@ public abstract class Effect extends Entity{
 		
 	}
 	
-	public final Entity AddSelf(){
+	public final Entity addSelf(){
 		if(server != null) throw new RuntimeException("Effects should not be added serverside!");
 		entities.put(this.GetID(), this);
 		return this;

@@ -58,7 +58,7 @@ public class Network extends Module<Novi>{
 					DataPacket data = (DataPacket)object;
 					getModule(ClientData.class).player.resetID(data.playerid);
 					Entity.entities = data.entities;
-					getModule(ClientData.class).player.AddSelf();
+					getModule(ClientData.class).player.addSelf();
 					Novi.log("Recieved data packet.");
 				}else if(object instanceof EffectPacket){
 					EffectPacket effect = (EffectPacket)object;
@@ -66,7 +66,7 @@ public class Network extends Module<Novi>{
 				}else if(object instanceof Entity){
 					Entity entity = (Entity)object;
 					entity.onRecieve();
-					entity.AddSelf();
+					entity.addSelf();
 					//Novi.log("recieved entity of type " + entity.getClass().getSimpleName());
 				}else if(object instanceof EntityRemovePacket){
 					EntityRemovePacket remove = (EntityRemovePacket)object;

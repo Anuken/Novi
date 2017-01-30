@@ -27,7 +27,7 @@ public abstract class Entity{
 
 	abstract public void update();
 
-	abstract public void Draw();
+	abstract public void draw();
 	
 	public void baseUpdate(){
 		updateBounds();
@@ -63,23 +63,23 @@ public abstract class Entity{
 		return this;
 	}
 
-	public void SendSelf(){
+	public void sendSelf(){
 		server.server.sendToAllTCP(this);
 	}
 
-	public Entity AddSelf(){
+	public Entity addSelf(){
 		entities.put(id, this);
 		return this;
 	}
 
-	public void RemoveSelf(){
+	public void removeSelf(){
 		entities.remove(this.id);
 	}
 
 	public void resetID(long newid){
-		RemoveSelf();
+		removeSelf();
 		this.id = newid;
-		AddSelf();
+		addSelf();
 		lastid = id + 1;
 	}
 
@@ -134,7 +134,7 @@ public abstract class Entity{
 			if(NoviServer.active){
 				entity.serverUpdate();
 			}else{
-				entity.Draw();
+				entity.draw();
 			}
 			for(EntitySystem system : systems){
 				if(system.accept(entity)) system.update(entity);

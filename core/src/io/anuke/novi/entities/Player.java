@@ -42,12 +42,13 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	@Override
 	public void update(){
+		
 		if(respawntime > 0){
 			respawntime -= delta();
 			if(respawntime <= 0){
 				x = 0;
 				y = 0;
-				if(server != null) new Shockwave(20, 0.1f, 0.01f).setPosition(x, y).SendSelf();
+				if(server != null) new Shockwave(20, 0.1f, 0.01f).setPosition(x, y).sendSelf();
 			}
 		}
 		if(reload > 0) reload -= delta();
@@ -110,7 +111,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	@Override
-	public void Draw(){
+	public void draw(){
 		if(respawntime > 0) return;
 		if(!client){
 			renderer.layer("ship", x, y).setLayer(1).setRotation(client ? getSpriteRotation() : rotation).addShadow();
@@ -124,8 +125,8 @@ public class Player extends DestructibleEntity implements Syncable{
 	@Override
 	public void deathEvent(){
 		if(server != null){
-			new Shockwave(9f, 0.001f, 0.04f).setPosition(x, y).SendSelf();
-			new BreakEffect("ship", 3.5f).setPosition(x, y).SendSelf();
+			new Shockwave(9f, 0.001f, 0.04f).setPosition(x, y).sendSelf();
+			new BreakEffect("ship", 2.5f, rotation).setPosition(x, y).sendSelf();
 			Effects.explosionCluster(x, y, 6, 16);
 			Effects.shake(50f, 50f, x, y);
 			health = ship.getMaxhealth();
@@ -155,7 +156,7 @@ public class Player extends DestructibleEntity implements Syncable{
 		b.x = predictedX();
 		b.y = predictedY();
 		b.setShooter(this);
-		b.AddSelf().SendSelf();
+		b.addSelf().sendSelf();
 	}
 	
 	public float pingInFrames(){

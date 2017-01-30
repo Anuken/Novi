@@ -8,6 +8,7 @@ public class Block{
 	public final int x,y;
 	public int health;
 	public float rotation;
+	public boolean updated;
 	
 	public Block(int x, int y, Material material){
 		setMaterial(material);

@@ -34,7 +34,7 @@ public class InterpolationData{
 		temp1.set(entity.x, entity.y);
 		temp2.set(lastx + entity.x,lasty + entity.y);
 		if(entity instanceof FlyingEntity){
-			temp2.add(((FlyingEntity)entity).velocity);
+			temp2.add(((FlyingEntity)entity).velocity.cpy().scl(2));
 	//		if(entity instanceof Drone)Novi.log("!!!!");
 		}
 		if(entity instanceof Player){

@@ -2,8 +2,11 @@ package io.anuke.novi.items;
 
 import com.badlogic.gdx.graphics.Color;
 
-import io.anuke.novi.entities.*;
-import io.anuke.novi.entities.effects.*;
+import io.anuke.novi.entities.Bullet;
+import io.anuke.novi.entities.DamageArea;
+import io.anuke.novi.entities.effects.Effects;
+import io.anuke.novi.entities.effects.ExplosionEffect;
+import io.anuke.novi.entities.effects.Shockwave;
 import io.anuke.novi.modules.Renderer;
 import io.anuke.novi.sprites.Layer;
 import io.anuke.novi.utils.Colors;
@@ -19,7 +22,7 @@ public enum ProjectileType{
 		}
 		
 		public int damage(){
-			return 2;
+			return 20;
 		}
 	},
 	redbullet{
@@ -51,9 +54,9 @@ public enum ProjectileType{
 		}
 		
 		public void destroyEvent(Bullet bullet){
-			new Shockwave(8f, 0.001f, 0.02f).setPosition(bullet.x, bullet.y).SendSelf();
-			new ExplosionEffect().setPosition(bullet.x, bullet.y).SendSelf();
-			new DamageArea(30f, 16f).setPosition(bullet.x, bullet.y).AddSelf();
+			new Shockwave(8f, 0.001f, 0.02f).setPosition(bullet.x, bullet.y).sendSelf();
+			new ExplosionEffect().setPosition(bullet.x, bullet.y).sendSelf();
+			new DamageArea(30f, 16f).setPosition(bullet.x, bullet.y).addSelf();
 			Effects.shake(20f, 10f, bullet.x, bullet.y);
 		}
 		
@@ -83,7 +86,7 @@ public enum ProjectileType{
 		public void destroyEvent(Bullet bullet){
 			//new Shockwave(8f, 0.001f, 0.02f).setPosition(bullet.x, bullet.y).SendSelf();
 			//new ExplosionEffect().setPosition(bullet.x, bullet.y).SendSelf();
-			new DamageArea(30f, 16f).setDamage(15).setPosition(bullet.x, bullet.y).AddSelf();
+			new DamageArea(30f, 16f).setDamage(15).setPosition(bullet.x, bullet.y).addSelf();
 			Effects.explosionCluster(bullet.x, bullet.y, 4, 5f);
 			Effects.shake(20f, 10f, bullet.x, bullet.y);
 		}

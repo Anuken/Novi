@@ -8,7 +8,7 @@ public class ExplosionEffect extends Effect{
 	}
 	
 	@Override
-	public void Draw(){
+	public void draw(){
 		renderer.layer("explosion", x, y).setLayer(3f).setColor(life >= lifetime /2 ? Color.BLACK : Color.WHITE);
 	}
 }

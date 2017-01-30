@@ -90,7 +90,7 @@ public class Input extends Module<Novi> implements InputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button){
-	//		new BreakEffect("titanship").setPosition(player.x+30,player.y+30).AddSelf();
+		//new BreakEffect("titanship").setPosition(player.x+30,player.y+30).addSelf();
 		player.rotation = player.velocity.angle();
 		player.valigned = false;
 		sendInput(button == Buttons.LEFT ? InputType.LEFT_CLICK_DOWN : InputType.RIGHT_CLICK_DOWN);

@@ -31,14 +31,14 @@ public class Bullet extends FlyingEntity implements Damager{
 	public void update(){
 		life += delta();
 		if(life >= type.getLifetime()){
-			RemoveSelf();
+			removeSelf();
 			if(server != null) type.destroyEvent(this);
 		}
 		updateVelocity();
 	}
 
 	@Override
-	public void Draw(){
+	public void draw(){
 		type.draw(this, renderer);
 	}
 
@@ -62,7 +62,7 @@ public class Bullet extends FlyingEntity implements Damager{
 	@Override
 	public void collisionEvent(SolidEntity other){
 		//spawn explosion and dissapear
-		new ExplosionEffect().setPosition(x, y).SendSelf();
+		new ExplosionEffect().setPosition(x, y).sendSelf();
 		server.removeEntity(this);
 		if(server != null) type.destroyEvent(this);
 	}
