@@ -9,7 +9,7 @@ import io.anuke.novi.modules.Renderer;
 public class Layer implements Comparable<Layer>{
 	public static final float shadowlayer = -10, shadowoffset = -10;
 	public static final Color shadowcolor = new Color(0,0,0,0.14f);
-	public Color color = Color.WHITE;
+	public Color color = new Color();
 	public float layer, x, y, rotation, scale = 1f;
 	public String region;
 	public LayerType type = LayerType.SPRITE;
@@ -107,6 +107,11 @@ public class Layer implements Comparable<Layer>{
 		color = c;
 		return this;
 	}
+	
+	public Layer setColor(float r, float g, float b, float a){
+		color.set(r, g, b, a);
+		return this;
+	}
 
 	public Layer setRotation(float rotation){
 		this.rotation = rotation;
@@ -131,7 +136,7 @@ public class Layer implements Comparable<Layer>{
 		x = 0;
 		y = 0;
 		rotation = 0;
-		color = Color.WHITE;
+		color.set(Color.WHITE);
 		type = LayerType.SPRITE;
 		scale = 1f;
 		texture = null;

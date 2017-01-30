@@ -15,12 +15,15 @@ import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.novi.sprites.Layer;
 import io.anuke.novi.sprites.Layer.LayerType;
 import io.anuke.novi.world.Material;
-import io.anuke.ucore.noise.VoroniNoise;
+import io.anuke.ucore.noise.Noise;
+import io.anuke.ucore.noise.VoronoiNoise;
 
 public class BreakEffect extends Effect{
 	public static final int cachedchunks = 10;
 	private static HashMap<String, Chunk[][]> loadedchunks = new HashMap<String, Chunk[][]>();
-	private static VoroniNoise noise = new VoroniNoise(1, (short)0);
+	private static VoronoiNoise noise = new VoronoiNoise(1, (short)0);
+	private static VoronoiNoise dstnoise = new VoronoiNoise(1, (short)0);
+	private static Color color = new Color();
 	
 	private String regionName;
 	private transient boolean init;
@@ -28,6 +31,10 @@ public class BreakEffect extends Effect{
 	private float velocityscl = 2f;
 	private float rotation;
 	private Vector2 velocityoffset = new Vector2(0, 0);
+	
+	static{
+		dstnoise.setUseDistance(true);
+	}
 
 	{
 		lifetime = 420 + MathUtils.random(500);
@@ -50,16 +57,20 @@ public class BreakEffect extends Effect{
 			TextureRegion region = renderer.atlas.findRegion(name);
 			Pixmap regionpixmap = renderer.atlas.getPixmapOf(region);
 			noise.setSeed(MathUtils.random(9999));
+			dstnoise.setSeed(noise.getSeed());
 			
 			for(int x = 0; x < region.getRegionWidth(); x ++){
 				for(int y = 0; y < region.getRegionHeight(); y ++){
 					//Pixmap pixmap = new Pixmap(region.getRegionWidth(), region.getRegionHeight(), Format.RGBA8888);
 					
-					if(regionpixmap.getPixel(region.getRegionX() + x, region.getRegionY() + y) == 0){
+					int pix = regionpixmap.getPixel(region.getRegionX() + x, region.getRegionY() + y);
+					
+					if(pix == 0){
 						continue;
 					}
 					
 					double n = noise.noise(x, y, 0.16 - region.getRegionWidth()/550f);
+					double dst = dstnoise.noise(x, y, 0.16 - region.getRegionWidth()/550f) + Noise.nnoise(x, y, 10f, 0.2f);
 					
 					Pixmap pixmap = null;
 					
@@ -70,7 +81,14 @@ public class BreakEffect extends Effect{
 						pixmaps.put(n, pixmap);
 					}
 					
-					pixmap.drawPixel(x, y, regionpixmap.getPixel(region.getRegionX() + x, region.getRegionY() + y));
+					if(dst > 0.4){
+						color.set(pix);
+						color.mul(0.7f);
+						color.a = 1f;
+						pix = Color.rgba8888(color);
+					}
+					
+					pixmap.drawPixel(x, y, pix);
 				}
 			}
 			Array<Chunk> chunks = new Array<Chunk>();
@@ -92,8 +110,17 @@ public class BreakEffect extends Effect{
 		public void draw(BreakEffect effect){
 			Layer layer = renderer.layer(x + effect.x, y + effect.y).setType(LayerType.TEXTURE).setLayer(1.5f).setRotation(rotation).setTexture(chunk.region);
 			float scl = 6f;
-			if(effect.life > effect.lifetime / scl) layer.setColor(new Color(0.9f, 0.9f, 0.9f, 1f - (effect.life - effect.lifetime / 2f) / (effect.lifetime / scl)));
-			layer.addShadow();
+			
+			
+			layer.color.r = layer.color.g = layer.color.b = 0.9f;
+			
+			if(effect.life > effect.lifetime / scl){
+				layer.color.a = 1f - (effect.life - effect.lifetime / 2f) / (effect.lifetime / scl);
+			}else{
+				layer.color.a = 1f;
+			}
+			
+			
 			x += velocity.x * delta();
 			y += velocity.y * delta();
 			velocity.scl((float)Math.pow(1f - drag, delta()));

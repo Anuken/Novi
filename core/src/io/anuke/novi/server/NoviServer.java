@@ -2,7 +2,6 @@ package io.anuke.novi.server;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -11,10 +10,7 @@ import com.esotericsoftware.minlog.Log;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.Player;
-import io.anuke.novi.entities.enemies.GunBase;
-import io.anuke.novi.entities.enemies.ShipBase;
 import io.anuke.novi.modules.Network;
-import io.anuke.novi.modules.World;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.systems.CollisionSystem;
@@ -153,8 +149,8 @@ public class NoviServer{
 	private void addEntities(){
 		//new Base().setPosition(10, 100).AddSelf();
 		for(int i = 1;i < 40;i ++){
-			new GunBase().setPosition(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).addSelf();
-			new ShipBase().setPosition(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).addSelf();
+			//new GunBase().setPosition(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).addSelf();
+			//new ShipBase().setPosition(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).addSelf();
 			
 		}
 	}
