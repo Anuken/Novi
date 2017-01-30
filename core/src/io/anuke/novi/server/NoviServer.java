@@ -18,6 +18,7 @@ import io.anuke.novi.modules.World;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.systems.CollisionSystem;
+import io.anuke.novi.systems.SpatialSystem;
 import io.anuke.novi.systems.SyncSystem;
 import io.anuke.novi.utils.Loggy;
 
@@ -29,6 +30,7 @@ public class NoviServer{
 	public NoviUpdater updater; //this runs and updates the game objects
 	
 	void createSystems(){
+		Entity.addSystem(new SpatialSystem());
 		Entity.addSystem(new CollisionSystem());
 		Entity.addSystem(new SyncSystem());
 	}

@@ -4,11 +4,11 @@ import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.Player;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.network.Syncable;
-import io.anuke.novi.network.TimedSyncable;
 import io.anuke.novi.network.Syncable.GlobalSyncable;
+import io.anuke.novi.network.TimedSyncable;
 import io.anuke.novi.network.packets.WorldUpdatePacket;
 
-public class SyncSystem extends EntitySystem{
+public class SyncSystem extends IteratingSystem{
 
 	@Override
 	public void update(Entity entity){

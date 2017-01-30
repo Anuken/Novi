@@ -2,9 +2,10 @@ package io.anuke.novi.systems;
 
 import java.util.HashSet;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.SolidEntity;
 
-public class CollisionSystem extends EntitySystem{
+public class CollisionSystem extends IteratingSystem{
 	HashSet<Long> collided = new HashSet<Long>(); //used for storing collisions each frame so entities don't collide twice
 	
 	@Override

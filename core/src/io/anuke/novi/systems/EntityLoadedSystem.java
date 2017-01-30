@@ -2,7 +2,7 @@ package io.anuke.novi.systems;
 
 import io.anuke.novi.entities.Entity;
 
-public class EntityLoadedSystem extends EntitySystem{
+public class EntityLoadedSystem extends IteratingSystem{
 	private Entity player;
 	
 	public EntityLoadedSystem(Entity player){

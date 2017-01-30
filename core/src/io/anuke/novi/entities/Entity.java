@@ -1,6 +1,7 @@
 package io.anuke.novi.entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.badlogic.gdx.Gdx;
@@ -11,6 +12,7 @@ import io.anuke.novi.modules.Renderer;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.EmptySystem;
 import io.anuke.novi.systems.EntitySystem;
+import io.anuke.novi.systems.IteratingSystem;
 import io.anuke.novi.utils.WorldUtils;
 
 public abstract class Entity{
@@ -20,7 +22,7 @@ public abstract class Entity{
 	static public Vector2 vector = Vector2.Zero; // Vector2 object used for calculations; is reused
 	public static ConcurrentHashMap<Long, Entity> entities = new ConcurrentHashMap<Long, Entity>();
 	private static ArrayList<EntitySystem> systems = new ArrayList<EntitySystem>();
-	private static EntitySystem basesystem = new EmptySystem();
+	private static IteratingSystem basesystem = new EmptySystem();
 	public static Renderer renderer; // renderer reference for drawing things
 	private long id;
 	public float x, y;
@@ -119,7 +121,7 @@ public abstract class Entity{
 		systems.add(system);
 	}
 	
-	public static void setBaseSystem(EntitySystem system){
+	public static void setBaseSystem(IteratingSystem system){
 		basesystem = system;
 	}
 
@@ -128,16 +130,20 @@ public abstract class Entity{
 	}
 
 	public static void updateAll(){
+		Collection<Entity> entities = Entity.entities.values();
+		
+		for(EntitySystem system : systems){
+			system.update(entities);
+		}
+		
 		for(Entity entity : Entity.entities.values()){
 			if(!basesystem.accept(entity)) continue;
+			
 			entity.baseUpdate();
 			if(NoviServer.active){
 				entity.serverUpdate();
 			}else{
 				entity.draw();
-			}
-			for(EntitySystem system : systems){
-				if(system.accept(entity)) system.update(entity);
 			}
 		}
 	}

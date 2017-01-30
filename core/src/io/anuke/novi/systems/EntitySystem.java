@@ -1,11 +1,10 @@
 package io.anuke.novi.systems;
 
+import java.util.Collection;
+
 import io.anuke.novi.entities.Entity;
 
 public abstract class EntitySystem{
-	abstract public void update(Entity entity);
-	public boolean accept(Entity entity){
-		return true;
-	}
 	
+	public abstract void update(Collection<Entity> entities);
 }
