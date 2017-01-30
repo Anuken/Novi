@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-import io.anuke.novi.entities.Base;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.effects.*;
+import io.anuke.novi.entities.enemies.Base;
 import io.anuke.novi.entities.enemies.Drone;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.sprites.Layer;

@@ -5,22 +5,23 @@ import io.anuke.novi.server.InputHandler;
 
 public enum Ship{
 	arrowhead{
-		final float reload2 = 120f;
+		final float reload2 = 0f;
 		
 		{
-			speed = 0.2f;
+			speed = 0.18f;
 			turnspeed = 10f;
-			maxvelocity = 4f;
-			shootspeed = 5;
+			maxvelocity = 3.5f;
+			shootspeed = 2;
 			kiteDebuffMultiplier = 0.5f;
 			maxHealth = 300;
 		}
 		
 		public void handleInput(Player player, InputHandler input){
 			if(input.leftMouseDown() && player.reload <= 0){
-				player.bullet(ProjectileType.bullet);
+				player.bullet(ProjectileType.yellowbullet);
 				player.reload = player.getShip().getShootspeed();
 			}
+			
 			if(input.rightMouseDown() && player.altreload <= 0){
 				player.bullet(ProjectileType.mine);
 				player.altreload = reload2;

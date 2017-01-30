@@ -1,6 +1,7 @@
 package io.anuke.novi.sprites;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import io.anuke.novi.Novi;
 
@@ -8,7 +9,7 @@ import io.anuke.novi.Novi;
 public class LayerList{
 	private Layer[] layerpool;
 	public Layer[] layers;
-	static int maxsize = 5600;
+	static int maxsize = 8000;
 	public int count, lastcount, poolcount;
 	boolean outofbounds;
 

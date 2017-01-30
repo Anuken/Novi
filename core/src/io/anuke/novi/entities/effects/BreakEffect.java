@@ -59,7 +59,7 @@ public class BreakEffect extends Effect{
 						continue;
 					}
 					
-					double n = noise.noise(x, y, 0.14 - region.getRegionWidth()/600f);
+					double n = noise.noise(x, y, 0.16 - region.getRegionWidth()/550f);
 					
 					Pixmap pixmap = null;
 					
@@ -92,7 +92,7 @@ public class BreakEffect extends Effect{
 		public void draw(BreakEffect effect){
 			Layer layer = renderer.layer(x + effect.x, y + effect.y).setType(LayerType.TEXTURE).setLayer(1.5f).setRotation(rotation).setTexture(chunk.region);
 			float scl = 6f;
-			if(effect.life > effect.lifetime / scl) layer.setColor(new Color(1, 1, 1, 1f - (effect.life - effect.lifetime / 2f) / (effect.lifetime / scl)));
+			if(effect.life > effect.lifetime / scl) layer.setColor(new Color(0.9f, 0.9f, 0.9f, 1f - (effect.life - effect.lifetime / 2f) / (effect.lifetime / scl)));
 			layer.addShadow();
 			x += velocity.x * delta();
 			y += velocity.y * delta();
@@ -139,8 +139,7 @@ public class BreakEffect extends Effect{
 		this.velocityoffset = offset;
 	}
 
-	public BreakEffect(){
-	};
+	public BreakEffect(){}
 
 	@Override
 	public void draw(){

@@ -1,6 +1,7 @@
 package io.anuke.novi.network;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.badlogic.gdx.math.Vector2;
@@ -8,8 +9,10 @@ import com.esotericsoftware.kryo.Kryo;
 
 import io.anuke.novi.entities.*;
 import io.anuke.novi.entities.effects.*;
-import io.anuke.novi.entities.enemies.Drone;
-import io.anuke.novi.items.*;
+import io.anuke.novi.entities.enemies.*;
+import io.anuke.novi.items.Item;
+import io.anuke.novi.items.ProjectileType;
+import io.anuke.novi.items.Ship;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.network.packets.EffectPacket.EffectType;
 import io.anuke.novi.utils.InputType;
@@ -33,6 +36,7 @@ public class Registrator{
 		k.register(Item.class);
 		k.register(ProjectileType.class);
 		k.register(InputType.class);
+		
 		k.register(Entity.class);
 		k.register(FlyingEntity.class);
 		k.register(Base.class);
@@ -45,6 +49,9 @@ public class Registrator{
 		k.register(Target.class);
 		k.register(Drone.class);
 		k.register(Player.class);
+		k.register(ShipBase.class);
+		k.register(GunBase.class);
+		
 		k.register(Material.class);
 		k.register(EffectType.class);
 		k.register(BlockUpdate.class);

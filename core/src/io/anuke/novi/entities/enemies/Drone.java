@@ -3,14 +3,12 @@ package io.anuke.novi.entities.enemies;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-import io.anuke.novi.entities.Base;
-import io.anuke.novi.entities.Enemy;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.utils.WorldUtils;
 
 public class Drone extends Enemy{
-	float speed = 0.15f;
+	float speed = 0.1f;
 	float turnrange = 80;
 	float offset;
 	float sign = 0;
@@ -33,7 +31,7 @@ public class Drone extends Enemy{
 	public void deathEvent(){
 		super.deathEvent();
 		if(base != null) base.spawned --;
-		new BreakEffect("drone", velocity, 1f).setPosition(x, y).sendSelf();
+		new BreakEffect("drone", velocity, 0.2f).setPosition(x, y).sendSelf();
 	}
 
 	@Override

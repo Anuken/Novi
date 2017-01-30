@@ -1,4 +1,4 @@
-package io.anuke.novi.entities;
+package io.anuke.novi.entities.enemies;
 
 import static io.anuke.novi.utils.WorldUtils.*;
 
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.novi.entities.*;
 import io.anuke.novi.entities.effects.*;
 import io.anuke.novi.network.BaseSyncData;
 import io.anuke.novi.network.SyncData;
@@ -20,40 +21,31 @@ import io.anuke.novi.world.BlockUpdate;
 import io.anuke.novi.world.Material;
 
 @GlobalSyncable
-public class Base extends Enemy implements Syncable{
+public abstract class Base extends Enemy implements Syncable{
 	public final int size = 10;
 	private transient ArrayList<Block> blocklist = new ArrayList<Block>();
 	private transient Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	public float rotation;
 	public Block[][] blocks;
-	//public boolean[][] updated;
 	public int spawned;
-	private String texture = "titanship";
+	protected String texture = null;
 	transient private InterpolationData data = new InterpolationData();
 
-	{	
+	public Base(){	
 		velocity = new Vector2(0,1);
 		blocks = new Block[size][size];
-		generateBlocks();
-		material.getRectangle().setSize(size * (Material.blocksize + 1), size * (Material.blocksize + 1));
-		updateHealth();
-	}
-
-	void generateBlocks(){
 		for(int x = 0;x < size;x ++){
 			for(int y = 0;y < size;y ++){
 				blocks[x][y] = new Block(x, y, Material.air);
 				//if(Vector2.dst(x, y, size / 2f, size / 2f) < 4.5f) blocks[x][y].setMaterial(Material.ironblock);
 			}
 		}
-		int o = 3;
-		blocks[o-1][o].setMaterial(Material.turret);
-		blocks[size - o+1][o].setMaterial(Material.turret);
-		blocks[o][size - o-1].setMaterial(Material.turret);
-		blocks[size - o][size - o-1].setMaterial(Material.turret);
-		blocks[size / 2][2].setMaterial(Material.dronemaker);
-		blocks[size / 2][size / 2-1].setMaterial(Material.bigturret);
+		generateBlocks();
+		material.getRectangle().setSize(size * (Material.blocksize + 1), size * (Material.blocksize + 1));
+		updateHealth();
 	}
+
+	abstract void generateBlocks();
 
 	void updateHealth(){
 		health = 0;
@@ -89,12 +81,12 @@ public class Base extends Enemy implements Syncable{
 		if(block.health < 0){
 			block.getMaterial().destroyEvent(this, block.x, block.y);
 			new ExplosionEmitter(10f, 1f, 14f).setPosition(pos.x, pos.y).addSelf();
-			//	explosion(block.x,block.y);
+			explosion(block.x,block.y);
 		}
 	}
 
 	public void explosion(int cx, int cy){
-		int rad = 4;
+		int rad = 3;
 		for(int x = -rad;x <= rad;x ++){
 			for(int y = -rad;y <= rad;y ++){
 				int relx = cx + x, rely = cy + y;
@@ -102,7 +94,7 @@ public class Base extends Enemy implements Syncable{
 				float dist = Vector2.dst(x, y, 0, 0);
 				if(dist >= rad) continue;
 				Block block = blocks[relx][rely];
-				if( !block.solid()) block.health -= (int)((1f - dist / rad + 0.2f) * block.getMaterial().health());
+				if( !block.solid()) block.health -= (int)((1f - dist / rad + 0.1f) * block.getMaterial().health());
 				if(block.health < 0) block.setMaterial(Material.air);
 				update(relx, rely);
 			}
@@ -205,10 +197,6 @@ public class Base extends Enemy implements Syncable{
 				block.getMaterial().update(block, this);
 			}
 		}
-		
-		velocity.setLength(1f);
-		velocity.rotate(0.1f);
-		rotation = velocity.angle()-90;
 	}
 
 	public void setTexture(String texture){

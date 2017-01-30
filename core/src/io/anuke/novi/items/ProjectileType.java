@@ -12,7 +12,12 @@ import io.anuke.novi.sprites.Layer;
 import io.anuke.novi.utils.Colors;
 
 public enum ProjectileType{
-	bullet{
+	yellowbullet{
+		
+		public String drawName(){
+			return "bullet";
+		}
+		
 		public int getLifetime(){
 			return 30;
 		}
@@ -36,7 +41,7 @@ public enum ProjectileType{
 		}
 		
 		public float getSpeed(){
-			return 4;
+			return 3;
 		}
 		
 		public int damage(){

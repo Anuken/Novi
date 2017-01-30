@@ -1,12 +1,14 @@
 package io.anuke.novi.entities;
 
 import io.anuke.novi.entities.effects.ExplosionEffect;
+import io.anuke.novi.entities.enemies.Base;
+import io.anuke.novi.entities.enemies.Enemy;
 import io.anuke.novi.items.ProjectileType;
 
 public class Bullet extends FlyingEntity implements Damager{
 	private float life;
 	public Entity shooter;
-	public ProjectileType type = ProjectileType.bullet;
+	public ProjectileType type = ProjectileType.yellowbullet;
 
 	{
 		material.drag = 0;

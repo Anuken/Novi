@@ -1,10 +1,11 @@
-package io.anuke.novi.entities;
+package io.anuke.novi.entities.enemies;
 
 
 import static io.anuke.novi.utils.WorldUtils.*;
 
 import com.badlogic.gdx.math.MathUtils;
 
+import io.anuke.novi.entities.*;
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.EnemySyncData;
