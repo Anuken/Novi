@@ -73,6 +73,13 @@ public class World extends Module<Novi>{
 			return World.worldSize - i;
 		return i;
 	}
+	
+	//wraps crap
+	public static float wrap2(float i){
+		if(i < World.worldSize / 2)
+			return World.worldSize + i;
+		return i;
+	}
 
 	//corrects coord bounds
 	public static float bound(float i){

@@ -88,7 +88,7 @@ public enum Material{
 		}
 
 		public int health(){
-			return 40;
+			return 400000;
 		}
 	},
 	bigturret{

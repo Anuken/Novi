@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 public class Block{
 	private Material material = Material.air;
 	public transient float reload = MathUtils.random(30);
-	public transient final int x,y;
+	public final int x,y;
 	public transient float rotation;
 	public transient boolean updated;
 	public int health;

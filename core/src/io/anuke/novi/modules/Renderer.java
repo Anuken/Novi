@@ -19,11 +19,12 @@ import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
+import io.anuke.novi.systems.SpatialSystem;
 import io.anuke.novi.utils.Draw;
+import io.anuke.novi.utils.WrappedQuadTree;
 import io.anuke.novi.world.NoviMapRenderer;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.modules.Module;
-import io.anuke.ucore.util.QuadTree;
 import io.anuke.utils.io.GifRecorder;
 
 public class Renderer extends Module<Novi>{
@@ -84,7 +85,7 @@ public class Renderer extends Module<Novi>{
 		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		
+		renderQuadTree(Entities.getSystem(SpatialSystem.class).quadtree);
 		Entities.drawAll(player.x, player.y);
 		batch.end();
 		batch.setProjectionMatrix(matrix);
@@ -94,7 +95,7 @@ public class Renderer extends Module<Novi>{
 		batch.setColor(Color.WHITE);
 	}
 	
-	void renderQuadTree(QuadTree<Entity> tree){
+	void renderQuadTree(WrappedQuadTree<Entity> tree){
 		if(tree == null) return;
 		
 		Draw.crect("border", tree.getBounds().x, tree.getBounds().y, tree.getBounds().width, tree.getBounds().height);
