@@ -1,35 +1,22 @@
 package io.anuke.novi.entities;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.modules.Renderer;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.systems.EmptySystem;
-import io.anuke.novi.systems.EntitySystem;
-import io.anuke.novi.systems.IteratingSystem;
 import io.anuke.novi.utils.WorldUtils;
 
 public abstract class Entity{
-	static public Novi novi;
-	static public NoviServer server;
 	static private long lastid;
 	static public Vector2 vector = Vector2.Zero; // Vector2 object used for calculations; is reused
-	public static ConcurrentHashMap<Long, Entity> entities = new ConcurrentHashMap<Long, Entity>();
-	private static ArrayList<EntitySystem> systems = new ArrayList<EntitySystem>();
-	private static IteratingSystem basesystem = new EmptySystem();
-	public static Renderer renderer; // renderer reference for drawing things
+
+	
 	private long id;
 	public float x, y;
 
-	abstract public void update();
-
-	abstract public void draw();
+	public void update(){}
+	public void draw(){}
+	public void serverUpdate(){}
 	
 	public void baseUpdate(){
 		updateBounds();
@@ -43,108 +30,66 @@ public abstract class Entity{
 	}
 
 	//whether or not this entity is loaded (is drawn/updated on screen)
-	//AAAAAAAggggg
 	public boolean loaded(float playerx, float playery){
 		return WorldUtils.loopDist(x, playerx, y, playery, 1300f);
 	}
 
 	//called when this entity object is recieved
-	public void onRecieve(){
-
-	}
+	public void onRecieve(){}
 
 	//called when this entity is removed
-	public void removeEvent(){
+	public void onRemove(){}
 
-	}
-
-	//guess what this does
-	public Entity setPosition(float x, float y){
+	
+	public Entity set(float x, float y){
 		this.x = x;
 		this.y = y;
 		return this;
 	}
 
-	public void sendSelf(){
-		server.server.sendToAllTCP(this);
+	public void send(){
+		NoviServer.instance().server.sendToAllTCP(this);
 	}
 
-	public Entity addSelf(){
-		entities.put(id, this);
+	public Entity add(){
+		Entities.add(this);
 		return this;
 	}
 
-	public void removeSelf(){
-		entities.remove(this.id);
+	public void remove(){
+		Entities.remove(this);
 	}
-
+	
+	/**Removes the entity globally (that is, from the server as well)*/
+	public void removeServer(){
+		NoviServer.instance().removeEntity(this);
+	}
+	
+	/**Only used for players. Changes the entity's ID.*/
 	public void resetID(long newid){
-		removeSelf();
+		remove();
 		this.id = newid;
-		addSelf();
+		add();
 		lastid = id + 1;
 	}
 
-	public long GetID(){
+	public long getID(){
 		return id;
 	}
 
-	public boolean inRange(Entity entity, float rad){
-		return WorldUtils.loopDist(entity.x, entity.y, x, y, rad);
-	}
-
-	public static Entity getEntity(long id){
-		return entities.get(id);
-	}
-
-	public static boolean entityExists(long id){
-		return entities.get(id) != null;
-	}
-
-	public void serverUpdate(){
-		//do nothing
-	}
-
-	public static float delta(){
-		return server == null ? (Gdx.graphics.getDeltaTime() * 60f) : server.delta();
-	}
-
-	public static long frame(){
-		return server == null ? Gdx.graphics.getFrameId() : server.updater.frameID();
-	}
-
-	public static Iterable<EntitySystem> getSystems(){
-		return systems;
-	}
-
-	public static void addSystem(EntitySystem system){
-		systems.add(system);
+	boolean inRange(float rad){
+		return WorldUtils.loopDist(x, y, x, y, rad);
 	}
 	
-	public static void setBaseSystem(IteratingSystem system){
-		basesystem = system;
-	}
-
 	public Entity(){
 		id = lastid ++;
 	}
 
-	public static void updateAll(){
-		Collection<Entity> entities = Entity.entities.values();
-		
-		for(EntitySystem system : systems){
-			system.update(entities);
-		}
-		
-		for(Entity entity : Entity.entities.values()){
-			if(!basesystem.accept(entity)) continue;
-			
-			entity.baseUpdate();
-			if(NoviServer.active){
-				entity.serverUpdate();
-			}else{
-				entity.draw();
-			}
-		}
+	public float delta(){
+		return Novi.delta();
+	}
+
+	public long frame(){
+		return Novi.frame();
 	}
 }

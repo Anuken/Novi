@@ -5,36 +5,37 @@ import java.util.HashMap;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
-import io.anuke.novi.entities.Player;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.systems.CollisionSystem;
 import io.anuke.novi.systems.SpatialSystem;
 import io.anuke.novi.systems.SyncSystem;
-import io.anuke.novi.utils.Loggy;
 
 public class NoviServer{
-	public static boolean active;
+	private static NoviServer instance;
 	public static final int port = 7576;
 	public Server server;
 	public HashMap<Integer, Long> players = new HashMap<Integer, Long>(); //used for getting entities from connections
 	public NoviUpdater updater; //this runs and updates the game objects
 	
 	void createSystems(){
-		Entity.addSystem(new SpatialSystem());
-		Entity.addSystem(new CollisionSystem());
-		Entity.addSystem(new SyncSystem());
+		Entities.addSystem(new SpatialSystem());
+		Entities.addSystem(new CollisionSystem());
+		Entities.addSystem(new SyncSystem());
 	}
 	
 	void createServer(){
+		instance = this;
+		
 		createSystems();
-		Entity.server = this;
 		addEntities();
+		
 		try{
 			server = new Server(16384 * 256, 16384 * 256);
 			Registrator.register(server.getKryo());
@@ -45,6 +46,7 @@ public class NoviServer{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
 		createUpdater();
 	}
 
@@ -89,12 +91,12 @@ public class NoviServer{
 						player.connection = connection;
 						player.name = connect.name;
 						DataPacket data = new DataPacket();
-						data.playerid = player.GetID();
-						data.entities = Entity.entities;
+						data.playerid = player.getID();
+						data.entities = Entities.list();
 						connection.sendTCP(data);
-						server.sendToAllExceptTCP(connection.getID(), player.addSelf());
-						players.put(connection.getID(), player.GetID());
-						Novi.log("player id: " + player.GetID() + " connection id: " + connection.getID());
+						server.sendToAllExceptTCP(connection.getID(), player.add());
+						players.put(connection.getID(), player.getID());
+						Novi.log("player id: " + player.getID() + " connection id: " + connection.getID());
 						Novi.log(player.name + " has joined.");
 					}catch(Exception e){
 						e.printStackTrace();
@@ -107,7 +109,7 @@ public class NoviServer{
 				}else if(object instanceof PositionPacket){
 					PositionPacket position = (PositionPacket)object;
 					Player player = getPlayer(connection.getID());
-					player.setPosition(position.x, position.y);
+					player.set(position.x, position.y);
 					player.rotation = position.rotation;
 					player.velocity = position.velocity;
 				}
@@ -119,31 +121,21 @@ public class NoviServer{
 	}
 
 	public Player getPlayer(int cid){
-		return (Player)Entity.getEntity(players.get(cid));
+		return (Player)Entities.get(players.get(cid));
 	}
 
 	public void removeEntity(Entity entity){
 		EntityRemovePacket remove = new EntityRemovePacket();
-		remove.id = entity.GetID();
+		remove.id = entity.getID();
 		server.sendToAllTCP(remove);
-		entity.removeSelf();
+		entity.remove();
 	}
 
 	public void removeEntity(long entityid){
 		EntityRemovePacket remove = new EntityRemovePacket();
 		remove.id = entityid;
 		server.sendToAllTCP(remove);
-		Entity.entities.remove(entityid);
-	}
-
-	public static void main(String[] args){
-		active = true;
-		new NoviServer().createServer();
-	}
-
-	void doLogging(){
-		Log.DEBUG();
-		Log.setLogger(new Loggy());
+		Entities.remove(entityid);
 	}
 
 	private void addEntities(){
@@ -153,5 +145,17 @@ public class NoviServer{
 			//new ShipBase().setPosition(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).addSelf();
 			
 		}
+	}
+	
+	public static NoviServer instance(){
+		return instance;
+	}
+	
+	public static boolean active(){
+		return instance != null;
+	}
+	
+	public static void main(String[] args){
+		new NoviServer().createServer();
 	}
 }

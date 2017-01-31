@@ -2,6 +2,7 @@ package io.anuke.novi.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.utils.*;
 
 //a solid entity is an entity that collides with things

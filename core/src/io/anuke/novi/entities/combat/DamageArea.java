@@ -1,6 +1,8 @@
-package io.anuke.novi.entities;
+package io.anuke.novi.entities.combat;
 
 import java.util.HashSet;
+
+import io.anuke.novi.entities.SolidEntity;
 
 public class DamageArea extends SolidEntity implements Damager{
 	transient HashSet<Long> collided = new HashSet<Long>();
@@ -33,7 +35,7 @@ public class DamageArea extends SolidEntity implements Damager{
 	@Override
 	public void update(){
 		life += delta();
-		if(life > lifetime)removeSelf();
+		if(life > lifetime)remove();
 	}
 
 	@Override
@@ -42,12 +44,12 @@ public class DamageArea extends SolidEntity implements Damager{
 	}
 	
 	public boolean collides(SolidEntity other){
-		return !(other instanceof Damager) && !collided.contains(other.GetID()) && super.collides(other);
+		return !(other instanceof Damager) && !collided.contains(other.getID()) && super.collides(other);
 	}
 	
 	@Override
 	public void collisionEvent(SolidEntity entity){
-		collided.add(entity.GetID());
+		collided.add(entity.getID());
 	}
 
 	@Override

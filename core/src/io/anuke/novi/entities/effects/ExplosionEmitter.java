@@ -24,13 +24,13 @@ public class ExplosionEmitter extends Entity{
 	@Override
 	public void update(){
 		life += delta();
-		if(life > lifetime) removeSelf();
+		if(life > lifetime) remove();
 	}
 
 	@Override
 	public void serverUpdate(){
 		if(MathUtils.randomBoolean(chance)){
-			new ExplosionEffect().setPosition(x+MathUtils.random(-radius, radius),  y+MathUtils.random(-radius, radius)).sendSelf();
+			new ExplosionEffect().set(x+MathUtils.random(-radius, radius),  y+MathUtils.random(-radius, radius)).send();
 		}
 		chance -= drag;
 	}

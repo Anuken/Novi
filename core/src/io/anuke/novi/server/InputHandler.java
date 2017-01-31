@@ -2,7 +2,7 @@ package io.anuke.novi.server;
 
 import com.badlogic.gdx.utils.Queue;
 
-import io.anuke.novi.entities.Player;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.utils.InputType;
 
 public class InputHandler{

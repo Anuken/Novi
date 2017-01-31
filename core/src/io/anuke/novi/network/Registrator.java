@@ -8,6 +8,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 
 import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.base.Target;
+import io.anuke.novi.entities.combat.Bullet;
+import io.anuke.novi.entities.combat.DamageArea;
 import io.anuke.novi.entities.effects.*;
 import io.anuke.novi.entities.enemies.*;
 import io.anuke.novi.items.Item;

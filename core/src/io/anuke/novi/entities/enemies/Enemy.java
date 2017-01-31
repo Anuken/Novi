@@ -6,6 +6,8 @@ import static io.anuke.novi.utils.WorldUtils.*;
 import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.EnemySyncData;
@@ -25,7 +27,8 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	public void targetPlayers(int range){
 		Player nearest = null;
 		float neardist = Float.MAX_VALUE;
-		for(Entity entity : entities.values()){
+		
+		for(Entity entity : Entities.list()){
 			if(entity instanceof Player && ((Player)entity).isVisible()){
 				float dist = WorldUtils.wrappedDist(x, y, entity.x, entity.y);
 				if(dist < neardist){
@@ -34,6 +37,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 				}
 			}
 		}
+		
 		if(neardist > targetrange) nearest = null;
 		target = nearest;
 	}
@@ -51,23 +55,23 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 		return !(other instanceof Enemy) && super.collides(other) && !((other instanceof Bullet && ((Bullet)other).shooter instanceof Enemy));
 	}
 
-	public void deathEvent(){
+	public void onDeath(){
 		int radius = 20;
 		for(int i = 0;i < 10;i ++){
-			new ExplosionEffect().setPosition(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).sendSelf();
+			new ExplosionEffect().set(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).send();
 		}
 	}
 
 	public void shoot(ProjectileType type, float angle){
 		Bullet bullet = new Bullet(type, angle);
-		bullet.setPosition(x, y);
+		bullet.set(x, y);
 		bullet.setShooter(this);
-		bullet.addSelf().sendSelf();
+		bullet.add().send();
 	}
 
 	public Bullet getShoot(ProjectileType type, float angle){
 		Bullet bullet = new Bullet(type, angle);
-		bullet.setPosition(x, y);
+		bullet.set(x, y);
 		bullet.setShooter(this);
 		return bullet;
 	}
@@ -96,7 +100,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	public void update(){
 		updateVelocity();
-		if(!NoviServer.active)data.update(this);
+		if(!NoviServer.active()) data.update(this);
 	}
 
 	@Override
@@ -107,7 +111,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	@Override
 	public SyncData writeSync(){
-		return new EnemySyncData(GetID(), x, y, velocity);
+		return new EnemySyncData(getID(), x, y, velocity);
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 package io.anuke.novi.network.packets;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collection;
 
 import io.anuke.novi.entities.Entity;
 
 public class DataPacket{
 	public long playerid;
-	public ConcurrentHashMap<Long, Entity> entities;
+	public Collection<Entity> entities;
 }

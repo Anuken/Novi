@@ -2,14 +2,13 @@ package io.anuke.novi.items;
 
 import com.badlogic.gdx.graphics.Color;
 
-import io.anuke.novi.entities.Bullet;
-import io.anuke.novi.entities.DamageArea;
+import io.anuke.novi.entities.combat.Bullet;
+import io.anuke.novi.entities.combat.DamageArea;
 import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.entities.effects.Shockwave;
 import io.anuke.novi.modules.Renderer;
-import io.anuke.novi.sprites.Layer;
-import io.anuke.novi.utils.Colors;
+import io.anuke.ucore.graphics.Hue;
 
 public enum ProjectileType{
 	yellowbullet{
@@ -59,9 +58,9 @@ public enum ProjectileType{
 		}
 		
 		public void destroyEvent(Bullet bullet){
-			new Shockwave(8f, 0.001f, 0.02f).setPosition(bullet.x, bullet.y).sendSelf();
-			new ExplosionEffect().setPosition(bullet.x, bullet.y).sendSelf();
-			new DamageArea(30f, 16f).setPosition(bullet.x, bullet.y).addSelf();
+			new Shockwave(8f, 0.001f, 0.02f).set(bullet.x, bullet.y).send();
+			new ExplosionEffect().set(bullet.x, bullet.y).send();
+			new DamageArea(30f, 16f).set(bullet.x, bullet.y).add();
 			Effects.shake(20f, 10f, bullet.x, bullet.y);
 		}
 		
@@ -77,7 +76,7 @@ public enum ProjectileType{
 		public void draw(Bullet bullet, Renderer renderer){
 			defaultDraw(bullet, renderer);
 			renderer.layer("minecenter",bullet.x,bullet.y).setLayer(0.51f).setRotation(bullet.velocity.angle() - 90)
-			.setColor(Colors.mix(Color.GOLD, Color.RED, bullet.life()/getLifetime()));
+			.setColor(Hue.blend(Color.GOLD, Color.RED, bullet.life()/getLifetime()));
 		}
 		
 		public int getLifetime(){
@@ -91,7 +90,7 @@ public enum ProjectileType{
 		public void destroyEvent(Bullet bullet){
 			//new Shockwave(8f, 0.001f, 0.02f).setPosition(bullet.x, bullet.y).SendSelf();
 			//new ExplosionEffect().setPosition(bullet.x, bullet.y).SendSelf();
-			new DamageArea(30f, 16f).setDamage(15).setPosition(bullet.x, bullet.y).addSelf();
+			new DamageArea(30f, 16f).setDamage(15).set(bullet.x, bullet.y).add();
 			Effects.explosionCluster(bullet.x, bullet.y, 4, 5f);
 			Effects.shake(20f, 10f, bullet.x, bullet.y);
 		}

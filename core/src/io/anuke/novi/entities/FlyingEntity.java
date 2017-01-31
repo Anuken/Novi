@@ -20,8 +20,8 @@ public abstract class FlyingEntity extends SolidEntity{
 		return this;
 	}
 	
-	 public FlyingEntity setPosition(float x, float y){
-		 super.setPosition(x, y);
+	 public FlyingEntity set(float x, float y){
+		 super.set(x, y);
 		 return this;
 	 }
 }

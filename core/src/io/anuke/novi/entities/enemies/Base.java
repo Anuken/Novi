@@ -9,6 +9,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.combat.Bullet;
+import io.anuke.novi.entities.combat.Damager;
 import io.anuke.novi.entities.effects.*;
 import io.anuke.novi.network.BaseSyncData;
 import io.anuke.novi.network.SyncData;
@@ -80,7 +83,7 @@ public abstract class Base extends Enemy implements Syncable{
 	public void checkHealth(Block block, Vector2 pos){
 		if(block.health < 0){
 			block.getMaterial().destroyEvent(this, block.x, block.y);
-			new ExplosionEmitter(10f, 1f, 14f).setPosition(pos.x, pos.y).addSelf();
+			new ExplosionEmitter(10f, 1f, 14f).set(pos.x, pos.y).add();
 			explosion(block.x,block.y);
 		}
 	}
@@ -136,19 +139,19 @@ public abstract class Base extends Enemy implements Syncable{
 		return new Point((int)relx, (int)rely);
 	}
 
-	public void deathEvent(){
+	public void onDeath(){
 		for(int x = 0;x < size;x ++){
 			for(int y = 0;y < size;y ++){
 				if( !blocks[x][y].empty()){
 					Vector2 v = world(x, y);
-					new BreakEffect("ironblock").setPosition(v.x, v.y).sendSelf();
+					new BreakEffect("ironblock").set(v.x, v.y).send();
 				}
 			}
 		}
 		
-		if(texture != null) new BreakEffect(texture, 2f, this.rotation).setPosition(x, y).sendSelf();
-		new ExplosionEmitter(120, 1.1f, size * Material.blocksize / 2f).setPosition(x, y).addSelf();
-		new Shockwave().setPosition(x, y).sendSelf();
+		if(texture != null) new BreakEffect(texture, 2f, this.rotation).set(x, y).send();
+		new ExplosionEmitter(120, 1.1f, size * Material.blocksize / 2f).set(x, y).add();
+		new Shockwave().set(x, y).send();
 		Effects.shake(80f, 40f, x, y);
 	}
 

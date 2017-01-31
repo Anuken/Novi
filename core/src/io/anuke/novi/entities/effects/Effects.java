@@ -14,7 +14,7 @@ public class Effects{
 	}
 
 	public static void explosion(float x, float y){
-		new ExplosionEffect().setPosition(x, y).sendSelf();
+		new ExplosionEffect().set(x, y).send();
 	}
 
 	public static void explosionCluster(float x, float y, int amount, float radius){

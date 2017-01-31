@@ -1,7 +1,9 @@
-package io.anuke.novi.entities;
+package io.anuke.novi.entities.base;
 
 import com.badlogic.gdx.math.MathUtils;
 
+import io.anuke.novi.entities.DestructibleEntity;
+import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.network.*;
 import io.anuke.novi.utils.InterpolationData;
@@ -31,15 +33,15 @@ public class Target extends DestructibleEntity implements Syncable{
 		b.x = x;
 		b.y = y;
 		b.setShooter(this);
-		b.addSelf().sendSelf();
+		b.add().send();
 	}
 
-	public void deathEvent(){
+	public void onDeath(){
 		int radius = 30;
 		for(int i = 0;i < 30;i ++){
-			new ExplosionEffect().setPosition(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).sendSelf();
+			new ExplosionEffect().set(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).send();
 		}
-		new Target().setPosition(x + MathUtils.random( 0, radius*2), y + MathUtils.random(0, radius*2)).addSelf().sendSelf();
+		new Target().set(x + MathUtils.random( 0, radius*2), y + MathUtils.random(0, radius*2)).add().send();
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class Target extends DestructibleEntity implements Syncable{
 
 	@Override
 	public SyncData writeSync(){
-		return new SyncData(GetID(), x, y);
+		return new SyncData(getID(), x, y);
 	}
 
 	@Override

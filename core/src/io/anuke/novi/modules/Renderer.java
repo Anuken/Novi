@@ -1,7 +1,5 @@
 package io.anuke.novi.modules;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,48 +15,45 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.entities.Entity;
-import io.anuke.novi.entities.Player;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
-import io.anuke.novi.sprites.Layer;
-import io.anuke.novi.sprites.LayerList;
+import io.anuke.novi.utils.Draw;
 import io.anuke.novi.world.NoviMapRenderer;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.modules.Module;
 import io.anuke.utils.io.GifRecorder;
 
 public class Renderer extends Module<Novi>{
-	private float cameraShakeDuration, cameraShakeIntensity, cameraDrag;
-	private final float GUIscale = 5f;
+	public float cameraShakeDuration, cameraShakeIntensity, cameraDrag;
+	public final float GUIscale = 5f;
 	public Network network;
 	public SpriteBatch batch; //novi's batch
 	public BitmapFont font; //a font for displaying text
 	public NoviMapRenderer maprenderer; //used for rendering the map
 	public Matrix4 matrix; // matrix used for rendering gui and other things
-	GlyphLayout layout; // used for getting font bounds
+	public GlyphLayout layout; // used for getting font bounds
 	public OrthographicCamera camera; //a camera, seems self explanatory
 	public Atlas atlas; //texture atlas
-	LayerList layers;
-	int scale = 5; //camera zoom/scale
-	int pixelscale = 1; // pixelation scale
+	public int scale = 5; //camera zoom/scale
+	public int pixelscale = 1; // pixelation scale
 	public Player player; //player object from ClientData module
-	World world; // world module
-	FrameBuffer buffer;
-	GifRecorder recorder;
-	boolean debug = true;
+	public World world; // world module
+	public FrameBuffer buffer;
+	public GifRecorder recorder;
+	public boolean debug = true;
 
 	public Renderer(){
 		matrix = new Matrix4();
 		batch = new SpriteBatch();
 		atlas = new Atlas(Gdx.files.internal("sprites/Novi.pack"));
-		layers = new LayerList();
 		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		font.setUseIntegerPositions(false);
 		layout = new GlyphLayout();
 		buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getWidth() / pixelscale, Gdx.graphics.getHeight() / pixelscale, false);
 		buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		recorder = new GifRecorder(batch, 0.2f);
-		Entity.renderer = this;
+		Draw.init(this);
+		
 		BreakEffect.createChunks();
 	}
 	
@@ -85,7 +80,7 @@ public class Renderer extends Module<Novi>{
 		renderMap();
 
 		batch.begin();
-		drawLayers();
+		//drawLayers();
 		batch.end();
 		batch.setProjectionMatrix(matrix);
 		batch.begin();
@@ -136,6 +131,7 @@ public class Renderer extends Module<Novi>{
 	}
 
 	void drawWorld(){
+		/*
 		Random rand = new Random();
 		rand.setSeed(1);
 		float scl = 1000f;
@@ -147,16 +143,7 @@ public class Renderer extends Module<Novi>{
 			float airadd = (iscl * time) % 2000f - 1000f;
 			layer("cloud" + (i % 7 + 1), camera.position.x + airadd + randx, camera.position.y + randy).setLayer( -2f);
 		}
-	}
-
-	//sorts layer list, draws all layers and clears it
-	void drawLayers(){
-		layers.sort();
-		for(int i = 0;i < layers.count;i ++){
-			Layer layer = layers.layers[i];
-			layer.draw(this);
-		}
-		layers.clear();
+		*/
 	}
 
 	void updateCamera(){
@@ -168,10 +155,10 @@ public class Renderer extends Module<Novi>{
 
 	void shakeCamera(){
 		if(cameraShakeDuration > 0){
-			cameraShakeDuration -= Entity.delta();
+			cameraShakeDuration -= Novi.delta();
 			camera.position.x += MathUtils.random( -cameraShakeIntensity, cameraShakeIntensity);
 			camera.position.y += MathUtils.random( -cameraShakeIntensity, cameraShakeIntensity);
-			cameraShakeIntensity -= cameraDrag * Entity.delta();
+			cameraShakeIntensity -= cameraDrag * Novi.delta();
 		}
 	}
 
@@ -195,13 +182,6 @@ public class Renderer extends Module<Novi>{
 		cameraDrag = cameraShakeIntensity / cameraShakeDuration;
 	}
 
-	public Layer layer(String region, float x, float y){
-		return layers.addLayer().set(region, x, y);
-	}
-
-	public Layer layer(float x, float y){
-		return layers.addLayer().setPosition(x, y);
-	}
 
 	public void zoom(float amount){
 		if(camera.zoom + amount < 0 || (camera.zoom + amount) * camera.viewportWidth > world.worldWidthPixels()) return;

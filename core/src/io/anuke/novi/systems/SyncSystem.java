@@ -1,27 +1,31 @@
 package io.anuke.novi.systems;
 
+import io.anuke.novi.Novi;
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
-import io.anuke.novi.entities.Player;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.Syncable.GlobalSyncable;
 import io.anuke.novi.network.TimedSyncable;
 import io.anuke.novi.network.packets.WorldUpdatePacket;
+import io.anuke.novi.server.NoviServer;
 
 public class SyncSystem extends IteratingSystem{
 
 	@Override
 	public void update(Entity entity){
-		if(Entity.server.updater.frameID() % Network.synctime != 0) return;
+		if(Novi.frame() % Network.synctime != 0) return;
 		Player player = (Player)entity;
 		WorldUpdatePacket worldupdate = new WorldUpdatePacket();
 		worldupdate.health = player.health;
-		for(Entity other : Entity.entities.values()){
+		for(Entity other : Entities.list()){
 			if(other.equals(player) || !(other instanceof Syncable) || (other instanceof TimedSyncable && !((TimedSyncable)other).sync()) || (!other.getClass().isAnnotationPresent(GlobalSyncable.class) && !other.loaded(player.x, player.y))) continue;
 			Syncable sync = (Syncable)other;
-			worldupdate.updates.put(other.GetID(), sync.writeSync());
+			worldupdate.updates.put(other.getID(), sync.writeSync());
 		}
-		Entity.server.server.sendToUDP(player.connectionID(), worldupdate);
+		
+		NoviServer.instance().server.sendToUDP(player.connectionID(), worldupdate);
 	}
 	
 	public boolean accept(Entity entity){

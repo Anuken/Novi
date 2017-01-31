@@ -1,9 +1,12 @@
-package io.anuke.novi.entities;
+package io.anuke.novi.entities.base;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 
+import io.anuke.novi.entities.DestructibleEntity;
+import io.anuke.novi.entities.SolidEntity;
+import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.entities.effects.Shockwave;
@@ -48,7 +51,7 @@ public class Player extends DestructibleEntity implements Syncable{
 			if(respawntime <= 0){
 				x = 0;
 				y = 0;
-				if(server != null) new Shockwave(20, 0.1f, 0.01f).setPosition(x, y).sendSelf();
+				if(server != null) new Shockwave(20, 0.1f, 0.01f).set(x, y).send();
 			}
 		}
 		if(reload > 0) reload -= delta();
@@ -123,10 +126,10 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	
 	@Override
-	public void deathEvent(){
+	public void onDeath(){
 		if(server != null){
-			new Shockwave(9f, 0.001f, 0.04f).setPosition(x, y).sendSelf();
-			new BreakEffect("ship", 2.5f, rotation).setPosition(x, y).sendSelf();
+			new Shockwave(9f, 0.001f, 0.04f).set(x, y).send();
+			new BreakEffect("ship", 2.5f, rotation).set(x, y).send();
 			Effects.explosionCluster(x, y, 6, 16);
 			Effects.shake(50f, 50f, x, y);
 			health = ship.getMaxhealth();
@@ -156,7 +159,7 @@ public class Player extends DestructibleEntity implements Syncable{
 		b.x = predictedX();
 		b.y = predictedY();
 		b.setShooter(this);
-		b.addSelf().sendSelf();
+		b.add().send();
 	}
 	
 	public float pingInFrames(){
@@ -178,7 +181,7 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	@Override
 	public SyncData writeSync(){
-		return new PlayerSyncData(GetID(), x, y, rotation, respawntime, pingInFrames(), velocity);
+		return new PlayerSyncData(getID(), x, y, rotation, respawntime, pingInFrames(), velocity);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.FlyingEntity;
-import io.anuke.novi.entities.Player;
+import io.anuke.novi.entities.base.Player;
 
 public class InterpolationData{
 	static final float correctrange = 20f;
@@ -23,7 +23,7 @@ public class InterpolationData{
 		lasty = y - e.y;
 		lastrotation = rotation;
 		if(Math.abs(e.x - x) > correctrange || Math.abs(e.y - y) > correctrange){
-			e.setPosition(x, y);
+			e.set(x, y);
 			lastx = 0;
 			lasty = 0;
 		}
@@ -43,7 +43,7 @@ public class InterpolationData{
 			temp2.add(player.ping*player.velocity.x, player.ping*player.velocity.y);
 		}
 		temp1.interpolate(temp2, 0.5f, Interpolation.linear);
-		entity.setPosition(temp1.x, temp1.y);
+		entity.set(temp1.x, temp1.y);
 		
 		if(entity instanceof Player)((Player)entity).rotation = MathUtils.lerpAngleDeg(((Player)entity).rotation, lastrotation, 0.25f);
 	}

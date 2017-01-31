@@ -111,7 +111,6 @@ public class BreakEffect extends Effect{
 			Layer layer = renderer.layer(x + effect.x, y + effect.y).setType(LayerType.TEXTURE).setLayer(1.5f).setRotation(rotation).setTexture(chunk.region);
 			float scl = 6f;
 			
-			
 			layer.color.r = layer.color.g = layer.color.b = 0.9f;
 			
 			if(effect.life > effect.lifetime / scl){

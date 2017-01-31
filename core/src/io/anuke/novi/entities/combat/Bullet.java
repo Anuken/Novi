@@ -1,5 +1,7 @@
-package io.anuke.novi.entities;
+package io.anuke.novi.entities.combat;
 
+import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.entities.enemies.Base;
 import io.anuke.novi.entities.enemies.Enemy;
@@ -33,7 +35,7 @@ public class Bullet extends FlyingEntity implements Damager{
 	public void update(){
 		life += delta();
 		if(life >= type.getLifetime()){
-			removeSelf();
+			remove();
 			if(server != null) type.destroyEvent(this);
 		}
 		updateVelocity();
@@ -64,7 +66,7 @@ public class Bullet extends FlyingEntity implements Damager{
 	@Override
 	public void collisionEvent(SolidEntity other){
 		//spawn explosion and dissapear
-		new ExplosionEffect().setPosition(x, y).sendSelf();
+		new ExplosionEffect().set(x, y).send();
 		server.removeEntity(this);
 		if(server != null) type.destroyEvent(this);
 	}

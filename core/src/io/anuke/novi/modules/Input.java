@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.entities.Player;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.network.packets.InputPacket;
 import io.anuke.novi.utils.InputType;
@@ -91,7 +91,7 @@ public class Input extends Module<Novi> implements InputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button){
-		new BreakEffect("titanship").setPosition(player.x+30,player.y+30).addSelf();
+		new BreakEffect("titanship").set(player.x+30,player.y+30).add();
 		player.rotation = player.velocity.angle();
 		player.valigned = false;
 		sendInput(button == Buttons.LEFT ? InputType.LEFT_CLICK_DOWN : InputType.RIGHT_CLICK_DOWN);

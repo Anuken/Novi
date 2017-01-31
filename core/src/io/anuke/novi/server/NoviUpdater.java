@@ -3,7 +3,7 @@ package io.anuke.novi.server;
 import java.util.HashSet;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.Entities;
 
 public class NoviUpdater{
 	NoviServer server;
@@ -16,7 +16,7 @@ public class NoviUpdater{
 
 	void Loop(){
 		try{
-			Entity.updateAll();
+			Entities.updateAll();
 		}catch(Exception e){
 			e.printStackTrace();
 			Novi.log("Entity update loop error!");

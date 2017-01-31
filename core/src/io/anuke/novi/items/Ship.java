@@ -1,6 +1,6 @@
 package io.anuke.novi.items;
 
-import io.anuke.novi.entities.Player;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.server.InputHandler;
 
 public enum Ship{

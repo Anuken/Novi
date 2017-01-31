@@ -12,18 +12,18 @@ public abstract class Effect extends Entity{
 	public final void update(){
 		life += delta();
 		if(life > lifetime){
-			removeEvent();
-			removeSelf();
+			onRemove();
+			remove();
 		}
 	}
 	
-	public void removeEvent(){
+	public void onRemove(){
 		
 	}
 	
-	public final Entity addSelf(){
+	public final Entity add(){
 		if(server != null) throw new RuntimeException("Effects should not be added serverside!");
-		entities.put(this.GetID(), this);
+		entities.put(this.getID(), this);
 		return this;
 	}
 }

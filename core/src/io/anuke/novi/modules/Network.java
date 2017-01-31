@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.Syncable;
@@ -57,8 +58,8 @@ public class Network extends Module<Novi>{
 				if(object instanceof DataPacket){
 					DataPacket data = (DataPacket)object;
 					getModule(ClientData.class).player.resetID(data.playerid);
-					Entity.entities = data.entities;
-					getModule(ClientData.class).player.addSelf();
+					Entities.loadEntities(data.entities);
+					getModule(ClientData.class).player.add();
 					Novi.log("Recieved data packet.");
 				}else if(object instanceof EffectPacket){
 					EffectPacket effect = (EffectPacket)object;
@@ -66,20 +67,22 @@ public class Network extends Module<Novi>{
 				}else if(object instanceof Entity){
 					Entity entity = (Entity)object;
 					entity.onRecieve();
-					entity.addSelf();
+					entity.add();
 					//Novi.log("recieved entity of type " + entity.getClass().getSimpleName());
 				}else if(object instanceof EntityRemovePacket){
 					EntityRemovePacket remove = (EntityRemovePacket)object;
-					if(Entity.entities.containsKey(remove.id)) Entity.entities.get(remove.id).removeEvent();
-					Entity.entities.remove(remove.id);
+					
+					if(Entities.has(remove.id)) Entities.get(remove.id).onRemove();
+					Entities.remove(remove.id);
+					
 				}else if(object instanceof DeathPacket){
-					getModule(ClientData.class).player.deathEvent();
+					getModule(ClientData.class).player.onDeath();
 				}else if(object instanceof WorldUpdatePacket){
 					WorldUpdatePacket packet = (WorldUpdatePacket)object;
 					getModule(ClientData.class).player.health = packet.health;
 					for(Long key : packet.updates.keySet()){
-						if(Entity.entityExists(key))
-						((Syncable)Entity.getEntity(key)).readSync(packet.updates.get(key));
+						if(Entities.has(key))
+						((Syncable)Entities.get(key)).readSync(packet.updates.get(key));
 					}
 				}
 			}catch(Exception e){
@@ -98,7 +101,7 @@ public class Network extends Module<Novi>{
 	}
 
 	public float pingInFrames(){
-		return ((ping * 2f + client.getReturnTripTime()) / 1000f) * Entity.delta() * 60f + 1f;
+		return ((ping * 2f + client.getReturnTripTime()) / 1000f) * Novi.delta() * 60f + 1f;
 	}
 
 	@Override
