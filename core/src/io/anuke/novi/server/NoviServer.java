@@ -1,8 +1,8 @@
 package io.anuke.novi.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -12,9 +12,7 @@ import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.enemies.GunBase;
-import io.anuke.novi.entities.enemies.ShipBase;
 import io.anuke.novi.modules.Network;
-import io.anuke.novi.modules.World;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.systems.CollisionSystem;
@@ -41,7 +39,7 @@ public class NoviServer{
 		addEntities();
 		
 		try{
-			server = new Server(16384 * 256, 16384 * 256);
+			server = new Server(16384, 16384 * (int)Math.pow(2, 10));
 			Registrator.register(server.getKryo());
 			server.addListener(new Listener.LagListener(Network.ping,Network.ping,new Listen(this)));
 			server.start();
@@ -96,7 +94,7 @@ public class NoviServer{
 						player.name = connect.name;
 						DataPacket data = new DataPacket();
 						data.playerid = player.getID();
-						data.entities = Entities.list();
+						data.entities = new ArrayList<Entity>(Entities.list());
 						connection.sendTCP(data);
 						server.sendToAllExceptTCP(connection.getID(), player.add());
 						players.put(connection.getID(), player.getID());
@@ -144,9 +142,9 @@ public class NoviServer{
 
 	private void addEntities(){
 		//new Base().setPosition(10, 100).AddSelf();
-		for(int i = 1;i < 40;i ++){
-			new GunBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
-			new ShipBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
+		for(int i = 0;i < 6;i ++){
+			new GunBase().set(100, 100).add();
+			//new ShipBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
 			
 		}
 	}

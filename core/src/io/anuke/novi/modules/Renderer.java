@@ -82,7 +82,7 @@ public class Renderer extends Module<Novi>{
 		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		Entities.drawAll();
+		Entities.drawAll(player.x, player.y);
 		batch.end();
 		batch.setProjectionMatrix(matrix);
 		batch.begin();
@@ -113,6 +113,8 @@ public class Renderer extends Module<Novi>{
 			font.setColor(Color.ORANGE);
 			font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, ghheight());
 			font.draw(batch, "Ping: " + (network.client.getReturnTripTime() + Network.ping * 2), 0, ghheight() - 5);
+			font.draw(batch, "Draws: " + batch.totalRenderCalls, 0, ghheight() - 10);
+			batch.totalRenderCalls = 0;
 		}
 
 		if( !network.connected() || !network.initialconnect()){

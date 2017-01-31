@@ -15,6 +15,10 @@ public class NoviUpdater{
 	HashSet<Long> collided = new HashSet<Long>(); //used for storing collisions each frame so entities don't collide twice
 
 	void Loop(){
+		if(frameid%100==0){
+			Novi.log(60/delta);
+			Novi.log("Entities: " + Entities.list().size());
+		}
 		try{
 			Entities.updateAll();
 		}catch(Exception e){

@@ -8,7 +8,6 @@ import java.util.function.Consumer;
 
 import com.badlogic.gdx.utils.Predicate;
 
-import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entity;
 import io.anuke.ucore.util.GridMap;
 
@@ -61,6 +60,7 @@ public class SpatialSystem extends IteratingSystem{
 
 	@Override
 	public void update(Collection<Entity> entities){
+		/*
 		
 		// clear cells just in case
 		if(map.size() > maxCells){
@@ -75,6 +75,7 @@ public class SpatialSystem extends IteratingSystem{
 		}
 
 		super.update(entities);
+		*/
 	}
 
 }
