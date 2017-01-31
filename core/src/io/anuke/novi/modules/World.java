@@ -19,11 +19,11 @@ public class World extends Module<Novi>{
 		getModule(Renderer.class).maprenderer = new NoviMapRenderer(map, getModule(Renderer.class).batch);
 	}
 
-	public int worldWidthPixels(){
+	public static int worldWidthPixels(){
 		return worldSize;
 	}
 
-	public int worldHeightPixels(){
+	public static int worldHeightPixels(){
 		return worldSize;
 	}
 

@@ -16,12 +16,14 @@ import com.badlogic.gdx.math.Matrix4;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
+import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.world.NoviMapRenderer;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.modules.Module;
+import io.anuke.ucore.util.QuadTree;
 import io.anuke.utils.io.GifRecorder;
 
 public class Renderer extends Module<Novi>{
@@ -82,6 +84,7 @@ public class Renderer extends Module<Novi>{
 		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		
 		Entities.drawAll(player.x, player.y);
 		batch.end();
 		batch.setProjectionMatrix(matrix);
@@ -89,6 +92,16 @@ public class Renderer extends Module<Novi>{
 		drawGUI();
 		batch.end();
 		batch.setColor(Color.WHITE);
+	}
+	
+	void renderQuadTree(QuadTree<Entity> tree){
+		if(tree == null) return;
+		
+		Draw.crect("border", tree.getBounds().x, tree.getBounds().y, tree.getBounds().width, tree.getBounds().height);
+		renderQuadTree(tree.getBottomLeftChild());
+		renderQuadTree(tree.getBottomRightChild());
+		renderQuadTree(tree.getTopLeftChild());
+		renderQuadTree(tree.getTopRightChild());
 	}
 
 	public void renderMap(){
@@ -171,8 +184,8 @@ public class Renderer extends Module<Novi>{
 		//limit camera position, snap to sides
 		if(camera.position.x - camera.viewportWidth / 2 * camera.zoom < 0) camera.position.x = camera.viewportWidth / 2 * camera.zoom;
 		if(camera.position.y - camera.viewportHeight / 2 * camera.zoom < 0) camera.position.y = camera.viewportHeight / 2 * camera.zoom;
-		if(camera.position.x + camera.viewportWidth / 2 * camera.zoom > world.worldWidthPixels()) camera.position.x = world.worldWidthPixels() - camera.viewportWidth / 2 * camera.zoom;
-		if(camera.position.y + camera.viewportHeight / 2 * camera.zoom > world.worldHeightPixels()) camera.position.y = world.worldHeightPixels() - camera.viewportHeight / 2 * camera.zoom;
+		if(camera.position.x + camera.viewportWidth / 2 * camera.zoom > World.worldWidthPixels()) camera.position.x = World.worldWidthPixels() - camera.viewportWidth / 2 * camera.zoom;
+		if(camera.position.y + camera.viewportHeight / 2 * camera.zoom > World.worldHeightPixels()) camera.position.y = World.worldHeightPixels() - camera.viewportHeight / 2 * camera.zoom;
 	}
 
 	public void resize(int width, int height){
@@ -189,7 +202,7 @@ public class Renderer extends Module<Novi>{
 
 
 	public void zoom(float amount){
-		if(camera.zoom + amount < 0 || (camera.zoom + amount) * camera.viewportWidth > world.worldWidthPixels()) return;
+		if(camera.zoom + amount < 0 || (camera.zoom + amount) * camera.viewportWidth > World.worldWidthPixels()) return;
 		if(camera.zoom < 3 || amount < 0) camera.zoom += amount;
 	}
 

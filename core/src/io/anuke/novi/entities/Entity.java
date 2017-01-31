@@ -1,12 +1,14 @@
 package io.anuke.novi.entities;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.server.NoviServer;
+import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
-public abstract class Entity{
+public abstract class Entity implements QuadTreeObject{
 	static private long lastid;
 	static public Vector2 vector = Vector2.Zero; // Vector2 object used for calculations; is reused
 
@@ -91,5 +93,11 @@ public abstract class Entity{
 
 	protected static long frame(){
 		return Novi.frame();
+	}
+	
+	@Override
+	public void getBoundingBox(Rectangle out){
+		out.setSize(12, 12);
+		out.setCenter(x, y);
 	}
 }

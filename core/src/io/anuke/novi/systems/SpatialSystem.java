@@ -1,21 +1,38 @@
 package io.anuke.novi.systems;
 
-import static io.anuke.ucore.UCore.scl;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Consumer;
 
-import com.badlogic.gdx.utils.Predicate;
+import com.badlogic.gdx.math.Rectangle;
 
-import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entity;
-import io.anuke.ucore.util.GridMap;
+import io.anuke.novi.modules.World;
+import io.anuke.ucore.util.QuadTree;
 
 public class SpatialSystem extends IteratingSystem{
-	public static final float cellsize = 70;
-	public static final int maxCells = 3000;
+	public QuadTree<Entity> quadtree = new QuadTree<Entity>(4, new Rectangle(0, 0, World.worldSize, World.worldSize));
+	
+	@Override
+	public void update(Entity entity){
+		quadtree.insert(entity);
+	}
+	
+	@Override
+	public void update(Collection<Entity> entities){
+		quadtree.clear();
 
+		super.update(entities);
+	}
+	
+	public void getNearby(float x, float y, float size, Consumer<Entity> cons){
+		quadtree.getMaybeIntersecting((entity)->{
+			cons.accept(entity);
+		}, Rectangle.tmp.set(x-size/2, y-size/2, size, size));
+	}
+	
+	/*
+	public static final int maxCells = 3000;
+	
 	private GridMap<ArrayList<Entity>> map = new GridMap<ArrayList<Entity>>();
 	
 	public Predicate<Entity> allPred = (entity)->{ return true;};
@@ -82,5 +99,5 @@ public class SpatialSystem extends IteratingSystem{
 
 		super.update(entities);
 	}
-
+	*/
 }

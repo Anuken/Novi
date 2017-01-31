@@ -45,4 +45,10 @@ public abstract class SolidEntity extends Entity{
 	public boolean inRange(SolidEntity entity, float rad){
 		return World.loopDist(entity.predictedX(), predictedX(), entity.predictedY(), predictedY(), rad);
 	}
+	
+	@Override
+	public void getBoundingBox(Rectangle out){
+		out.setSize(material.getRectangle().width*1.5f, material.getRectangle().height*1.5f);
+		out.setCenter(x, y);
+	}
 }

@@ -34,6 +34,12 @@ public class Draw{
 		rend.batch.draw(reg, x - reg.getRegionWidth()/2, y - reg.getRegionHeight()/2, reg.getRegionWidth()/2, reg.getRegionHeight()/2, reg.getRegionWidth(), reg.getRegionHeight(), scalex, scaley, rotation);
 	}
 	
+	public static void crect(String name, float x, float y, float width, float height){
+		TextureRegion reg = region(name);
+
+		rend.batch.draw(reg, x, y,width, height);
+	}
+	
 	public static void rect(TextureRegion reg, float x, float y, float rotation){
 		
 		x = rend.overlapx(x, reg.getRegionWidth());

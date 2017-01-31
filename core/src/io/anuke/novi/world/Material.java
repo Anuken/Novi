@@ -138,9 +138,9 @@ public enum Material{
 	}
 	
 	public void draw(Block block, Base base, int x, int y){
-		Draw.color(block.healthfrac() + 0.3f, block.healthfrac() + 0.3f, block.healthfrac() + 0.3f);
+		//Draw.color(block.healthfrac() + 0.3f, block.healthfrac() + 0.3f, block.healthfrac() + 0.3f);
 		defaultDraw(name(), block, base, x, y);
-		Draw.color();
+		//Draw.color();
 	}
 
 	public void defaultDraw(String region, Block block, Base base, int x, int y){

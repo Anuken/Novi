@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import com.badlogic.gdx.utils.Array;
-
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.EmptySystem;
 import io.anuke.novi.systems.EntitySystem;
@@ -18,7 +16,7 @@ public class Entities{
 	private static ArrayList<Entity> toRemove = new ArrayList<Entity>();
 	private static ArrayList<Entity> toAdd = new ArrayList<Entity>();
 
-	private static Array<EntitySystem> systems = new Array<EntitySystem>();
+	private static ArrayList<EntitySystem> systems = new ArrayList<EntitySystem>();
 	private static IteratingSystem basesystem = new EmptySystem();
 
 	public static synchronized void add(Entity entity){
@@ -56,6 +54,13 @@ public class Entities{
 
 	public static Iterable<EntitySystem> getSystems(){
 		return systems;
+	}
+	
+	public static <T> T getSystem(Class<T> c){
+		for(EntitySystem system : systems){
+			if(system.getClass() == c) return (T)system;
+		}
+		return null;
 	}
 
 	public static void addSystem(EntitySystem system){

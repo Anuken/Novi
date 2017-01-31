@@ -3,22 +3,41 @@ Novi.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-effects/shockwave
+error/error
   rotate: false
   xy: 1, 1
-  size: 500, 500
-  orig: 500, 500
-  offset: 0, 0
-  index: -1
-effects/explosion
-  rotate: false
-  xy: 503, 487
-  size: 14, 14
-  orig: 14, 14
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 
 Novi2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gui/healthbarcontainer
+  rotate: false
+  xy: 1, 7
+  size: 122, 6
+  orig: 122, 6
+  offset: 0, 0
+  index: -1
+gui/healthbar
+  rotate: false
+  xy: 1, 1
+  size: 120, 4
+  orig: 120, 4
+  offset: 0, 0
+  index: -1
+gui/blank
+  rotate: false
+  xy: 125, 12
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+
+Novi3.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -72,60 +91,41 @@ background/cloud6
   offset: 0, 0
   index: -1
 
-Novi3.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-gui/healthbarcontainer
-  rotate: false
-  xy: 1, 7
-  size: 122, 6
-  orig: 122, 6
-  offset: 0, 0
-  index: -1
-gui/healthbar
-  rotate: false
-  xy: 1, 1
-  size: 120, 4
-  orig: 120, 4
-  offset: 0, 0
-  index: -1
-gui/blank
-  rotate: false
-  xy: 125, 12
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
-
 Novi4.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 enemies/titanship
   rotate: false
-  xy: 1, 47
+  xy: 1, 51
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 enemies/bigturret
   rotate: false
-  xy: 1, 15
+  xy: 1, 19
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 enemies/turret
   rotate: false
-  xy: 131, 155
+  xy: 131, 159
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
-enemies/drone
+enemies/lasership
   rotate: false
   xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+enemies/drone
+  rotate: false
+  xy: 33, 37
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
@@ -135,78 +135,14 @@ Novi5.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-error/error
-  rotate: false
-  xy: 1, 1
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-
-Novi6.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-tiles/tile
-  rotate: false
-  xy: 1, 15
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-tiles/dronemakerbar
-  rotate: false
-  xy: 19, 17
-  size: 14, 14
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
-tiles/dronemaker
-  rotate: false
-  xy: 19, 1
-  size: 14, 14
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
-tiles/ironblock
-  rotate: false
-  xy: 35, 17
-  size: 14, 14
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
-
-Novi7.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-ships/ship
-  rotate: false
-  xy: 1, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-ships/ship_test
-  rotate: false
-  xy: 19, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-
-Novi8.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-projectiles/minecenter
+projectiles/mine
   rotate: false
   xy: 1, 1
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
-projectiles/mine
+projectiles/minecenter
   rotate: false
   xy: 14, 1
   size: 11, 11
@@ -232,5 +168,83 @@ projectiles/bullet
   xy: 45, 5
   size: 5, 7
   orig: 5, 7
+  offset: 0, 0
+  index: -1
+
+Novi6.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+effects/shockwave
+  rotate: false
+  xy: 1, 1
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+effects/border
+  rotate: false
+  xy: 503, 401
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+effects/explosion
+  rotate: false
+  xy: 503, 385
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+
+Novi7.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tiles/tile
+  rotate: false
+  xy: 1, 15
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tiles/dronemaker
+  rotate: false
+  xy: 19, 17
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+tiles/ironblock
+  rotate: false
+  xy: 19, 1
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+tiles/dronemakerbar
+  rotate: false
+  xy: 35, 17
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+
+Novi8.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ships/ship_test
+  rotate: false
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ships/ship
+  rotate: false
+  xy: 19, 1
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1

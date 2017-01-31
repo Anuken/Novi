@@ -3,7 +3,7 @@ package io.anuke.novi.entities;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class FlyingEntity extends SolidEntity{
-	public transient Vector2 velocity = new Vector2();
+	public Vector2 velocity = new Vector2();
 	
 	//updates velocity and position
 	protected void updateVelocity(){

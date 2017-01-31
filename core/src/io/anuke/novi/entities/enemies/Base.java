@@ -31,7 +31,7 @@ public abstract class Base extends Enemy implements Syncable{
 	private transient ArrayList<Block> blocklist = new ArrayList<Block>();
 	private transient Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	public transient float rotation;
-	public transient Block[][] blocks;
+	public Block[][] blocks;
 	public transient int spawned;
 	protected transient String texture = null;
 	private transient InterpolationData data = new InterpolationData();
