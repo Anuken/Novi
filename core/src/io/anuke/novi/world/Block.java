@@ -3,12 +3,12 @@ package io.anuke.novi.world;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Block{
-	private Material material = Material.air;
-	public float reload = MathUtils.random(30);
-	public final int x,y;
-	public int health;
-	public float rotation;
-	public boolean updated;
+	private transient Material material = Material.air;
+	public transient float reload = MathUtils.random(30);
+	public transient final int x,y;
+	public transient float rotation;
+	public transient boolean updated;
+	public transient int health;
 	
 	public Block(int x, int y, Material material){
 		setMaterial(material);
@@ -31,7 +31,7 @@ public class Block{
 	}
 	
 	public float healthfrac(){
-		return health / (float)material.health();
+		return 1f-health / (float)material.health();
 	}
 	
 	public boolean solid(){

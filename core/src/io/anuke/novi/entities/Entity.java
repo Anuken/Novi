@@ -10,7 +10,6 @@ public abstract class Entity{
 	static private long lastid;
 	static public Vector2 vector = Vector2.Zero; // Vector2 object used for calculations; is reused
 
-	
 	private long id;
 	public float x, y;
 

@@ -8,7 +8,6 @@ import io.anuke.novi.entities.effects.*;
 import io.anuke.novi.entities.enemies.Base;
 import io.anuke.novi.entities.enemies.Drone;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.utils.Angles;
 import io.anuke.novi.utils.Draw;
 
 public enum Material{
@@ -104,6 +103,7 @@ public enum Material{
 				block.rotation = MathUtils.lerpAngleDeg(block.rotation, base.autoPredictTargetAngle(worldx(base, block.x, block.y), worldy(base, block.x, block.y), 3f) + 90, 0.02f);
 				base.update(block.x, block.y);
 				block.reload += Novi.delta();
+				
 				if(block.reload >= reloadtime){
 					base.getShoot(ProjectileType.explosivebullet, block.rotation + 90).set(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate(0, 7).add().send();;
 					block.reload = 0;
@@ -113,9 +113,9 @@ public enum Material{
 
 		public void draw(Block block, Base base, int x, int y){
 			defaultDraw("ironblock", block, base, x, y, false);
-			Vector2 vector = Angles.translation(block.rotation - 90, (1f - block.reload / reloadtime) * 4f);
+			//Vector2 vector = Angles.translation(block.rotation - 90, (1f - block.reload / reloadtime) * 4f);
 			
-			Draw.rect(name(), worldx(base, x, y) + vector.x, worldy(base, x, y) + vector.y, block.rotation);
+			Draw.rect(name(), worldx(base, x, y), worldy(base, x, y), block.rotation);
 		}
 
 		public int health(){
@@ -138,7 +138,9 @@ public enum Material{
 	}
 	
 	public void draw(Block block, Base base, int x, int y){
+		Draw.color(block.healthfrac() + 0.3f, block.healthfrac() + 0.3f, block.healthfrac() + 0.3f);
 		defaultDraw(name(), block, base, x, y);
+		Draw.color();
 	}
 
 	public void defaultDraw(String region, Block block, Base base, int x, int y){

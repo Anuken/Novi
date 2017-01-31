@@ -12,7 +12,7 @@ import io.anuke.novi.server.NoviServer;
 
 public class Bullet extends FlyingEntity implements Damager{
 	private float life;
-	public Entity shooter;
+	public transient Entity shooter;
 	public ProjectileType type = ProjectileType.yellowbullet;
 
 	{

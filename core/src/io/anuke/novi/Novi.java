@@ -54,4 +54,9 @@ public class Novi extends ModuleController<Novi>{
 		StackTraceElement element = Thread.currentThread().getStackTrace()[2];
 		System.out.println("[" + element.getMethodName() + "() @ " + element.getFileName().replace(".java", "") + "]: " + o);
 	}
+	
+	public static void logtrace(Object o, int i){
+		StackTraceElement element = Thread.currentThread().getStackTrace()[i];
+		System.out.println("[" + element.getMethodName() + "() @ " + element.getFileName().replace(".java", "") + "]: " + o);
+	}
 }

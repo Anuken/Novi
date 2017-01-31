@@ -18,9 +18,9 @@ import io.anuke.novi.utils.InterpolationData;
 
 public abstract class Enemy extends DestructibleEntity implements Syncable{
 	private static final float targettime = 40;
-	private float targetcount = 0;
-	public Player target;
-	public int targetrange = 500;
+	private transient float targetcount = 0;
+	public transient Player target;
+	public transient int targetrange = 500;
 	transient InterpolationData data = new InterpolationData();
 
 	public void targetPlayers(int range){

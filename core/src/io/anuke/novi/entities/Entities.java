@@ -129,7 +129,7 @@ public class Entities{
 		}
 	}
 
-	public static int binarySearch(long key){
+	private static int binarySearch(long key){
 		
 		int low = 0;
 		int high = list.size() - 1;

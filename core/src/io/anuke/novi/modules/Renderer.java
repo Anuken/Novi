@@ -114,6 +114,7 @@ public class Renderer extends Module<Novi>{
 			font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, ghheight());
 			font.draw(batch, "Ping: " + (network.client.getReturnTripTime() + Network.ping * 2), 0, ghheight() - 5);
 			font.draw(batch, "Draws: " + batch.totalRenderCalls, 0, ghheight() - 10);
+			font.draw(batch, "Entities: " + Entities.list().size(), 0, ghheight() - 15);
 			batch.totalRenderCalls = 0;
 		}
 

@@ -4,7 +4,7 @@ import io.anuke.novi.entities.combat.Damager;
 
 //an entity that can be hit and/or destroyed by bullets
 public abstract class DestructibleEntity extends FlyingEntity{
-	public int health = 100;
+	public transient int health = 100;
 	
 	public void collisionEvent(SolidEntity other){
 		if(!(other instanceof Damager)) return;
