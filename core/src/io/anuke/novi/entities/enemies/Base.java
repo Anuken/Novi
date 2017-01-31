@@ -18,12 +18,12 @@ import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.Syncable.GlobalSyncable;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.utils.Angles;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.BlockUpdate;
 import io.anuke.novi.world.Material;
+import io.anuke.ucore.util.Angles;
 
 @GlobalSyncable
 public abstract class Base extends Enemy implements Syncable{

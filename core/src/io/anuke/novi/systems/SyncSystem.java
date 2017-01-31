@@ -19,6 +19,7 @@ public class SyncSystem extends IteratingSystem{
 		Player player = (Player)entity;
 		WorldUpdatePacket worldupdate = new WorldUpdatePacket();
 		worldupdate.health = player.health;
+		
 		for(Entity other : Entities.list()){
 			if(other.equals(player) || !(other instanceof Syncable) || (other instanceof TimedSyncable && !((TimedSyncable)other).sync()) || (!other.getClass().isAnnotationPresent(GlobalSyncable.class) && !other.loaded(player.x, player.y))) continue;
 			Syncable sync = (Syncable)other;

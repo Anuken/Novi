@@ -17,10 +17,10 @@ import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.utils.Angles;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.ucore.modules.ModuleController;
+import io.anuke.ucore.util.Angles;
 
 public class Player extends DestructibleEntity implements Syncable{
 	public transient Connection connection;

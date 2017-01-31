@@ -3,7 +3,6 @@ package io.anuke.novi.server;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -14,7 +13,6 @@ import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.enemies.GunBase;
 import io.anuke.novi.modules.Network;
-import io.anuke.novi.modules.World;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.systems.CollisionSystem;
@@ -144,11 +142,11 @@ public class NoviServer{
 	}
 
 	private void addEntities(){
-		//new Base().setPosition(10, 100).AddSelf();
-		for(int i = 0;i < 1;i ++){
-			new GunBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
+		new GunBase().set(-40, 10).add();
+		//for(int i = 0;i < 1;i ++){
+		//	new GunBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
 			
-		}
+		//}
 	}
 	
 	public static NoviServer instance(){

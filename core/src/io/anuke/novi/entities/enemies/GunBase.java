@@ -11,6 +11,7 @@ public class GunBase extends Base{
 				blocks[x][y].setMaterial(Material.ironblock);
 				
 				if(Math.random() < 0.05) blocks[x][y].setMaterial(Material.turret);
+				if(Math.random() < 0.03) blocks[x][y].setMaterial(Material.dronemaker);
 			}
 		}
 		

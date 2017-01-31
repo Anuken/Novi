@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import com.badlogic.gdx.utils.Predicate;
 
+import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entity;
 import io.anuke.ucore.util.GridMap;
 
@@ -16,6 +17,8 @@ public class SpatialSystem extends IteratingSystem{
 	public static final int maxCells = 3000;
 
 	private GridMap<ArrayList<Entity>> map = new GridMap<ArrayList<Entity>>();
+	
+	public Predicate<Entity> allPred = (entity)->{ return true;};
 
 	@Override
 	public void update(Entity entity){
@@ -53,6 +56,10 @@ public class SpatialSystem extends IteratingSystem{
 		}
 	}
 	
+	public synchronized void getNearbyEntities(float cx, float cy, float range, Consumer<Entity> con){
+		getNearbyEntities(cx, cy, range, allPred, con);
+	}
+	
 	public ArrayList<Entity> getEntitiesIn(float cx, float cy){
 		int x = (int) (cx / cellsize), y = (int) (cy / cellsize);
 		return map.get(x, y);
@@ -60,7 +67,6 @@ public class SpatialSystem extends IteratingSystem{
 
 	@Override
 	public void update(Collection<Entity> entities){
-		/*
 		
 		// clear cells just in case
 		if(map.size() > maxCells){
@@ -75,7 +81,6 @@ public class SpatialSystem extends IteratingSystem{
 		}
 
 		super.update(entities);
-		*/
 	}
 
 }
