@@ -1,11 +1,14 @@
 package io.anuke.novi.entities.combat;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.FlyingEntity;
+import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.entities.enemies.Base;
 import io.anuke.novi.entities.enemies.Enemy;
 import io.anuke.novi.items.ProjectileType;
+import io.anuke.novi.server.NoviServer;
 
 public class Bullet extends FlyingEntity implements Damager{
 	private float life;
@@ -23,12 +26,12 @@ public class Bullet extends FlyingEntity implements Damager{
 	}
 
 	public Bullet(float rotation){
-		if(server != null) initVelocity(rotation);
+		if(NoviServer.active()) initVelocity(rotation);
 	}
 
 	public Bullet(ProjectileType type, float rotation){
 		this.type = type;
-		if(server != null) initVelocity(rotation);
+		if(NoviServer.active()) initVelocity(rotation);
 	}
 
 	@Override
@@ -36,14 +39,14 @@ public class Bullet extends FlyingEntity implements Damager{
 		life += delta();
 		if(life >= type.getLifetime()){
 			remove();
-			if(server != null) type.destroyEvent(this);
+			if(NoviServer.active()) type.destroyEvent(this);
 		}
 		updateVelocity();
 	}
 
 	@Override
 	public void draw(){
-		type.draw(this, renderer);
+		type.draw(this);
 	}
 
 	public Bullet setShooter(Entity entity){
@@ -67,8 +70,10 @@ public class Bullet extends FlyingEntity implements Damager{
 	public void collisionEvent(SolidEntity other){
 		//spawn explosion and dissapear
 		new ExplosionEffect().set(x, y).send();
-		server.removeEntity(this);
-		if(server != null) type.destroyEvent(this);
+		
+		removeServer();
+		
+		if(NoviServer.active()) type.destroyEvent(this);
 	}
 	
 	public float life(){

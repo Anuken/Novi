@@ -1,7 +1,7 @@
 package io.anuke.novi.entities.enemies;
 
 
-import static io.anuke.novi.utils.WorldUtils.*;
+import static io.anuke.novi.modules.World.*;
 
 import com.badlogic.gdx.math.MathUtils;
 
@@ -15,7 +15,6 @@ import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.utils.InterpolationData;
-import io.anuke.novi.utils.WorldUtils;
 
 public abstract class Enemy extends DestructibleEntity implements Syncable{
 	private static final float targettime = 40;
@@ -30,7 +29,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 		
 		for(Entity entity : Entities.list()){
 			if(entity instanceof Player && ((Player)entity).isVisible()){
-				float dist = WorldUtils.wrappedDist(x, y, entity.x, entity.y);
+				float dist = wrappedDist(x, y, entity.x, entity.y);
 				if(dist < neardist){
 					neardist = dist;
 					nearest = (Player)entity;
@@ -94,7 +93,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	public float autoPredictTargetAngle(float x, float y, float speed){
 		if(target == null) return 0f;
-		float dist = WorldUtils.wrappedDist(target.x, target.y, x, y);
+		float dist = wrappedDist(target.x, target.y, x, y);
 		return predictTargetAngle(x, y, dist / speed);
 	}
 

@@ -1,9 +1,10 @@
 package io.anuke.novi.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.EmptySystem;
@@ -11,39 +12,47 @@ import io.anuke.novi.systems.EntitySystem;
 import io.anuke.novi.systems.IteratingSystem;
 
 public class Entities{
-	private static ConcurrentHashMap<Long, Entity> entities = new ConcurrentHashMap<Long, Entity>();
+	//private static ConcurrentHashMap<Long, Entity> entities = new ConcurrentHashMap<Long, Entity>();
+	private static ArrayList<Entity> list = new ArrayList<Entity>();
+	private static ObjectMap<Long, Entity> map = new ObjectMap<Long, Entity>();
+	
+	private static ArrayList<Entity> toRemove = new ArrayList<Entity>();
+	private static ArrayList<Entity> toAdd = new ArrayList<Entity>();
+	
 	private static Array<EntitySystem> systems = new Array<EntitySystem>();
 	private static IteratingSystem basesystem = new EmptySystem();
 	
-	public static void add(Entity entity){
-		//TODO
+	public static synchronized void add(Entity entity){
+		toAdd.add(entity);
 	}
 	
-	public static void remove(Entity entity){
-		remove(entity.getID());
+	public static synchronized void remove(Entity entity){
+		toRemove.add(entity);
 	}
 	
-	public static void remove(long id){
-		//TODO
+	public static synchronized void remove(long id){
+		remove(get(id));
 	}
 	
 	public static boolean has(long id){
-		//TODO
-		return false;
+		return map.containsKey(id);
 	}
 	
-	public static Entity get(long id){
-		//TODO
-		return null;
+	public static synchronized Entity get(long id){
+		return map.get(id);
 	}
 	
 	public static Collection<Entity> list(){
-		//TODO
-		return null;
+		return list;
 	}
 	
-	public static void loadEntities(Collection<Entity> entities){
-		//TODO
+	public static synchronized void loadEntities(Collection<Entity> entities){
+		list.clear();
+		map.clear();
+		
+		for(Entity entity : entities){
+			entity.add();
+		}
 	}
 
 	public static Iterable<EntitySystem> getSystems(){
@@ -58,8 +67,8 @@ public class Entities{
 		basesystem = system;
 	}
 
-	public static void updateAll(){
-		Collection<Entity> entities = Entities.entities.values();
+	public static synchronized void updateAll(){
+		Collection<Entity> entities = list();
 		
 		for(EntitySystem system : systems){
 			system.update(entities);
@@ -69,11 +78,44 @@ public class Entities{
 			if(!basesystem.accept(entity)) continue;
 			
 			entity.baseUpdate();
+			
 			if(NoviServer.active()){
 				entity.serverUpdate();
-			}else{
-				entity.draw();
 			}
 		}
+		
+		for(Entity entity : toAdd){
+			if(entity == null) continue;
+			
+			map.put(entity.getID(), entity);
+			
+			list.add(entity);
+		}
+		
+		for(Entity entity : toRemove){
+			if(entity == null) continue;
+			
+			map.remove(entity.getID());
+			
+			list.remove(entity);
+		}
+		
+		if(toAdd.size() != 0 && NoviServer.active()){
+			list.sort(Entities::compare);
+		}
+		
+		toAdd.clear();
+		toRemove.clear();
+	}
+	
+	public static synchronized void drawAll(){
+		for(Entity entity : list()){
+			entity.draw();
+		}
+	}
+	
+	private static int compare(Entity a, Entity b){
+		if(a.getLayer() == b.getLayer()) return 0;
+		return a.getLayer() > b.getLayer() ? 1 : -1;
 	}
 }

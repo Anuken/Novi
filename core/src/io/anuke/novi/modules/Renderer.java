@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.utils.Draw;
@@ -78,9 +79,10 @@ public class Renderer extends Module<Novi>{
 		clearScreen();
 		maprenderer.setView(camera);
 		renderMap();
-
+		
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		//drawLayers();
+		Entities.drawAll();
 		batch.end();
 		batch.setProjectionMatrix(matrix);
 		batch.begin();
@@ -256,13 +258,4 @@ public class Renderer extends Module<Novi>{
 	public void drawc(String region, float x, float y){
 		batch.draw(atlas.findRegion(region), x, y);
 	}
-
-	public void drawscl(String region, float x, float y, float scl){
-		batch.draw(atlas.findRegion(region), x - atlas.regionWidth(region) / 2 * scl, y - atlas.regionHeight(region) / 2 * scl, atlas.regionHeight(region) * scl, atlas.regionHeight(region) * scl);
-	}
-
-	public void draw(String region, float x, float y, float rotation){
-		batch.draw(atlas.findRegion(region), x - atlas.regionWidth(region) / 2, y - atlas.regionHeight(region) / 2, atlas.regionWidth(region) / 2, atlas.regionHeight(region) / 2, atlas.regionWidth(region), atlas.regionHeight(region), 1f, 1f, rotation);
-	}
-
 }

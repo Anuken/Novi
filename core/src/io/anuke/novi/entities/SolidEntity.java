@@ -3,7 +3,8 @@ package io.anuke.novi.entities;
 import com.badlogic.gdx.math.Rectangle;
 
 import io.anuke.novi.entities.combat.Bullet;
-import io.anuke.novi.utils.*;
+import io.anuke.novi.modules.World;
+import io.anuke.novi.utils.MaterialData;
 
 //a solid entity is an entity that collides with things
 //this class does not have velocity; see FlyingEntity
@@ -42,6 +43,6 @@ public abstract class SolidEntity extends Entity{
 	}
 	
 	public boolean inRange(SolidEntity entity, float rad){
-		return WorldUtils.loopDist(entity.predictedX(), predictedX(), entity.predictedY(), predictedY(), rad);
+		return World.loopDist(entity.predictedX(), predictedX(), entity.predictedY(), predictedY(), rad);
 	}
 }

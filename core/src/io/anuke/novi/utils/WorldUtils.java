@@ -1,11 +1,9 @@
 package io.anuke.novi.utils;
 
-import io.anuke.novi.modules.World;
-
 //class full of arcane magic BS
 //don't change anything or collisions will break for no reason
 public class WorldUtils{
-	
+	/*
 	//square distance with wrapping
 	public static boolean loopDist(float x1, float x2, float y1, float y2, float rad){
 		return (Math.abs(relative3(x1, x2)) < rad && Math.abs(relative3(y1, y2)) < rad);
@@ -60,4 +58,5 @@ public class WorldUtils{
 			return i % World.worldSize;
 		}
 	}
+	*/
 }

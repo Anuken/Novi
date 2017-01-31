@@ -7,7 +7,7 @@ import io.anuke.novi.entities.combat.DamageArea;
 import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.entities.effects.Shockwave;
-import io.anuke.novi.modules.Renderer;
+import io.anuke.novi.utils.Draw;
 import io.anuke.ucore.graphics.Hue;
 
 public enum ProjectileType{
@@ -73,10 +73,12 @@ public enum ProjectileType{
 		}
 	},
 	mine{
-		public void draw(Bullet bullet, Renderer renderer){
-			defaultDraw(bullet, renderer);
-			renderer.layer("minecenter",bullet.x,bullet.y).setLayer(0.51f).setRotation(bullet.velocity.angle() - 90)
-			.setColor(Hue.blend(Color.GOLD, Color.RED, bullet.life()/getLifetime()));
+		public void draw(Bullet bullet){
+			defaultDraw(bullet);
+			
+			Draw.color(Hue.blend(Color.CYAN, Color.RED, bullet.life()/getLifetime()));
+			Draw.rect("minecenter", bullet.x, bullet.y, bullet.velocity.angle() - 90);
+			Draw.color();
 		}
 		
 		public int getLifetime(){
@@ -144,11 +146,11 @@ public enum ProjectileType{
 		
 	}
 	
-	public Layer defaultDraw(Bullet bullet, Renderer renderer){
-		return renderer.layer(drawName(), bullet.x, bullet.y).setLayer(0.5f).setRotation(bullet.velocity.angle() - 90).addShadow();
+	public void defaultDraw(Bullet bullet){
+		Draw.rect(drawName(), bullet.x, bullet.y, bullet.velocity.angle() - 90);
 	}
 	
-	public void draw(Bullet bullet, Renderer renderer){
-		renderer.layer(drawName(), bullet.x, bullet.y).setLayer(0.5f).setRotation(bullet.velocity.angle() - 90).addShadow();
+	public void draw(Bullet bullet){
+		Draw.rect(drawName(), bullet.x, bullet.y, bullet.velocity.angle() - 90);
 	}
 }

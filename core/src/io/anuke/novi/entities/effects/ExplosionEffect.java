@@ -2,6 +2,8 @@ package io.anuke.novi.entities.effects;
 
 import com.badlogic.gdx.graphics.Color;
 
+import io.anuke.novi.utils.Draw;
+
 public class ExplosionEffect extends Effect{
 	{
 		lifetime = 10;
@@ -9,6 +11,8 @@ public class ExplosionEffect extends Effect{
 	
 	@Override
 	public void draw(){
-		renderer.layer("explosion", x, y).setLayer(3f).setColor(life >= lifetime /2 ? Color.BLACK : Color.WHITE);
+		Draw.color(life >= lifetime /2 ? Color.BLACK : Color.WHITE);
+		Draw.rect("explosion", x, y);
+		Draw.color();
 	}
 }

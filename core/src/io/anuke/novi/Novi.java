@@ -10,7 +10,6 @@ import io.anuke.ucore.modules.ModuleController;
 
 public class Novi extends ModuleController<Novi>{
 	static final boolean logtrace = false;
-	private static LogModule logger;
 
 	@Override
 	public void init(){
@@ -19,15 +18,12 @@ public class Novi extends ModuleController<Novi>{
 		addModule(Network.class);
 		addModule(ClientData.class);
 		addModule(World.class);
-		addModule(LogModule.class);
-		logger = getModule(LogModule.class);
 		
 		Entities.setBaseSystem(new EntityLoadedSystem(getModule(ClientData.class).player));
 	}
 
 	@Override
 	public void render(){
-		//update all entities
 		Entities.updateAll();
 		
 		super.render();
@@ -42,7 +38,6 @@ public class Novi extends ModuleController<Novi>{
 	}
 
 	public static void log(Object o){
-		if(logger != null) logger.logged(o);
 		if(o instanceof Exception){
 			((Exception)o).printStackTrace();
 			return;

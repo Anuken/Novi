@@ -3,6 +3,7 @@ package io.anuke.novi.utils;
 import com.badlogic.gdx.math.Rectangle;
 
 import io.anuke.novi.entities.SolidEntity;
+import io.anuke.novi.modules.World;
 
 //stores mass, hitbox size, calculating collisions..
 public class MaterialData{
@@ -35,7 +36,7 @@ public class MaterialData{
 	}
 	
 	public MaterialData updateHitboxWrap(){
-		rectangle.setCenter(WorldUtils.wrap(entity.predictedX()), WorldUtils.wrap(entity.predictedY()));
+		rectangle.setCenter(World.wrap(entity.predictedX()), World.wrap(entity.predictedY()));
 		return this;
 	}
 }

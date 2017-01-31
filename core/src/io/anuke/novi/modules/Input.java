@@ -3,17 +3,15 @@ package io.anuke.novi.modules;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.base.Player;
-import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.network.packets.InputPacket;
 import io.anuke.novi.utils.InputType;
 import io.anuke.ucore.modules.Module;
 
-public class Input extends Module<Novi> implements InputProcessor{
-	Player player; //player object from ClientData module
+public class Input extends Module<Novi>{
+	Player player;
 
 	public void init(){
 		player = getModule(ClientData.class).player;
@@ -23,15 +21,11 @@ public class Input extends Module<Novi> implements InputProcessor{
 	@Override
 	public void update(){
 		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
-			//for(Thread thread : Thread.getAllStackTraces().keySet()){
-			//	System.out.println(thread + ": " + thread.isDaemon());
-			//}
-				
 			Gdx.app.exit();
 		}
 		
-		if(Gdx.input.isKeyJustPressed(Keys.G)) getModule(LogModule.class).writeFile();
 		if(player.isDead()) return;
+		
 		float angle = -9;
 		if(up()) angle = 90;
 		if(left()) angle = 180;
@@ -72,26 +66,8 @@ public class Input extends Module<Novi> implements InputProcessor{
 	}
 
 	@Override
-	public boolean keyDown(int keycode){
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode){
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character){
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button){
-		new BreakEffect("titanship").set(player.x+30,player.y+30).add();
+		//new BreakEffect("titanship").set(player.x+30,player.y+30).add();
 		player.rotation = player.velocity.angle();
 		player.valigned = false;
 		sendInput(button == Buttons.LEFT ? InputType.LEFT_CLICK_DOWN : InputType.RIGHT_CLICK_DOWN);
@@ -105,18 +81,6 @@ public class Input extends Module<Novi> implements InputProcessor{
 			player.velocity.x = 0.01f;
 			player.velocity.setAngle(player.rotation);
 		}
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer){
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY){
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -12,8 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.novi.sprites.Layer;
-import io.anuke.novi.sprites.Layer.LayerType;
+import io.anuke.novi.utils.Draw;
 import io.anuke.novi.world.Material;
 import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.noise.VoronoiNoise;
@@ -37,7 +36,7 @@ public class BreakEffect extends Effect{
 	}
 
 	{
-		lifetime = 420 + MathUtils.random(500);
+		lifetime = 220 + MathUtils.random(300);
 	}
 
 	public static void createChunks(){
@@ -54,8 +53,9 @@ public class BreakEffect extends Effect{
 			
 			ObjectMap<Double, Pixmap> pixmaps = new ObjectMap<Double, Pixmap>();
 			
-			TextureRegion region = renderer.atlas.findRegion(name);
-			Pixmap regionpixmap = renderer.atlas.getPixmapOf(region);
+			TextureRegion region = Draw.atlas().findRegion(name);
+			Pixmap regionpixmap = Draw.atlas().getPixmapOf(region);
+			
 			noise.setSeed(MathUtils.random(9999));
 			dstnoise.setSeed(noise.getSeed());
 			
@@ -108,23 +108,20 @@ public class BreakEffect extends Effect{
 		float rotatevelocity = MathUtils.random( -0.5f, 0.5f), rotatedrag = 0.99f;
 		
 		public void draw(BreakEffect effect){
-			Layer layer = renderer.layer(x + effect.x, y + effect.y).setType(LayerType.TEXTURE).setLayer(1.5f).setRotation(rotation).setTexture(chunk.region);
-			float scl = 6f;
 			
-			layer.color.r = layer.color.g = layer.color.b = 0.9f;
+			float l = 0.9f, a = 1f;
 			
-			if(effect.life > effect.lifetime / scl){
-				layer.color.a = 1f - (effect.life - effect.lifetime / 2f) / (effect.lifetime / scl);
-			}else{
-				layer.color.a = 1f;
-			}
-			
+			a = 1f - (effect.life / effect.lifetime);
 			
 			x += velocity.x * delta();
 			y += velocity.y * delta();
 			velocity.scl((float)Math.pow(1f - drag, delta()));
 			rotation += rotatevelocity * delta();
 			rotatevelocity = rotatedrag * rotatevelocity;
+			
+			Draw.color(l, l, l, a);
+			Draw.rect(chunk.region, x + effect.x, y + effect.y, rotation);
+			Draw.color();
 		}
 		
 		public ChunkParticle(Chunk chunk, Vector2 velocity){

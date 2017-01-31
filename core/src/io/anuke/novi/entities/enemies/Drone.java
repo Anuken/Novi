@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.utils.WorldUtils;
+import io.anuke.novi.modules.World;
+import io.anuke.novi.utils.Draw;
 
 public class Drone extends Enemy{
 	float speed = 0.1f;
@@ -25,7 +26,7 @@ public class Drone extends Enemy{
 	
 	@Override
 	public void draw(){
-		renderer.layer("drone", x, y).setRotation(velocity.angle() - 90).addShadow();
+		Draw.rect("drone", x, y, velocity.angle() - 90);
 	}
 	
 	public void onDeath(){
@@ -37,7 +38,8 @@ public class Drone extends Enemy{
 	@Override
 	public void behaviorUpdate(){
 		if(target == null) return;
-		Vector2 add = new Vector2(WorldUtils.relative3(target.x, x), WorldUtils.relative3(target.y, y));
+		Vector2 add = new Vector2(World.relative3(target.x, x), World.relative3(target.y, y));
+		
 		float len = add.len();
 		float anglechange =  sign*(turnrange - len)*(90f/turnrange);
 		if(len < turnrange) add.setAngle((add.angle() + anglechange));

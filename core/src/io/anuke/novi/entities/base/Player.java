@@ -7,21 +7,20 @@ import com.esotericsoftware.kryonet.Connection;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.combat.Bullet;
-import io.anuke.novi.entities.effects.BreakEffect;
-import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.entities.effects.Shockwave;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.Ship;
 import io.anuke.novi.modules.Network;
+import io.anuke.novi.modules.Renderer;
 import io.anuke.novi.network.PlayerSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
-import io.anuke.novi.network.packets.DeathPacket;
 import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.sprites.Layer.LayerType;
 import io.anuke.novi.utils.Angles;
+import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
+import io.anuke.ucore.modules.ModuleController;
 
 public class Player extends DestructibleEntity implements Syncable{
 	public transient Connection connection;
@@ -51,23 +50,24 @@ public class Player extends DestructibleEntity implements Syncable{
 			if(respawntime <= 0){
 				x = 0;
 				y = 0;
-				if(server != null) new Shockwave(20, 0.1f, 0.01f).set(x, y).send();
+				if(NoviServer.active()) new Shockwave(20, 0.1f, 0.01f).set(x, y).send();
 			}
 		}
 		if(reload > 0) reload -= delta();
 		if(altreload > 0) altreload -= delta();
 		
-		if(NoviServer.active) return; //don't want to do stuff like getting the mouse angle on the server, do we?
+		if(NoviServer.active()) return; //don't want to do stuff like getting the mouse angle on the server, do we?
 		
 		if( !client) data.update(this);
-		if(client || NoviServer.active) updateVelocity();
+		if(client) updateVelocity();
+		
 		//updateBounds();
 		velocity.limit(ship.getMaxvelocity() * kiteChange());
 		if(rotation > 360f && !ship.getSpin()) rotation -= 360f;
 		if(rotation < 0f && !ship.getSpin()) rotation += 360f;
 
 		if(shooting){
-			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(), ship.getTurnspeed());
+			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed());
 		}else{
 			//align player rotation to velocity rotation
 			if( !valigned) rotation = Angles.MoveToward(rotation, velocity.angle(), ship.getTurnspeed());
@@ -90,7 +90,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	public Player(){
-		if(NoviServer.active) input = new InputHandler(this);
+		if(NoviServer.active()) input = new InputHandler(this);
 	}
 
 	public float kiteChange(){
@@ -116,18 +116,21 @@ public class Player extends DestructibleEntity implements Syncable{
 	@Override
 	public void draw(){
 		if(respawntime > 0) return;
+		
+		Draw.rect("ship", x, y, client ? getSpriteRotation() : rotation);
+		
 		if(!client){
-			renderer.layer("ship", x, y).setLayer(1).setRotation(client ? getSpriteRotation() : rotation).addShadow();
-			renderer.layer(x, y + 14).setScale(0.2f).setColor(Color.GOLD).setLayer(2f).setType(LayerType.TEXT).setText(name); //draw player name
-		}else{
-			renderer.layer("ship", x, y).setLayer(1).setRotation(client ? getSpriteRotation() : rotation).addShadow();
+			Draw.tcolor(Color.GOLD);
+			Draw.text(name, x, y+14);
+			Draw.tcolor();
 		}
 	}
 
 	
 	@Override
 	public void onDeath(){
-		if(server != null){
+		/*
+		if(NoviServer.active()){
 			new Shockwave(9f, 0.001f, 0.04f).set(x, y).send();
 			new BreakEffect("ship", 2.5f, rotation).set(x, y).send();
 			Effects.explosionCluster(x, y, 6, 16);
@@ -137,6 +140,7 @@ public class Player extends DestructibleEntity implements Syncable{
 		}
 		velocity.set(0,0);
 		respawntime = 150;
+		*/
 	}
 	
 	//returns whether or not enemies should target this player
@@ -163,7 +167,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 	
 	public float pingInFrames(){
-		if(!NoviServer.active) return 0;
+		if(!NoviServer.active()) return 0;
 		return ((Network.ping*2f + connection.getReturnTripTime()) / 1000f) * delta() * 60f+1f;
 	}
 	

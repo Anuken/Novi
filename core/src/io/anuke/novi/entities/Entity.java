@@ -3,8 +3,8 @@ package io.anuke.novi.entities;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.modules.World;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.utils.WorldUtils;
 
 public abstract class Entity{
 	static private long lastid;
@@ -17,6 +17,7 @@ public abstract class Entity{
 	public void update(){}
 	public void draw(){}
 	public void serverUpdate(){}
+	public float getLayer(){return 0f;};
 	
 	public void baseUpdate(){
 		updateBounds();
@@ -25,13 +26,13 @@ public abstract class Entity{
 
 	//used to make entities not fly off the map
 	public void updateBounds(){
-		x = WorldUtils.bound(x);
-		y = WorldUtils.bound(y);
+		x = World.bound(x);
+		y = World.bound(y);
 	}
 
 	//whether or not this entity is loaded (is drawn/updated on screen)
 	public boolean loaded(float playerx, float playery){
-		return WorldUtils.loopDist(x, playerx, y, playery, 1300f);
+		return World.loopDist(x, playerx, y, playery, 1300f);
 	}
 
 	//called when this entity object is recieved
@@ -78,18 +79,18 @@ public abstract class Entity{
 	}
 
 	boolean inRange(float rad){
-		return WorldUtils.loopDist(x, y, x, y, rad);
+		return World.loopDist(x, y, x, y, rad);
 	}
 	
 	public Entity(){
 		id = lastid ++;
 	}
 
-	public float delta(){
+	protected static float delta(){
 		return Novi.delta();
 	}
 
-	public long frame(){
+	protected static long frame(){
 		return Novi.frame();
 	}
 }

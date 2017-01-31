@@ -8,9 +8,9 @@ public enum Ship{
 		final float reload2 = 0f;
 		
 		{
-			speed = 0.18f;
+			speed = 0.17f;
 			turnspeed = 10f;
-			maxvelocity = 3.5f;
+			maxvelocity = 3f;
 			shootspeed = 2;
 			kiteDebuffMultiplier = 0.5f;
 			maxHealth = 300;

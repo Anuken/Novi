@@ -1,6 +1,7 @@
 package io.anuke.novi.entities.effects;
 
 import io.anuke.novi.entities.Entity;
+import io.anuke.novi.server.NoviServer;
 
 
 
@@ -22,8 +23,7 @@ public abstract class Effect extends Entity{
 	}
 	
 	public final Entity add(){
-		if(server != null) throw new RuntimeException("Effects should not be added serverside!");
-		entities.put(this.getID(), this);
-		return this;
+		if(NoviServer.active()) throw new RuntimeException("Effects should not be added serverside!");
+		return super.add();
 	}
 }

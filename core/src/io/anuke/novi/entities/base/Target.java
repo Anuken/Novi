@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.effects.ExplosionEffect;
-import io.anuke.novi.network.*;
+import io.anuke.novi.network.SyncData;
+import io.anuke.novi.network.Syncable;
+import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 
 public class Target extends DestructibleEntity implements Syncable{
@@ -46,7 +48,7 @@ public class Target extends DestructibleEntity implements Syncable{
 
 	@Override
 	public void draw(){
-		renderer.layer("tile", x, y);
+		Draw.rect("tile", x, y);
 	}
 
 	@Override

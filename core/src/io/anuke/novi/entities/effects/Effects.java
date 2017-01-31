@@ -3,8 +3,8 @@ package io.anuke.novi.entities.effects;
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Server;
 
-import io.anuke.novi.entities.Entity;
 import io.anuke.novi.network.packets.EffectPacket;
+import io.anuke.novi.server.NoviServer;
 
 //static utility class for making flashy effects
 //NOTE: do NOT use clientside - bad things will happen!
@@ -23,6 +23,6 @@ public class Effects{
 	}
 
 	private static Server server(){
-		return Entity.server.server;
+		return NoviServer.instance().server;
 	}
 }

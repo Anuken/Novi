@@ -1,6 +1,6 @@
 package io.anuke.novi.entities.enemies;
 
-import static io.anuke.novi.utils.WorldUtils.*;
+import static io.anuke.novi.modules.World.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.Damager;
@@ -18,6 +18,7 @@ import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.Syncable.GlobalSyncable;
 import io.anuke.novi.utils.Angles;
+import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.BlockUpdate;
@@ -68,6 +69,7 @@ public abstract class Base extends Enemy implements Syncable{
 		for(Block block : blocklist){
 			Vector2 vector = world(block.x, block.y);
 			rectangle.setCenter(bound(vector.x), bound(vector.y));
+			
 			if(other.collides(rectangle)){
 				block.health -= ((Damager)other).damage();
 				checkHealth(block, vector);
@@ -165,7 +167,8 @@ public abstract class Base extends Enemy implements Syncable{
 				block.getMaterial().draw(block, this, x, y);
 			}
 		}
-		if(texture != null) renderer.layer(texture, x , y).setLayer( -2).setRotation(rotation).addShadow();
+		
+		if(texture != null) Draw.rect(texture, x, y, rotation);
 	}
 
 	@Override
