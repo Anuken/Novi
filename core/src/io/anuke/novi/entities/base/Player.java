@@ -112,6 +112,11 @@ public class Player extends DestructibleEntity implements Syncable{
 	public boolean loaded(float playerx, float playery){
 		return true;
 	}
+	
+	@Override
+	public float getLayer(){
+		return 1f;
+	}
 
 	@Override
 	public void draw(){

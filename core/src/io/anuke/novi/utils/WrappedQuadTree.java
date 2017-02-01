@@ -1,10 +1,10 @@
 package io.anuke.novi.utils;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 
 import io.anuke.novi.modules.World;
 import io.anuke.ucore.util.QuadTree;
@@ -23,7 +23,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
 
     private int level;
     private Rectangle bounds;
-    private Array<T> objects;
+    private ArrayList<T> objects;
 
     private static Rectangle tmp = new Rectangle();
 
@@ -48,7 +48,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
         this.level = level;
         this.bounds = bounds;
         this.maxObjectsPerNode = maxObjectsPerNode;
-        objects = new Array<T>();
+        objects = new ArrayList<T>();
         leaf = true;
     }
 
@@ -98,7 +98,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
             return;
         }
 
-        if (leaf && (objects.size + 1) > maxObjectsPerNode) split();
+        if (leaf && (objects.size() + 1) > maxObjectsPerNode) split();
 
         if (leaf) {
             // Leaf, so no need to add to children, just add to root
@@ -121,7 +121,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     public void remove(T obj) {
         if (leaf) {
             // Leaf, no children, remove from root
-            objects.removeValue(obj, true);
+            objects.remove(obj);
         } else {
             // Remove from relevant child
             obj.getBoundingBox(tmp);
@@ -131,7 +131,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
                 child.remove(obj);
             } else {
                 // Or root if object doesn't fit in a child
-                objects.removeValue(obj, true);
+                objects.remove(obj);
             }
 
             if (getTotalObjectCount() <= maxObjectsPerNode) unsplit();
@@ -320,7 +320,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
      * <p>
      * If this node isn't a leaf node, it will only return the objects that don't fit perfectly into a specific child node (lie on a border).
      */
-    public Array<T> getObjects() {
+    public ArrayList<T> getObjects() {
         return objects;
     }
 
@@ -328,7 +328,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
      * Returns the total number of objects in this node and all child nodes, recursively
      */
     public int getTotalObjectCount() {
-        int count = objects.size;
+        int count = objects.size();
         if (!leaf) {
             count += topLeftChild.getTotalObjectCount();
             count += topRightChild.getTotalObjectCount();
@@ -339,9 +339,9 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     }
 
     /**
-     * Fills the out array with all objects in this node and all child nodes, recursively.
+     * Fills the out ArrayList with all objects in this node and all child nodes, recursively.
      */
-    public void getAllChildren(Array<T> out) {
+    public void getAllChildren(ArrayList<T> out) {
         out.addAll(objects);
 
         if (!leaf) {

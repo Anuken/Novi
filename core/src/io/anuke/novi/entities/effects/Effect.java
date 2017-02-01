@@ -3,8 +3,6 @@ package io.anuke.novi.entities.effects;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.server.NoviServer;
 
-
-
 public abstract class Effect extends Entity{
 	float life;
 	float lifetime = 100;
@@ -16,6 +14,11 @@ public abstract class Effect extends Entity{
 			onRemove();
 			remove();
 		}
+	}
+	
+	@Override
+	public float getLayer(){
+		return 1f;
 	}
 	
 	public void onRemove(){

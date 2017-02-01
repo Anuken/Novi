@@ -20,7 +20,7 @@ public class SyncSystem extends IteratingSystem{
 		
 		Entities.spatial().getNearby(player.x, player.y, Entities.loadRange, (other)->{
 			if(other.equals(player) 
-					|| !(other instanceof Syncable && !((Syncable)other).sync()) ) return;
+					|| !(other instanceof Syncable && ((Syncable)other).sync()) ) return;
 			Syncable sync = (Syncable)other;
 			worldupdate.updates.put(other.getID(), sync.writeSync());
 		});

@@ -1,6 +1,5 @@
 package io.anuke.novi.server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -92,9 +91,10 @@ public class NoviServer{
 						Player player = new Player();
 						player.connection = connection;
 						player.name = connect.name;
+						
 						DataPacket data = new DataPacket();
 						data.playerid = player.getID();
-						data.entities = new ArrayList<Entity>(Entities.list());
+						//data.entities = new ArrayList<Entity>(Entities.list());
 						int size = connection.sendTCP(data);
 						Novi.log("Data size: " + size);
 						server.sendToAllExceptTCP(connection.getID(), player.add());
