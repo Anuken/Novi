@@ -26,7 +26,7 @@ public class Input extends Module<Novi>{
 		
 		if(player.isDead()) return;
 		
-		float angle = -9;
+		float angle = -9; //why is it -9?
 		if(up()) angle = 90;
 		if(left()) angle = 180;
 		if(down()) angle = 270;
@@ -36,6 +36,7 @@ public class Input extends Module<Novi>{
 		if(down() && right()) angle = 315;
 		if(down() && left()) angle = 225;
 		if(angle > -1) player.move(angle);
+		
 		if(Gdx.input.isButtonPressed(Buttons.LEFT) && !Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
 			player.shooting = true;
 		}else{

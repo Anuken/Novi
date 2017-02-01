@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.*;
@@ -102,7 +103,10 @@ public class Entities{
 		for(Entity entity : toAdd){
 			if(entity == null)
 				continue;
-
+			
+			if(map.containsKey(entity.getID())
+					&& !((entity instanceof Player) && entity.player().client)) continue; //entity conflict.
+			
 			map.put(entity.getID(), entity);
 
 			list.add(entity);

@@ -5,7 +5,9 @@ import static io.anuke.novi.modules.World.*;
 
 import com.badlogic.gdx.math.MathUtils;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.DestructibleEntity;
+import io.anuke.novi.entities.Entities;
+import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.effects.ExplosionEffect;
@@ -18,27 +20,25 @@ import io.anuke.novi.utils.InterpolationData;
 
 public abstract class Enemy extends DestructibleEntity implements Syncable{
 	private static final float targettime = 40;
-	private transient float targetcount = 0;
+	private transient float targetcount = 0; //retarget timer
 	public transient Player target;
 	public transient int targetrange = 500;
 	transient InterpolationData data = new InterpolationData();
+	
+	private transient float neardist;
 
 	public void targetPlayers(int range){
-		Player nearest = null;
-		float neardist = Float.MAX_VALUE;
+		neardist = Float.MAX_VALUE;
 		
-		for(Entity entity : Entities.list()){
+		Entities.spatial().getNearby(x, y, targetrange, (entity)->{
 			if(entity instanceof Player && ((Player)entity).isVisible()){
 				float dist = wrappedDist(x, y, entity.x, entity.y);
-				if(dist < neardist){
+				if(dist < neardist && dist < targetrange){
 					neardist = dist;
-					nearest = (Player)entity;
+					target = (Player)entity;
 				}
 			}
-		}
-		
-		if(neardist > targetrange) nearest = null;
-		target = nearest;
+		});
 	}
 
 	public void tryRetarget(){

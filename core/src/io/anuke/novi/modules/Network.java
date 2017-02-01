@@ -69,6 +69,7 @@ public class Network extends Module<Novi>{
 					effect.apply(t);
 				}else if(object instanceof Entity){
 					Entity entity = (Entity)object;
+					//if(Entities.has(entity.getID())) return;
 					entity.onRecieve();
 					entity.add();
 					requested.remove(entity.getID());
