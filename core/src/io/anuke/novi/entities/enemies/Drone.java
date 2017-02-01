@@ -9,11 +9,11 @@ import io.anuke.novi.modules.World;
 import io.anuke.novi.utils.Draw;
 
 public class Drone extends Enemy{
-	float speed = 0.1f;
-	float turnrange = 80;
-	float offset;
-	float sign = 0;
-	public Base base;
+	transient float speed = 0.1f;
+	transient float turnrange = 80;
+	transient float offset;
+	transient float sign = 0;
+	public transient Base base;
 	
 	{
 		material.maxvelocity = 2f;

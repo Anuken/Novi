@@ -6,8 +6,8 @@ import io.anuke.novi.entities.SolidEntity;
 
 public class DamageArea extends SolidEntity implements Damager{
 	transient HashSet<Long> collided = new HashSet<Long>();
-	float lifetime =  100f, life;
-	int damage = 20;
+	transient float lifetime = 100f, life;
+	transient int damage = 20;
 	
 	public DamageArea(){
 		

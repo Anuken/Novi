@@ -35,6 +35,7 @@ public abstract class Base extends Enemy implements Syncable{
 
 	public Base() {
 		if(NoviServer.active()){
+			health = Integer.MAX_VALUE;
 			blocks = new Block[size][size];
 			for(int x = 0; x < size; x++){
 				for(int y = 0; y < size; y++){
@@ -43,19 +44,22 @@ public abstract class Base extends Enemy implements Syncable{
 			}
 			generateBlocks();
 			material.getRectangle().setSize(size * (Material.blocksize + 1), size * (Material.blocksize + 1));
-			updateHealth();
 		}
 	}
 
 	abstract void generateBlocks();
 
 	void updateHealth(){
-		health = 0;
+		int health = 0;
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
 				if(blocks[x][y].solid())
 					health += blocks[x][y].getMaterial().health();
 			}
+		}
+		
+		if(health <= 0){ 
+			this.onDeath();
 		}
 	}
 
@@ -162,6 +166,8 @@ public abstract class Base extends Enemy implements Syncable{
 				}
 			}
 		}
+		
+		if(this.removeOnDeath()) removeServer();
 
 		if(texture != null)
 			new BreakEffect(texture, 2f, this.rotation).set(x, y).send();

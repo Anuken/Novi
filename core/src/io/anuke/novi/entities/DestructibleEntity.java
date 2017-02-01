@@ -7,7 +7,8 @@ public abstract class DestructibleEntity extends FlyingEntity{
 	public transient int health = 100;
 	
 	public void collisionEvent(SolidEntity other){
-		if(!(other instanceof Damager)) return;
+		if(!(other instanceof Damager) || health <= 0) return;
+		
 		Damager damager = (Damager)other;
 		health -= damager.damage();
 		onHit(other);
