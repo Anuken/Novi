@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
@@ -33,7 +34,7 @@ public abstract class Entity implements QuadTreeObject{
 
 	//whether or not this entity is loaded (is drawn/updated on screen)
 	public boolean loaded(float playerx, float playery){
-		return World.loopDist(x, playerx, y, playery, 1300f);
+		return World.loopedWithin(x, playerx, y, playery, 1300f);
 	}
 
 	//called when this entity object is recieved
@@ -50,7 +51,7 @@ public abstract class Entity implements QuadTreeObject{
 	}
 
 	public void send(){
-		NoviServer.instance().server.sendToAllTCP(this);
+		NoviServer.instance().sendEntity(this);
 	}
 
 	public Entity add(){
@@ -80,11 +81,15 @@ public abstract class Entity implements QuadTreeObject{
 	}
 
 	boolean inRange(float rad){
-		return World.loopDist(x, y, x, y, rad);
+		return World.loopedWithin(x, y, x, y, rad);
 	}
 	
 	public Entity(){
 		id = lastid ++;
+	}
+	
+	public Player player(){
+		return (Player)this;
 	}
 
 	protected static float delta(){

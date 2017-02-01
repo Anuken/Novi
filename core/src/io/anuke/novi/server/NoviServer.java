@@ -109,6 +109,11 @@ public class NoviServer{
 				}else if(object instanceof InputPacket){
 					InputPacket packet = (InputPacket)object;
 					getPlayer(connection.getID()).input.inputEvent(packet.input);
+				}else if(object instanceof EntityRequestPacket){
+					EntityRequestPacket packet = (EntityRequestPacket)object;
+					if(Entities.has(packet.id)){
+						connection.sendTCP(Entities.get(packet.id));
+					}
 				}else if(object instanceof PositionPacket){
 					PositionPacket position = (PositionPacket)object;
 					Player player = getPlayer(connection.getID());
@@ -126,12 +131,17 @@ public class NoviServer{
 	public Player getPlayer(int cid){
 		return (Player)Entities.get(players.get(cid));
 	}
+	
+	public void sendEntity(Entity entity){
+		Entities.spatial().getNearby(entity.x, entity.y, Entities.loadRange, (other)->{
+			if(other instanceof Player){
+				server.sendToTCP(other.player().connectionID(), entity);
+			}
+		});
+	}
 
 	public void removeEntity(Entity entity){
-		EntityRemovePacket remove = new EntityRemovePacket();
-		remove.id = entity.getID();
-		server.sendToAllTCP(remove);
-		entity.remove();
+		removeEntity(entity.getID());
 	}
 
 	public void removeEntity(long entityid){

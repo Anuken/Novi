@@ -7,7 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.FlyingEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.base.Target;
 import io.anuke.novi.entities.combat.Bullet;
@@ -32,6 +33,8 @@ public class Registrator{
 		k.register(EffectPacket.class);
 		k.register(InputPacket.class);
 		k.register(DeathPacket.class);
+		k.register(EntityRequestPacket.class);
+		
 		k.register(SyncData.class);
 		k.register(BaseSyncData.class);
 		k.register(PlayerSyncData.class);

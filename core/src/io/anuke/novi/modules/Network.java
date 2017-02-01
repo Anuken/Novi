@@ -2,6 +2,7 @@ package io.anuke.novi.modules;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -22,6 +23,8 @@ public class Network extends Module<Novi>{
 	private boolean connected = true;
 	private boolean initialconnect = false;
 	Client client;
+	//entities requested to be sent
+	ObjectSet<Long> requested = new ObjectSet<Long>();
 
 	public void init(){
 		try{
@@ -68,6 +71,7 @@ public class Network extends Module<Novi>{
 					Entity entity = (Entity)object;
 					entity.onRecieve();
 					entity.add();
+					requested.remove(entity.getID());
 					//Novi.log("recieved entity of type " + entity.getClass().getSimpleName());
 				}else if(object instanceof EntityRemovePacket){
 					EntityRemovePacket remove = (EntityRemovePacket)object;
@@ -80,15 +84,27 @@ public class Network extends Module<Novi>{
 				}else if(object instanceof WorldUpdatePacket){
 					WorldUpdatePacket packet = (WorldUpdatePacket)object;
 					getModule(ClientData.class).player.health = packet.health;
-					for(Long key : packet.updates.keySet()){
-						if(Entities.has(key))
-						((Syncable)Entities.get(key)).readSync(packet.updates.get(key));
+					for(long key : packet.updates.keySet()){
+						if(Entities.has(key)){
+							((Syncable)Entities.get(key)).readSync(packet.updates.get(key));
+						}else{
+							request(key);
+						}
 					}
 				}
 			}catch(Exception e){
 				e.printStackTrace();
 				Novi.log("Packet recieve error!");
 			}
+		}
+	}
+	
+	private void request(long id){
+		if(!requested.contains(id)){
+			EntityRequestPacket request = new EntityRequestPacket();
+			request.id = id;
+			client.sendTCP(request);
+			requested.add(id);
 		}
 	}
 

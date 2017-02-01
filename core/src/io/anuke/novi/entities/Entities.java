@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import io.anuke.novi.modules.World;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.systems.EmptySystem;
-import io.anuke.novi.systems.EntitySystem;
-import io.anuke.novi.systems.IteratingSystem;
+import io.anuke.novi.systems.*;
 
 public class Entities{
 	private static ArrayList<Entity> list = new ArrayList<Entity>();
@@ -17,7 +16,11 @@ public class Entities{
 	private static ArrayList<Entity> toAdd = new ArrayList<Entity>();
 
 	private static ArrayList<EntitySystem> systems = new ArrayList<EntitySystem>();
+	private static SpatialSystem spatial;
 	private static IteratingSystem basesystem = new EmptySystem();
+	
+	public static final float loadRange = 1000;
+	public static final float unloadRange = 1500;
 
 	public static synchronized void add(Entity entity){
 		toAdd.add(entity);
@@ -64,11 +67,16 @@ public class Entities{
 	}
 
 	public static void addSystem(EntitySystem system){
+		if(system instanceof SpatialSystem) spatial = (SpatialSystem)system;
 		systems.add(system);
 	}
 
 	public static void setBaseSystem(IteratingSystem system){
 		basesystem = system;
+	}
+	
+	public static SpatialSystem spatial(){
+		return spatial;
 	}
 
 	public static synchronized void updateAll(){
@@ -117,6 +125,14 @@ public class Entities{
 
 		toAdd.clear();
 		toRemove.clear();
+	}
+	
+	public static synchronized void checkUnload(float x, float y){
+		for(Entity entity : list()){
+			if(!World.loopedWithin(entity.x, x, entity.y, y, unloadRange)){
+				entity.remove();
+			}
+		}
 	}
 
 	public static synchronized void drawAll(float playerx, float playery){

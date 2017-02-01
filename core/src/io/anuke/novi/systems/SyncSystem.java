@@ -6,8 +6,6 @@ import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.network.Syncable;
-import io.anuke.novi.network.Syncable.GlobalSyncable;
-import io.anuke.novi.network.TimedSyncable;
 import io.anuke.novi.network.packets.WorldUpdatePacket;
 import io.anuke.novi.server.NoviServer;
 
@@ -20,11 +18,12 @@ public class SyncSystem extends IteratingSystem{
 		WorldUpdatePacket worldupdate = new WorldUpdatePacket();
 		worldupdate.health = player.health;
 		
-		for(Entity other : Entities.list()){
-			if(other.equals(player) || !(other instanceof Syncable) || (other instanceof TimedSyncable && !((TimedSyncable)other).sync()) || (!other.getClass().isAnnotationPresent(GlobalSyncable.class) && !other.loaded(player.x, player.y))) continue;
+		Entities.spatial().getNearby(player.x, player.y, Entities.loadRange, (other)->{
+			if(other.equals(player) 
+					|| !(other instanceof Syncable && !((Syncable)other).sync()) ) return;
 			Syncable sync = (Syncable)other;
 			worldupdate.updates.put(other.getID(), sync.writeSync());
-		}
+		});
 		
 		NoviServer.instance().server.sendToUDP(player.connectionID(), worldupdate);
 	}

@@ -197,23 +197,12 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
      * Fills the out parameter with any objects that may intersect the given rectangle.
      * <p>
      * This will result in false positives, but never a false negative.
-     
-    public void getMaybeIntersecting(Array<T> out, Rectangle toCheck) {
-        if (!leaf) {
-            if (topLeftChild.bounds.overlaps(toCheck)) topLeftChild.getMaybeIntersecting(out, toCheck);
-            if (topRightChild.bounds.overlaps(toCheck)) topRightChild.getMaybeIntersecting(out, toCheck);
-            if (bottomLeftChild.bounds.overlaps(toCheck)) bottomLeftChild.getMaybeIntersecting(out, toCheck);
-            if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getMaybeIntersecting(out, toCheck);
-        }
-        
-        out.addAll(objects);
-    }
-    */
-    
-    public void getIntersecting(Consumer<T> cons, Rectangle rect) {
+     * </p>
+     * */
+    public void getPossibleIntersections(Consumer<T> cons, Rectangle rect) {
         if (!leaf) {
         	
-        	getIntersect(cons, rect);
+        	getChildIntersections(cons, rect);
             
             float topx = rect.x + rect.getWidth();
             float topy = rect.y + rect.getHeight();
@@ -223,20 +212,20 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
             
             if(y < 0){
             	rect.y += size;
-            	getIntersect(cons, rect);
+            	getChildIntersections(cons, rect);
             	rect.y -= size;
             }
             
             if(x < 0){
             	rect.x += size;
-            	getIntersect(cons, rect);
+            	getChildIntersections(cons, rect);
             	rect.x -= size;
             }
             
             if(x < 0 && y < 0){
             	rect.x += size;
             	rect.y += size;
-            	getIntersect(cons, rect);
+            	getChildIntersections(cons, rect);
             	rect.x -= size;
             	rect.y -= size;
             }
@@ -244,20 +233,20 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
             
             if(topy > size){
             	rect.y -= size;
-            	getIntersect(cons, rect);
+            	getChildIntersections(cons, rect);
             	rect.y += size;
             }
             
             if(topx > size){
             	rect.x -= size;
-            	getIntersect(cons, rect);
+            	getChildIntersections(cons, rect);
             	rect.x += size;
             }
             
             if(topy > size && topx > size){
             	rect.x -= size;
             	rect.y -= size;
-            	getIntersect(cons, rect);
+            	getChildIntersections(cons, rect);
             }
             
         }
@@ -266,16 +255,18 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
         	cons.accept(object);
     }
     
-    private void getIntersect(Consumer<T> cons, Rectangle rect){
-        if (topLeftChild.bounds.overlaps(rect)) topLeftChild.getIntersectingInternal(cons, rect);
-        if (topRightChild.bounds.overlaps(rect)) topRightChild.getIntersectingInternal(cons, rect);
-        if (bottomLeftChild.bounds.overlaps(rect)) bottomLeftChild.getIntersectingInternal(cons, rect);
-        if (bottomRightChild.bounds.overlaps(rect)) bottomRightChild.getIntersectingInternal(cons, rect);
+    /**Gets the intersections for the children, not the object itself*/
+    private void getChildIntersections(Consumer<T> cons, Rectangle rect){
+        if (topLeftChild.bounds.overlaps(rect)) topLeftChild.getIntersecting(cons, rect);
+        if (topRightChild.bounds.overlaps(rect)) topRightChild.getIntersecting(cons, rect);
+        if (bottomLeftChild.bounds.overlaps(rect)) bottomLeftChild.getIntersecting(cons, rect);
+        if (bottomRightChild.bounds.overlaps(rect)) bottomRightChild.getIntersecting(cons, rect);
     }
     
-    private void getIntersectingInternal(Consumer<T> cons, Rectangle rect){
+    /**Internally used for children.*/
+    private void getIntersecting(Consumer<T> cons, Rectangle rect){
     	if (!leaf) {
-    		getIntersect(cons, rect);
+    		getChildIntersections(cons, rect);
         }
         
         for(T object : objects)

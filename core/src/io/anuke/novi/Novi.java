@@ -6,11 +6,10 @@ import io.anuke.novi.entities.Entities;
 import io.anuke.novi.modules.*;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.EntityLoadedSystem;
-import io.anuke.novi.systems.SpatialSystem;
 import io.anuke.ucore.modules.ModuleController;
 
 public class Novi extends ModuleController<Novi>{
-	static final boolean logtrace = false;
+	private static final boolean logtrace = false;
 
 	@Override
 	public void init(){
@@ -21,12 +20,13 @@ public class Novi extends ModuleController<Novi>{
 		addModule(World.class);
 		
 		Entities.setBaseSystem(new EntityLoadedSystem(getModule(ClientData.class).player));
-		Entities.addSystem(new SpatialSystem());
+		//Entities.addSystem(new SpatialSystem());
 	}
 
 	@Override
 	public void render(){
 		Entities.updateAll();
+		Entities.checkUnload(getModule(ClientData.class).player.x, getModule(ClientData.class).player.y);
 		
 		super.render();
 	}

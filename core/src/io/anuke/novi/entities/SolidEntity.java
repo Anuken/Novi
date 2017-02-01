@@ -43,7 +43,7 @@ public abstract class SolidEntity extends Entity{
 	}
 	
 	public boolean inRange(SolidEntity entity, float rad){
-		return World.loopDist(entity.predictedX(), predictedX(), entity.predictedY(), predictedY(), rad);
+		return World.loopedWithin(entity.predictedX(), predictedX(), entity.predictedY(), predictedY(), rad);
 	}
 	
 	@Override

@@ -28,7 +28,7 @@ public class World extends Module<Novi>{
 	}
 
 	//square distance with wrapping
-	public static boolean loopDist(float x1, float x2, float y1, float y2, float rad){
+	public static boolean loopedWithin(float x1, float x2, float y1, float y2, float rad){
 		return(Math.abs(relative3(x1, x2)) < rad && Math.abs(relative3(y1, y2)) < rad);
 	}
 
@@ -71,13 +71,6 @@ public class World extends Module<Novi>{
 	public static float wrap(float i){
 		if(i > World.worldSize / 2)
 			return World.worldSize - i;
-		return i;
-	}
-	
-	//wraps crap
-	public static float wrap2(float i){
-		if(i < World.worldSize / 2)
-			return World.worldSize + i;
 		return i;
 	}
 
