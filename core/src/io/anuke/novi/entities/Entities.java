@@ -2,19 +2,18 @@ package io.anuke.novi.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.*;
 
 public class Entities{
-	private static ArrayList<Entity> list = new ArrayList<Entity>();
-	private static HashMap<Long, Entity> map = new HashMap<Long, Entity>();
-
-	private static ArrayList<Entity> toRemove = new ArrayList<Entity>();
-	private static ArrayList<Entity> toAdd = new ArrayList<Entity>();
+	private static CopyOnWriteArrayList<Entity> list = new CopyOnWriteArrayList<Entity>();
+	private static ConcurrentHashMap<Long, Entity> map = new ConcurrentHashMap<Long, Entity>();
+	
+	private static boolean updated;
 
 	private static ArrayList<EntitySystem> systems = new ArrayList<EntitySystem>();
 	private static SpatialSystem spatial;
@@ -23,17 +22,25 @@ public class Entities{
 	public static final float loadRange = 1000;
 	public static final float unloadRange = 1500;
 
-	public static synchronized void add(Entity entity){
-		toAdd.add(entity);
+	public static void add(Entity entity){
+		list.add(entity);
+		map.put(entity.getID(), entity);
+		updated = true;
 	}
 
-	public static synchronized void remove(Entity entity){
+	public static void remove(Entity entity){
 		if(entity == null) return;
 		
-		toRemove.add(entity);
+		map.remove(entity.getID());
+		
+		if(NoviServer.active()){
+			binaryRemove(entity);
+		}else{
+			list.remove(entity);
+		}
 	}
 
-	public static synchronized void remove(long id){
+	public static void remove(long id){
 		remove(get(id));
 	}
 
@@ -100,37 +107,10 @@ public class Entities{
 			}
 		}
 
-		for(Entity entity : toAdd){
-			if(entity == null)
-				continue;
-			
-			if(map.containsKey(entity.getID())
-					&& !((entity instanceof Player) && entity.player().client)) continue; //entity conflict.
-			
-			map.put(entity.getID(), entity);
-
-			list.add(entity);
-		}
-
-		for(Entity entity : toRemove){
-			if(entity == null)
-				continue;
-
-			map.remove(entity.getID());
-			
-			if(NoviServer.active()){
-				binaryRemove(entity);
-			}else{
-				list.remove(entity);
-			}
-		}
-
-		if(toAdd.size() != 0 && !NoviServer.active()){
+		if(updated && !NoviServer.active()){
 			list.sort(Entities::compare);
+			updated = false;
 		}
-
-		toAdd.clear();
-		toRemove.clear();
 	}
 	
 	public static synchronized void checkUnload(float x, float y){

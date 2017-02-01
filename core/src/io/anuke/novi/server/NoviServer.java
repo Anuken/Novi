@@ -10,7 +10,6 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
-import io.anuke.novi.entities.enemies.GunBase;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.packets.*;
@@ -161,7 +160,7 @@ public class NoviServer{
 		//new GunBase().set(10, 10).add();
 		for(int i = 0;i < 20;i ++){
 			//new GunBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
-			new GunBase().set(400, 400).add();
+			//new GunBase().set(400, 400).add();
 		}
 	}
 	
