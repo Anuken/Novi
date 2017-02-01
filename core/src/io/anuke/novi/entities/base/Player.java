@@ -86,7 +86,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	@Override
 	public void serverUpdate(){
 		input.update();
-		if(frame() % 120 == 0) connection.updateReturnTripTime();
+		if(frame() % 30 == 0) connection.updateReturnTripTime();
 	}
 
 	public Player(){
@@ -173,7 +173,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	
 	public float pingInFrames(){
 		if(!NoviServer.active()) return 0;
-		return ((Network.ping*2f + connection.getReturnTripTime()) / 1000f) * delta() * 60f+1f;
+		return ((Network.ping*2f + connection.getReturnTripTime()) / 1000f) * delta() * 60f+1.1f;
 	}
 	
 	public float predictedX(){

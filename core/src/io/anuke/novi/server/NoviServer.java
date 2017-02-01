@@ -141,14 +141,20 @@ public class NoviServer{
 	}
 
 	public void removeEntity(Entity entity){
-		removeEntity(entity.getID());
+		EntityRemovePacket remove = new EntityRemovePacket();
+		remove.id = entity.getID();
+		server.sendToAllTCP(remove);
+		
+		Entities.spatial().getNearby(entity.x, entity.y, Entities.loadRange, (other)->{
+			if(other instanceof Player){
+				server.sendToTCP(other.player().connectionID(), remove);
+			}
+		});
+		Entities.remove(entity.getID());
 	}
 
 	public void removeEntity(long entityid){
-		EntityRemovePacket remove = new EntityRemovePacket();
-		remove.id = entityid;
-		server.sendToAllTCP(remove);
-		Entities.remove(entityid);
+		removeEntity(Entities.get(entityid));
 	}
 
 	private void addEntities(){

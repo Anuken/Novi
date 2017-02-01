@@ -15,7 +15,7 @@ public class GunBase extends Base{
 				if(Vector2.dst(x, y, size/2f, size/2f) > size/2.2f) blocks[x][y].setMaterial(Material.turret);
 				//if(Math.random() < 0.1) blocks[x][y].setMaterial(Material.bigturret);
 				
-				//if(Math.random() < 0.2) blocks[x][y].setMaterial(Material.dronemaker);
+				//if(Math.random() < 0.05) blocks[x][y].setMaterial(Material.dronemaker);
 			}
 		}
 		

@@ -1,5 +1,7 @@
 package io.anuke.novi.utils;
 
+import static io.anuke.ucore.UCore.clamp;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
@@ -64,7 +66,12 @@ public class Draw{
 	}
 	
 	public static void color(float r, float g, float b){
-		rend.batch.setColor(r, g, b, 1f);
+		rend.batch.setColor(clamp(r), clamp(g), clamp(b), 1f);
+	}
+	
+	/**Lightness color.*/
+	public static void colorl(float l){
+		color(l, l, l);
 	}
 	
 	public static void color(float r, float g, float b, float a){

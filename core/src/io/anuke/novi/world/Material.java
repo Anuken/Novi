@@ -11,7 +11,13 @@ import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.utils.Draw;
 
 public enum Material{
-	air, ironblock{
+	air, 
+	ironblock{
+		public boolean solid(){
+			return false;
+		}
+	},
+	frame{
 		public boolean solid(){
 			return false;
 		}
@@ -88,7 +94,7 @@ public enum Material{
 		}
 
 		public int health(){
-			return 400000;
+			return 40;
 		}
 	},
 	bigturret{
@@ -133,14 +139,19 @@ public enum Material{
 		new Shockwave(8f, 0.001f, 0.02f).set(worldx(base, x, y), worldy(base, x, y)).send();
 		new ExplosionEffect().set(worldx(base, x, y), worldy(base, x, y)).send();
 		new BreakEffect(name(), base.velocity, 2.5f).set(worldx(base, x, y), worldy(base, x, y)).send();
-		base.blocks[x][y].setMaterial(Material.ironblock);
-		Effects.shake(40f, 15f, worldx(base, x, y), worldy(base, x, y));
+		
+		base.blocks[x][y].setMaterial(Material.frame);
+		
+		Effects.shake(30f, 10f, worldx(base, x, y), worldy(base, x, y));
 	}
 	
 	public void draw(Block block, Base base, int x, int y){
-		//Draw.color(block.healthfrac() + 0.3f, block.healthfrac() + 0.3f, block.healthfrac() + 0.3f);
+		
+		Draw.colorl(block.healthfrac()/2f + 0.5f);
+		
 		defaultDraw(name(), block, base, x, y);
-		//Draw.color();
+		
+		Draw.color();
 	}
 
 	public void defaultDraw(String region, Block block, Base base, int x, int y){

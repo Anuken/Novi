@@ -20,7 +20,6 @@ import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.world.Block;
-import io.anuke.novi.world.BlockUpdate;
 import io.anuke.novi.world.Material;
 import io.anuke.ucore.util.Angles;
 
@@ -104,10 +103,13 @@ public abstract class Base extends Enemy implements Syncable{
 				if(dist >= rad)
 					continue;
 				Block block = blocks[relx][rely];
-				if(!block.solid())
-					block.health -= (int) ((1f - dist / rad + 0.1f) * block.getMaterial().health());
+				//if(!block.solid())
+				
+				if(block.material != Material.frame)
+				block.health -= (int) ((1f - dist / rad + 0.1f) * block.getMaterial().health());
+				
 				if(block.health < 0)
-					block.setMaterial(Material.air);
+					block.getMaterial().destroyEvent(this, relx, rely);
 				update(relx, rely);
 			}
 		}
@@ -245,5 +247,29 @@ public abstract class Base extends Enemy implements Syncable{
 		v.add(this.x, this.y);
 		return v;
 	}
-
+	
+	public static class BlockUpdate{
+		float rotation, reload;
+		int x, y, health;
+		Material material;
+		
+		private BlockUpdate(){}
+		
+		public BlockUpdate(Block block){
+			this.rotation = block.rotation;
+			this.reload = block.reload;
+			this.x = block.x;
+			this.y = block.y;
+			this.health = block.health;
+			this.material = block.getMaterial();
+		}
+		
+		public void apply(Block[][] blocks){
+			Block b = blocks[x][y];
+			b.reload = this.reload;
+			b.health = this.health;
+			b.rotation = this.rotation;
+			b.material = this.material;
+		}
+	}
 }

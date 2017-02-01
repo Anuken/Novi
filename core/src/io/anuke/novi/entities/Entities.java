@@ -27,6 +27,8 @@ public class Entities{
 	}
 
 	public static synchronized void remove(Entity entity){
+		if(entity == null) return;
+		
 		toRemove.add(entity);
 	}
 

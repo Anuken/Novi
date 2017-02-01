@@ -36,7 +36,7 @@ public class BreakEffect extends Effect{
 	}
 
 	{
-		lifetime = 220 + MathUtils.random(300);
+		lifetime = 320 + MathUtils.random(300);
 	}
 
 	public static void createChunks(){

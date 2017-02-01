@@ -208,23 +208,30 @@ tiles/tile
   orig: 16, 16
   offset: 0, 0
   index: -1
-tiles/dronemaker
+tiles/frame
   rotate: false
   xy: 19, 17
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
-tiles/ironblock
+tiles/dronemaker
   rotate: false
   xy: 19, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
-tiles/dronemakerbar
+tiles/ironblock
   rotate: false
   xy: 35, 17
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+tiles/dronemakerbar
+  rotate: false
+  xy: 35, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0

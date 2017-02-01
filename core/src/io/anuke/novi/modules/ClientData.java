@@ -10,6 +10,6 @@ public class ClientData extends Module<Novi>{
 	public ClientData(){
 		player = new Player();
 		player.client = true;
-		player.add();
+		//player.add();
 	}
 }

@@ -2,7 +2,8 @@ package io.anuke.novi.network;
 
 import java.util.ArrayList;
 
-import io.anuke.novi.world.BlockUpdate;
+import io.anuke.novi.entities.enemies.Base.BlockUpdate;
+
 
 public class BaseSyncData extends SyncData{
 	public ArrayList<BlockUpdate> updates;

@@ -76,6 +76,8 @@ public class Network extends Module<Novi>{
 				}else if(object instanceof EntityRemovePacket){
 					EntityRemovePacket remove = (EntityRemovePacket)object;
 					
+					//Novi.log("Removing " + remove.id);
+					
 					if(Entities.has(remove.id)) Entities.get(remove.id).onRemove();
 					Entities.remove(remove.id);
 					
@@ -100,11 +102,12 @@ public class Network extends Module<Novi>{
 	}
 	
 	private void request(long id){
-		if(!requested.contains(id)){
+		
+		if(!requested.contains(id) && !Entities.has(id)){
+			requested.add(id);
 			EntityRequestPacket request = new EntityRequestPacket();
 			request.id = id;
 			client.sendTCP(request);
-			requested.add(id);
 		}
 	}
 

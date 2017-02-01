@@ -15,13 +15,15 @@ import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.DamageArea;
 import io.anuke.novi.entities.effects.*;
 import io.anuke.novi.entities.enemies.*;
+import io.anuke.novi.entities.enemies.Base.BlockUpdate;
 import io.anuke.novi.items.Item;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.Ship;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.network.packets.EffectPacket.EffectType;
 import io.anuke.novi.utils.InputType;
-import io.anuke.novi.world.*;
+import io.anuke.novi.world.Block;
+import io.anuke.novi.world.Material;
 
 public class Registrator{
 	public static void register(Kryo k){
@@ -62,7 +64,6 @@ public class Registrator{
 		k.register(Material.class);
 		k.register(EffectType.class);
 		k.register(BlockUpdate.class);
-		k.register(BlockFrameUpdate.class);
 		k.register(Block.class);
 		k.register(Block[].class);
 		k.register(Block[][].class);
