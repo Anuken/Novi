@@ -38,6 +38,8 @@ public class Entities{
 		}else{
 			list.remove(entity);
 		}
+		
+		entity.invalidate();
 	}
 
 	public static void remove(long id){

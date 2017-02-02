@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 
+import io.anuke.gif.GifRecorder;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
@@ -24,7 +25,6 @@ import io.anuke.novi.utils.WrappedQuadTree;
 import io.anuke.novi.world.NoviMapRenderer;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.modules.Module;
-import io.anuke.utils.io.GifRecorder;
 
 public class Renderer extends Module<Novi>{
 	public float cameraShakeDuration, cameraShakeIntensity, cameraDrag;
@@ -43,6 +43,7 @@ public class Renderer extends Module<Novi>{
 	public World world; // world module
 	public FrameBuffer buffer;
 	public GifRecorder recorder;
+	public GifRecorder rec2;
 	public boolean debug = true;
 
 	public Renderer(){
@@ -54,7 +55,8 @@ public class Renderer extends Module<Novi>{
 		layout = new GlyphLayout();
 		buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getWidth() / pixelscale, Gdx.graphics.getHeight() / pixelscale, false);
 		buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-		recorder = new GifRecorder(batch, 0.2f);
+		recorder = new GifRecorder(batch);
+		rec2 = new GifRecorder(batch);
 		Draw.init(this);
 		
 		BreakEffect.createChunks();
@@ -139,6 +141,8 @@ public class Renderer extends Module<Novi>{
 		}
 		
 		recorder.update();
+		
+		//rec2.update();
 
 	}
 

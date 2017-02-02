@@ -12,7 +12,7 @@ import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 public abstract class Entity implements QuadTreeObject{
 	static private long lastid;
 	static public Vector2 vector = Vector2.Zero; // Vector2 object used for calculations; is reused
-
+	
 	private long id;
 	public float x, y;
 
@@ -68,12 +68,17 @@ public abstract class Entity implements QuadTreeObject{
 		NoviServer.instance().removeEntity(this);
 	}
 	
-	/**Only used for players. Changes the entity's ID.*/
+	/**Only used for players.Changes the entity's ID.*/
 	public void resetID(long newid){
 		remove();
 		this.id = newid;
 		add();
 		lastid = id + 1;
+	}
+	
+	/**Called after the entity is removed - sets the ID to -1*/
+	public void invalidate(){
+		this.id = -1;
 	}
 
 	public long getID(){
@@ -98,6 +103,10 @@ public abstract class Entity implements QuadTreeObject{
 
 	protected static long frame(){
 		return Novi.frame();
+	}
+	
+	public boolean isRemoved(){
+		return id == -1;
 	}
 	
 	@Override

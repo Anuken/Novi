@@ -30,6 +30,10 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	public void targetPlayers(int range){
 		neardist = Float.MAX_VALUE;
 		
+		if(target != null && target.isRemoved()){
+			target = null;
+		}
+		
 		Entities.spatial().getNearby(x, y, targetrange, (entity)->{
 			if(entity instanceof Player && ((Player)entity).isVisible()){
 				float dist = wrappedDist(x, y, entity.x, entity.y);

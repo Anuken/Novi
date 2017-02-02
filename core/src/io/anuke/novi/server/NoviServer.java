@@ -158,10 +158,10 @@ public class NoviServer{
 	}
 
 	private void addEntities(){
-		//new GunBase().set(10, 10).add();
+		new GunBase().set(100, 100).add();
 		for(int i = 0;i < 20;i ++){
 			//new GunBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
-			new GunBase().set(400, 400).add();
+			//new GunBase().set(400, 400).add();
 		}
 	}
 	
