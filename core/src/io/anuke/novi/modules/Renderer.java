@@ -20,9 +20,9 @@ import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
+import io.anuke.novi.modules.World.MapTile;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.WrappedQuadTree;
-import io.anuke.novi.world.NoviMapRenderer;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.modules.Module;
 
@@ -32,7 +32,6 @@ public class Renderer extends Module<Novi>{
 	public Network network;
 	public SpriteBatch batch; //novi's batch
 	public BitmapFont font; //a font for displaying text
-	public NoviMapRenderer maprenderer; //used for rendering the map
 	public Matrix4 matrix; // matrix used for rendering gui and other things
 	public GlyphLayout layout; // used for getting font bounds
 	public OrthographicCamera camera; //a camera, seems self explanatory
@@ -81,11 +80,11 @@ public class Renderer extends Module<Novi>{
 
 	void doRender(){
 		clearScreen();
-		maprenderer.setView(camera);
-		renderMap();
 		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		
+		renderMap();
 		//renderQuadTree(Entities.getSystem(SpatialSystem.class).quadtree);
 		Entities.drawAll(player.x, player.y);
 		batch.end();
@@ -107,10 +106,24 @@ public class Renderer extends Module<Novi>{
 	}
 
 	public void renderMap(){
-		for(int x = -1;x <= 1;x ++){
-			for(int y = -1;y <= 1;y ++){
-				maprenderer.setPosition(x * World.worldSize, y * World.worldSize);
-				maprenderer.render();
+		int range = World.genRange-1;
+		
+		int camx = (int)(camera.position.x/World.tileSize);
+		int camy = (int)(camera.position.y/World.tileSize);
+		
+		for(int rx = -range; rx <= range; rx ++){
+			for(int ry = -range; ry <= range; ry ++){
+				int basex = camx+rx;
+				int basey = camy+ry;
+				
+				int x = (int)(World.bound(basex*World.tileSize)/World.tileSize);
+				int y = (int)(World.bound(basey*World.tileSize)/World.tileSize);
+				
+				
+				if(world.getTile(x, y) != null){
+					MapTile tile = world.getTile(x, y);
+					batch.draw(tile.texture, basex*World.tileSize, basey*World.tileSize);
+				}
 			}
 		}
 	}

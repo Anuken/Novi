@@ -110,6 +110,11 @@ public abstract class Entity implements QuadTreeObject{
 	}
 	
 	@Override
+	public String toString(){
+		return getClass().getSimpleName() + " #" + id;
+	}
+	
+	@Override
 	public void getBoundingBox(Rectangle out){
 		out.setSize(12, 12);
 		out.setCenter(x, y);

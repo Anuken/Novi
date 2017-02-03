@@ -1,22 +1,102 @@
 package io.anuke.novi.modules;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Disposable;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.world.NoviMapRenderer;
+import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.modules.Module;
+import io.anuke.ucore.noise.Noise;
+import io.anuke.ucore.noise.VoronoiNoise;
+import io.anuke.ucore.util.GridMap;
 
 public class World extends Module<Novi>{
-	public static final int tileSize = 14;
-	public static final int worldSize = 300 * tileSize;
-	public TiledMap map;
+	public static final int tileSize = 256;
+	public static final int worldSize = 128 * tileSize;
+	public static final int genRange = 3;
+	private GridMap<MapTile> tiles = new GridMap<MapTile>();
+	private Renderer renderer;
+	private Color color = new Color();
+	private VoronoiNoise noise = new VoronoiNoise(0, (short)0);
+	
+	public class MapTile implements Disposable{
+		public Texture texture;
+		public Pixmap pixmap;
+		
+		public MapTile(Texture texture, Pixmap pixmap){
+			this.texture = texture;
+			this.pixmap = pixmap;
+		}
+		
+		public void dispose(){
+			texture.dispose();
+			pixmap.dispose();
+		}
+	}
+	
+	public MapTile getTile(int x, int y){
+		return tiles.get(x, y);
+	}
 
 	@Override
 	public void init(){
-		map = new TmxMapLoader().load("maps/world1.tmx"); //load world 1 map
-		//initialize renderer's tiled map renderer with this map
-		getModule(Renderer.class).maprenderer = new NoviMapRenderer(map, getModule(Renderer.class).batch);
+		renderer = getModule(Renderer.class);
+		noise.setUseDistance(true);
+		//Pixmap pixmap = new Pixmap(worldSize/2, worldSize/2, Format.RGB888);
+	}
+	
+	@Override
+	public void update(){
+		
+		int range = genRange;
+		
+		int camx = (int)(renderer.camera.position.x/tileSize);
+		int camy = (int)(renderer.camera.position.y/tileSize);
+		
+		for(int rx = -range; rx <= range; rx ++){
+			for(int ry = -range; ry <= range; ry ++){
+				int x = camx+rx;
+				int y = camy+ry;
+				
+				x = (int)(World.bound(x*tileSize)/tileSize);
+				y = (int)(World.bound(y*tileSize)/tileSize);
+				
+				if(getTile(x, y) == null){
+					generateTile(x,y);
+				}
+			}
+		}
+	}
+	
+	private void generateTile(int x, int y){
+		Pixmap pixmap = new Pixmap(tileSize, tileSize, Format.RGBA8888);
+		
+		for(int px = 0; px < tileSize; px ++){
+			for(int py = 0; py < tileSize; py ++){
+				
+				getColor(x*tileSize+px, y*tileSize+py);
+				
+				pixmap.drawPixel(px, tileSize -1 -py, Color.rgba8888(color));
+			}
+		}
+		
+		Texture texture = new Texture(pixmap);
+		
+		tiles.put(x, y, new MapTile(texture, pixmap));
+	}
+	
+	public void getColor(int x, int y){
+		double noise = 
+				Noise.nnoise(x, y, 500f, 1f)+
+				Noise.nnoise(x, y, 150f,0.5f)
+				+0.35f;
+		
+		noise = (int)(noise/0.2f)*0.2f;
+				
+		Hue.mix(Color.FOREST, Color.WHITE, (float)noise, color);
 	}
 
 	public static int worldWidthPixels(){

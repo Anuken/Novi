@@ -62,7 +62,6 @@ public class Network extends Module<Novi>{
 					DataPacket data = (DataPacket)object;
 					getModule(ClientData.class).player.resetID(data.playerid);
 					//Entities.loadEntities(data.entities);
-					getModule(ClientData.class).player.add();
 					Novi.log("Recieved data packet.");
 				}else if(object instanceof EffectPacket){
 					EffectPacket effect = (EffectPacket)object;
