@@ -29,6 +29,10 @@ public enum Material{
 		public boolean solid(){
 			return true;
 		}
+		
+		public boolean drawTop(){
+			return false;
+		}
 
 		public void draw(Block block, Base base, int x, int y){
 			defaultDraw("dronemaker", block, base, x, y, false);
@@ -88,8 +92,6 @@ public enum Material{
 		}
 
 		public void draw(Block block, Base base, int x, int y){
-			defaultDraw("ironblock", block, base, x, y, false);
-			
 			defaultDraw("turret", block, base, x, y, block.rotation);
 		}
 
@@ -118,7 +120,6 @@ public enum Material{
 		}
 
 		public void draw(Block block, Base base, int x, int y){
-			defaultDraw("ironblock", block, base, x, y, false);
 			//Vector2 vector = Angles.translation(block.rotation - 90, (1f - block.reload / reloadtime) * 4f);
 			
 			Draw.rect(name(), worldx(base, x, y), worldy(base, x, y), block.rotation);
@@ -185,6 +186,10 @@ public enum Material{
 
 	public boolean solid(){
 		return false;
+	}
+	
+	public boolean drawTop(){
+		return solid();
 	}
 
 	public int health(){

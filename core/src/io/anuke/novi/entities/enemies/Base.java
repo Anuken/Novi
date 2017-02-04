@@ -183,16 +183,21 @@ public abstract class Base extends Enemy implements Syncable{
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
 				Block block = blocks[x][y];
-				if(block.empty() || block.solid())
+				if(block.empty())
 					continue;
-				block.getMaterial().draw(block, this, x, y);
+				
+				if(!block.getMaterial().drawTop()){
+					block.getMaterial().draw(block, this, x, y);
+				}else{
+					Material.ironblock.draw(block, this, x, y);
+				}
 			}
 		}
 
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
 				Block block = blocks[x][y];
-				if(block.empty() || !block.solid())
+				if(block.empty() || !block.getMaterial().drawTop())
 					continue;
 				block.getMaterial().draw(block, this, x, y);
 			}

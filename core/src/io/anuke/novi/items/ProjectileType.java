@@ -76,7 +76,7 @@ public enum ProjectileType{
 		public void draw(Bullet bullet){
 			defaultDraw(bullet);
 			
-			Draw.color(Hue.mix(Color.CYAN, Color.RED, bullet.life()/getLifetime()));
+			Draw.color(Hue.mix(Color.valueOf("82f4a8"), Color.valueOf("20344f"), bullet.life()/getLifetime()));
 			Draw.rect("minecenter", bullet.x, bullet.y, bullet.velocity.angle() - 90);
 			Draw.color();
 		}

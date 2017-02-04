@@ -43,6 +43,7 @@ public class World extends Module<Novi>{
 
 	@Override
 	public void init(){
+		
 		renderer = getModule(Renderer.class);
 		noise.setUseDistance(true);
 		//Pixmap pixmap = new Pixmap(worldSize/2, worldSize/2, Format.RGB888);

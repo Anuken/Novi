@@ -3,18 +3,6 @@ Novi.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-error/error
-  rotate: false
-  xy: 1, 1
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-
-Novi2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
 gui/healthbarcontainer
   rotate: false
   xy: 1, 7
@@ -37,57 +25,69 @@ gui/blank
   offset: 0, 0
   index: -1
 
+Novi2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+error
+  rotate: false
+  xy: 1, 1
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+
 Novi3.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background/cloud3
+entities/titanship
   rotate: false
-  xy: 1, 24
-  size: 100, 39
-  orig: 100, 39
+  xy: 1, 51
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
-background/cloud7
+entities/bigturret
   rotate: false
-  xy: 103, 28
-  size: 84, 35
-  orig: 84, 35
+  xy: 1, 19
+  size: 30, 30
+  orig: 30, 30
   offset: 0, 0
   index: -1
-background/cloud2
+entities/turret
   rotate: false
-  xy: 103, 1
-  size: 77, 25
-  orig: 77, 25
+  xy: 131, 159
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
-background/cloud5
+entities/ship_test
   rotate: false
-  xy: 189, 44
-  size: 83, 19
-  orig: 83, 19
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
-background/cloud1
+entities/ship
   rotate: false
-  xy: 1, 4
-  size: 57, 18
-  orig: 57, 18
+  xy: 33, 33
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
-background/cloud4
+entities/lasership
   rotate: false
-  xy: 274, 32
-  size: 54, 31
-  orig: 54, 31
+  xy: 131, 141
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
-background/cloud6
+entities/drone
   rotate: false
-  xy: 330, 46
-  size: 52, 17
-  orig: 52, 17
+  xy: 153, 167
+  size: 12, 12
+  orig: 12, 12
   offset: 0, 0
   index: -1
 
@@ -95,109 +95,64 @@ Novi4.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-enemies/titanship
+projectiles/shockwave
   rotate: false
-  xy: 1, 51
-  size: 128, 128
-  orig: 128, 128
+  xy: 1, 10
+  size: 500, 500
+  orig: 500, 500
   offset: 0, 0
   index: -1
-enemies/bigturret
+projectiles/border
   rotate: false
-  xy: 1, 19
-  size: 30, 30
-  orig: 30, 30
+  xy: 503, 410
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
-enemies/turret
+projectiles/explosion
   rotate: false
-  xy: 131, 159
-  size: 20, 20
-  orig: 20, 20
+  xy: 503, 394
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1
-enemies/lasership
-  rotate: false
-  xy: 1, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-enemies/drone
-  rotate: false
-  xy: 33, 37
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
-
-Novi5.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
 projectiles/mine
   rotate: false
-  xy: 1, 1
+  xy: 605, 499
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/minecenter
   rotate: false
-  xy: 14, 1
+  xy: 503, 381
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/explosivebullet
   rotate: false
-  xy: 27, 3
+  xy: 519, 399
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/dronebullet
   rotate: false
-  xy: 36, 3
+  xy: 605, 488
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/bullet
   rotate: false
-  xy: 45, 5
+  xy: 1, 1
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 
-Novi6.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-effects/shockwave
-  rotate: false
-  xy: 1, 1
-  size: 500, 500
-  orig: 500, 500
-  offset: 0, 0
-  index: -1
-effects/border
-  rotate: false
-  xy: 503, 401
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-effects/explosion
-  rotate: false
-  xy: 503, 385
-  size: 14, 14
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
-
-Novi7.png
+Novi5.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -234,24 +189,5 @@ tiles/dronemakerbar
   xy: 35, 1
   size: 14, 14
   orig: 14, 14
-  offset: 0, 0
-  index: -1
-
-Novi8.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-ships/ship_test
-  rotate: false
-  xy: 1, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-ships/ship
-  rotate: false
-  xy: 19, 1
-  size: 16, 16
-  orig: 16, 16
   offset: 0, 0
   index: -1
