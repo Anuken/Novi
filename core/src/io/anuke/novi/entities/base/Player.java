@@ -67,7 +67,7 @@ public class Player extends DestructibleEntity implements Syncable{
 		if(rotation < 0f && !ship.getSpin()) rotation += 360f;
 
 		if(shooting){
-			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed());
+			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed()*delta());
 		}else{
 			//align player rotation to velocity rotation
 			if( !valigned) rotation = Angles.MoveToward(rotation, velocity.angle(), ship.getTurnspeed());
@@ -102,7 +102,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	public void move(float angle){
-		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed()));
+		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed()*delta()));
 	}
 
 	public float getSpriteRotation(){

@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setMaximized(true);
 		config.setTitle("Novi");
+		config.useVsync(false);
 		new Lwjgl3Application(new Novi(), config);
 	}
 }
