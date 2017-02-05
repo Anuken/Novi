@@ -21,6 +21,7 @@ import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.modules.World.MapTile;
+import io.anuke.novi.modules.World.TileCache;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.WrappedQuadTree;
 import io.anuke.ucore.graphics.Atlas;
@@ -81,10 +82,11 @@ public class Renderer extends Module<Novi>{
 	void doRender(){
 		clearScreen();
 		
+		renderMap();
+		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
-		renderMap();
 		//renderQuadTree(Entities.getSystem(SpatialSystem.class).quadtree);
 		Entities.drawAll(player.x, player.y);
 		batch.end();
@@ -110,7 +112,7 @@ public class Renderer extends Module<Novi>{
 		
 		int camx = (int)(camera.position.x/World.tileSize);
 		int camy = (int)(camera.position.y/World.tileSize);
-		
+
 		for(int rx = -range; rx <= range; rx ++){
 			for(int ry = -range; ry <= range; ry ++){
 				int basex = camx+rx;
@@ -119,10 +121,17 @@ public class Renderer extends Module<Novi>{
 				int x = (int)(World.bound(basex*World.tileSize)/World.tileSize);
 				int y = (int)(World.bound(basey*World.tileSize)/World.tileSize);
 				
-				
-				if(world.getTile(x, y) != null){
-					MapTile tile = world.getTile(x, y);
-					batch.draw(tile.texture, basex*World.tileSize, basey*World.tileSize);
+				if(world.hasCache(x, y)){
+					MapTile tile = world.getCache(x, y);
+					TileCache cache = tile.getCache();
+					
+					cache.setProjectionMatrix(camera.combined);
+					cache.getTransformMatrix().setToTranslation(
+							basex*World.tileSize, 
+							basey*World.tileSize, 0);
+					cache.begin();
+					cache.draw(tile.id);
+					cache.end();
 				}
 			}
 		}

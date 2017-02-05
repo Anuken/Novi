@@ -1,52 +1,61 @@
 package io.anuke.novi.modules;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.graphics.g2d.SpriteCache;
+import com.badlogic.gdx.utils.Array;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.utils.Draw;
+import io.anuke.ucore.UCore;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.modules.Module;
 import io.anuke.ucore.noise.Noise;
+import io.anuke.ucore.noise.RidgedPerlin;
 import io.anuke.ucore.noise.VoronoiNoise;
 import io.anuke.ucore.util.GridMap;
 
 public class World extends Module<Novi>{
-	public static final int tileSize = 256;
+	public static final int tileSize = 512;
+	public static final int worldScale = 8;
 	public static final int worldSize = 128 * tileSize;
 	public static final int genRange = 3;
 	private GridMap<MapTile> tiles = new GridMap<MapTile>();
 	private Renderer renderer;
 	private Color color = new Color();
 	private VoronoiNoise noise = new VoronoiNoise(0, (short)0);
+	private RidgedPerlin ridge = new RidgedPerlin(0, 1, 0.1f);
+	private Array<TileCache> caches = new Array<TileCache>();
 	
-	public class MapTile implements Disposable{
-		public Texture texture;
-		public Pixmap pixmap;
+	public class MapTile{
+		public final int cacheid, id;
 		
-		public MapTile(Texture texture, Pixmap pixmap){
-			this.texture = texture;
-			this.pixmap = pixmap;
-		}
+		public MapTile(int cacheid, int id){this.cacheid = cacheid; this.id = id;}
 		
-		public void dispose(){
-			texture.dispose();
-			pixmap.dispose();
+		public TileCache getCache(){
+			return caches.get(cacheid);
 		}
 	}
 	
-	public MapTile getTile(int x, int y){
-		return tiles.get(x, y);
+	public class TileCache extends SpriteCache{
+		public int draws = 0;
+		
+		public TileCache(){
+			super(8000, true);
+		}
 	}
-
+	
 	@Override
 	public void init(){
-		
 		renderer = getModule(Renderer.class);
 		noise.setUseDistance(true);
-		//Pixmap pixmap = new Pixmap(worldSize/2, worldSize/2, Format.RGB888);
+	}
+	
+	public MapTile getCache(int x, int y){
+		return tiles.get(x, y);
+	}
+	
+	public boolean hasCache(int x, int y){
+		return tiles.get(x, y) != null;
 	}
 	
 	@Override
@@ -65,39 +74,53 @@ public class World extends Module<Novi>{
 				x = (int)(World.bound(x*tileSize)/tileSize);
 				y = (int)(World.bound(y*tileSize)/tileSize);
 				
-				if(getTile(x, y) == null){
-					generateTile(x,y);
+				if(tiles.get(x, y) == null){
+					generateCache(x,y);
 				}
 			}
 		}
 	}
 	
-	private void generateTile(int x, int y){
-		Pixmap pixmap = new Pixmap(tileSize, tileSize, Format.RGBA8888);
+	private void generateCache(int x, int y){
 		
-		for(int px = 0; px < tileSize; px ++){
-			for(int py = 0; py < tileSize; py ++){
+		
+		
+		if(caches.size == 0){
+			caches.add(new TileCache());
+		}else if(caches.get(caches.size - 1).draws > 6000){
+			caches.add(new TileCache());
+		}
+		
+		TileCache cache = caches.get(caches.size-1);
+		
+		cache.beginCache();
+		
+		for(int cx = 0; cx < tileSize/16; cx ++){
+			for(int cy = 0; cy < tileSize/16; cy ++){
+				int wx = cx + x*(tileSize/16);
+				int wy = cy + y*(tileSize/16);
 				
-				getColor(x*tileSize+px, y*tileSize+py);
+				double noise = Noise.nnoise(wx, wy, 16f, 1f)*2f;
+				double riv = ridge.getValue(wx, wy, 0.01f);
 				
-				pixmap.drawPixel(px, tileSize -1 -py, Color.rgba8888(color));
+				
+				noise = UCore.round((float)(noise - riv), 0.15f);
+				
+				cache.setColor(Hue.mix(Color.FOREST, Color.WHITE, (float)noise));
+				
+				if(riv > 0.01) cache.setColor(Color.TAN);
+				if(riv > 0.08) cache.setColor(Color.NAVY);
+				
+				cache.add(Draw.region("blank"), cx*16, cy*16, 17, 17);
+				cache.draws += 1;
 			}
 		}
 		
-		Texture texture = new Texture(pixmap);
+		int out = cache.endCache();
 		
-		tiles.put(x, y, new MapTile(texture, pixmap));
-	}
-	
-	public void getColor(int x, int y){
-		double noise = 
-				Noise.nnoise(x, y, 500f, 1f)+
-				Noise.nnoise(x, y, 150f,0.5f)
-				+0.35f;
+		MapTile tile = new MapTile(caches.size-1, out);
 		
-		noise = (int)(noise/0.2f)*0.2f;
-				
-		Hue.mix(Color.FOREST, Color.WHITE, (float)noise, color);
+		tiles.put(x, y, tile);
 	}
 
 	public static int worldWidthPixels(){

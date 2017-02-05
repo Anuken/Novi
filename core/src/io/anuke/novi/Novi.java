@@ -13,11 +13,12 @@ public class Novi extends ModuleController<Novi>{
 
 	@Override
 	public void init(){
+		addModule(World.class);
 		addModule(Renderer.class);
 		addModule(Input.class);
 		addModule(Network.class);
 		addModule(ClientData.class);
-		addModule(World.class);
+		
 		
 		Entities.setBaseSystem(new EntityLoadedSystem(getModule(ClientData.class).player));
 		//Entities.addSystem(new SpatialSystem());
