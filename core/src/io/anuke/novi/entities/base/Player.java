@@ -33,6 +33,10 @@ public class Player extends DestructibleEntity implements Syncable{
 	public transient float reload, altreload = 0, ping;
 	transient InterpolationData data = new InterpolationData();
 	public transient InputHandler input;
+	
+	//boost stuff
+	private boolean boosting = false;
+	private float boostingTime = 0;
 
 	private Ship ship = Ship.arrowhead;
 
@@ -62,16 +66,18 @@ public class Player extends DestructibleEntity implements Syncable{
 		if(client) updateVelocity();
 		
 		//updateBounds();
-		velocity.limit(ship.getMaxvelocity() * kiteChange());
+		if(!boosting)velocity.limit(ship.getMaxVelocity() * kiteChange());
 		if(rotation > 360f && !ship.getSpin()) rotation -= 360f;
 		if(rotation < 0f && !ship.getSpin()) rotation += 360f;
 
-		if(shooting){
+		if(shooting && !boosting){
 			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed()*delta());
 		}else{
 			//align player rotation to velocity rotation
 			if( !valigned) rotation = Angles.MoveToward(rotation, velocity.angle(), ship.getTurnspeed());
 		}
+		
+		boostUpdate();
 	}
 
 	//don't want to hit other players or other bullets
@@ -103,6 +109,33 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	public void move(float angle){
 		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed()*delta()));
+	}
+	
+	public void boost(){
+		if(!boosting){
+			//not boosting currently, so charge boost
+			boosting = true;
+			boostingTime = -1 * ship.getBoostChargeTime();
+		}
+	}
+	
+	public void boostUpdate(){
+		System.out.println("Boosting = " + boosting);
+		System.out.println("boostingtime = " + boostingTime);
+		
+		if(boosting){
+			if(boostingTime < 0){
+				boostingTime += delta();
+			}else{
+				if(boostingTime < ship.getBoostLength()){
+					boostingTime += delta();
+					velocity.setLength(ship.getMaxVelocity() * ship.getBoostMultiplier());
+				}else{
+					boosting = false;
+					boostingTime = 0;
+				}
+			}
+		}
 	}
 
 	public float getSpriteRotation(){

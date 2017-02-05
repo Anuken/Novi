@@ -41,9 +41,27 @@ public enum Ship{
 	protected float shootspeed;
 	protected float kiteDebuffMultiplier;
 	protected int maxHealth = 100;
+	
+	//boost stuff
+	//TODO set these up in a constructor
+	protected int boostMultiplier = 2;
+	protected int boostChargeTime = 20;
+	protected int boostLength = 60;
 
 	public void handleInput(Player player, InputHandler input){
 
+	}
+	
+	public int getBoostMultiplier(){
+		return boostMultiplier;
+	}
+	
+	public int getBoostChargeTime(){
+		return boostChargeTime;
+	}
+	
+	public int getBoostLength(){
+		return boostLength;
 	}
 
 	public boolean getSpin(){
@@ -58,7 +76,7 @@ public enum Ship{
 		return turnspeed;
 	}
 
-	public float getMaxvelocity(){
+	public float getMaxVelocity(){
 		return maxvelocity;
 	}
 
