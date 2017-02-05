@@ -37,6 +37,8 @@ public class Input extends Module<Novi>{
 		if(down() && left()) angle = 225;
 		if(angle > -1) player.move(angle);
 		
+		//if(boost()) player.boost()
+		
 		if(Gdx.input.isButtonPressed(Buttons.LEFT) && !Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
 			player.shooting = true;
 		}else{
