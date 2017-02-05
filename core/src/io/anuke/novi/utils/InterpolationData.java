@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.FlyingEntity;
 import io.anuke.novi.entities.base.Player;
@@ -34,7 +35,7 @@ public class InterpolationData{
 		temp1.set(entity.x, entity.y);
 		temp2.set(lastx + entity.x,lasty + entity.y);
 		if(entity instanceof FlyingEntity){
-			temp2.add(((FlyingEntity)entity).velocity.cpy().scl(2));
+			//temp2.add(((FlyingEntity)entity).velocity.cpy().scl(2*Novi.delta()));
 	//		if(entity instanceof Drone)Novi.log("!!!!");
 		}
 		if(entity instanceof Player){
@@ -42,7 +43,7 @@ public class InterpolationData{
 			if(player.velocity != null)
 			temp2.add(player.ping*player.velocity.x, player.ping*player.velocity.y);
 		}
-		temp1.interpolate(temp2, 0.5f, Interpolation.linear);
+		temp1.interpolate(temp2, 0.5f*Novi.delta(), Interpolation.linear);
 		entity.set(temp1.x, temp1.y);
 		
 		if(entity instanceof Player)((Player)entity).rotation = MathUtils.lerpAngleDeg(((Player)entity).rotation, lastrotation, 0.25f);
