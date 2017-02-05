@@ -7,7 +7,6 @@ import com.esotericsoftware.kryonet.Connection;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.combat.Bullet;
-import io.anuke.novi.entities.effects.Shockwave;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.Ship;
 import io.anuke.novi.modules.Network;

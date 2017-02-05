@@ -1,25 +1,23 @@
 package io.anuke.novi.entities.effects;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Server;
 
 import io.anuke.novi.network.packets.EffectPacket;
 import io.anuke.novi.server.NoviServer;
 
-//static utility class for making flashy effects
-//NOTE: do NOT use clientside - bad things will happen!
+/**static utility class for making flashy effects
+NOTE: do NOT use clientside - bad things will happen! (entity ID collisions, ghost entities)*/
 public class Effects{
 	public static void shake(float duration, float intensity, float x, float y){
 		server().sendToAllTCP(new EffectPacket().shake(duration, intensity, x, y));
 	}
-
-	public static void explosion(float x, float y){
-		new ExplosionEffect().set(x, y).send();
+	
+	public static void effect(EffectType type, float x, float y){
+		effect(type, x, y, 0);
 	}
-
-	public static void explosionCluster(float x, float y, int amount, float radius){
-		for(int i = 0;i < amount;i ++)
-			explosion(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius));
+	
+	public static void effect(EffectType type, float x, float y, float delay){
+		new Effect(type).set(x, y).send();
 	}
 
 	private static Server server(){

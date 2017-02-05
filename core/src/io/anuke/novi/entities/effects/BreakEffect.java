@@ -27,6 +27,7 @@ public class BreakEffect extends Effect{
 	private String regionName;
 	private transient boolean init;
 	private transient ChunkParticle[] chunks;
+	private float lifetime;
 	private float velocityscl = 2f;
 	private float rotation;
 	private Vector2 velocityoffset = new Vector2(0, 0);
@@ -37,6 +38,15 @@ public class BreakEffect extends Effect{
 
 	{
 		lifetime = 320 + MathUtils.random(300);
+	}
+	
+	@Override
+	public final void update(){
+		life += delta();
+		if(life > type.lifetime()){
+			onRemove();
+			remove();
+		}
 	}
 
 	public static void createChunks(){
