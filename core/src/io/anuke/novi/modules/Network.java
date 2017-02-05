@@ -16,7 +16,7 @@ import io.anuke.novi.network.packets.*;
 import io.anuke.ucore.modules.Module;
 
 public class Network extends Module<Novi>{
-	public static final String ip = System.getProperty("user.name").equals("anuke") ? "localhost" : "107.11.24.144";
+	public static final String ip = System.getProperty("user.name").equals("anuke") || System.getProperty("user.name").equals("epowerj") ? "localhost" : "107.11.24.144";
 	public static final int port = 7576;
 	public static int ping = 0;
 	public static final int synctime = 3;
