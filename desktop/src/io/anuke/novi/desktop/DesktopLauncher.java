@@ -10,7 +10,8 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setMaximized(true);
 		config.setTitle("Novi");
-		config.useVsync(false);
+		config.useVsync(false); // set to true to cap FPS
+		config.setWindowIcon("icon.png");
 		new Lwjgl3Application(new Novi(), config);
 	}
 }
