@@ -97,7 +97,8 @@ public abstract class Base extends Enemy implements Syncable{
 			explosion(block.x, block.y);
 		}
 	}
-
+	
+	//makes an explosion
 	public void explosion(int cx, int cy){
 		int rad = 3;
 		for(int x = -rad; x <= rad; x++){
