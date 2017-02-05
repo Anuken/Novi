@@ -93,6 +93,10 @@ public class Entities{
 
 	public static synchronized void updateAll(){
 		Collection<Entity> entities = list();
+		
+		for(Entity entity : entities)
+			if(basesystem.accept(entity))
+				entity.preUpdate();
 
 		for(EntitySystem system : systems){
 			system.update(entities);

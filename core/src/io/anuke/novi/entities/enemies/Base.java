@@ -4,6 +4,7 @@ import static io.anuke.novi.modules.World.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -25,13 +26,13 @@ import io.anuke.ucore.util.Angles;
 
 public abstract class Base extends Enemy implements Syncable{
 	public transient int size = 10;
-	private transient ArrayList<Block> blocklist = new ArrayList<Block>();
 	private transient Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	public transient float rotation;
 	public Block[][] blocks;
 	public transient int spawned;
 	protected transient String texture = null;
 	private transient InterpolationData data = new InterpolationData();
+	private transient boolean collided = false;
 
 	public Base() {
 		if(NoviServer.active()){
@@ -63,29 +64,30 @@ public abstract class Base extends Enemy implements Syncable{
 		}
 	}
 
-	//HNNNGGGGG
 	@Override
 	public boolean collides(SolidEntity other){
 		if(!(other instanceof Damager) || (other instanceof Bullet && !(((Bullet) other).shooter instanceof Player)))
 			return false;
 		Point point = blockPosition(other.x, other.y);
-		radiusBlocks(point.x, point.y);
-		boolean collide = false;
-		for(Block block : blocklist){
+		
+		collided = false;
+		
+		radiusBlocks(point.x, point.y, (block)->{
 			Vector2 vector = world(block.x, block.y);
 			rectangle.setCenter(bound(vector.x), bound(vector.y));
 
 			if(other.collides(rectangle)){
 				block.health -= ((Damager) other).damage();
 				checkHealth(block, vector);
-				update(block.x, block.y);
+				updateBlock(block.x, block.y);
 				Effects.explosion(vector.x, vector.y);
-				collide = true;
+				collided = true;
 			}
-		}
-		if(collide)
+		});
+		
+		if(collided)
 			updateHealth();
-		return collide;
+		return collided;
 	}
 
 	public void checkHealth(Block block, Vector2 pos){
@@ -107,36 +109,32 @@ public abstract class Base extends Enemy implements Syncable{
 				if(dist >= rad)
 					continue;
 				Block block = blocks[relx][rely];
-				//if(!block.solid())
 				
 				if(block.material != Material.frame)
 				block.health -= (int) ((1f - dist / rad + 0.1f) * block.getMaterial().health());
 				
 				if(block.health < 0)
 					block.getMaterial().destroyEvent(this, relx, rely);
-				update(relx, rely);
+				updateBlock(relx, rely);
 			}
 		}
 	}
 
-	//returns a list of solid blocks around the specified location
-	public ArrayList<Block> radiusBlocks(int cx, int cy){
+	public void radiusBlocks(int cx, int cy, Consumer<Block> cons){
 		int rad = 1;
-		blocklist.clear();
 		for(int x = -rad; x <= rad; x++){
 			for(int y = -rad; y <= rad; y++){
 				int relx = cx + x, rely = cy + y;
 				if(relx < 0 || rely < 0 || relx >= size || rely >= size)
 					continue;
 				if(blocks[relx][rely].solid())
-					blocklist.add(blocks[relx][rely]);
+					cons.accept(blocks[relx][rely]);
 			}
 		}
-		return blocklist;
 	}
 
 	//updates a block at x,y so it gets synced
-	public void update(int x, int y){
+	public void updateBlock(int x, int y){
 		blocks[x][y].updated = true;
 	}
 
@@ -175,6 +173,20 @@ public abstract class Base extends Enemy implements Syncable{
 		new Shockwave().set(x, y).send();
 		Effects.shake(80f, 40f, x, y);
 	}
+	
+	@Override
+	public void behaviorUpdate(){
+		for(int x = 0; x < size; x++){
+			for(int y = 0; y < size; y++){
+				Block block = blocks[x][y];
+				block.updated = false;
+				
+				if(block.empty())
+					continue;
+				block.getMaterial().update(block, this);
+			}
+		}
+	}
 
 	@Override
 	public void draw(){
@@ -212,11 +224,10 @@ public abstract class Base extends Enemy implements Syncable{
 		ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
-				if(!blocks[x][y].updated)
-					continue;
 				Block block = blocks[x][y];
+				if(!block.updated) continue;
+				
 				updates.add(new BlockUpdate(block));
-				blocks[x][y].updated = false;
 			}
 		}
 		return new BaseSyncData(updates, rotation, x, y);
@@ -228,18 +239,6 @@ public abstract class Base extends Enemy implements Syncable{
 		data.push(this, buffer.x, buffer.y, 0f);
 		for(BlockUpdate update : ((BaseSyncData) buffer).updates){
 			update.apply(blocks);
-		}
-	}
-
-	@Override
-	public void behaviorUpdate(){
-		for(int x = 0; x < size; x++){
-			for(int y = 0; y < size; y++){
-				Block block = blocks[x][y];
-				if(block.empty())
-					continue;
-				block.getMaterial().update(block, this);
-			}
 		}
 	}
 

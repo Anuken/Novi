@@ -17,6 +17,7 @@ public abstract class Entity implements QuadTreeObject{
 	public float x, y;
 
 	public void update(){}
+	public void preUpdate(){} //called before any systems are run
 	public void draw(){}
 	public void serverUpdate(){}
 	public float getLayer(){return 0f;};

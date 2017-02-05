@@ -53,7 +53,7 @@ public enum Material{
 		public void update(Block block, Base base){
 			if(base.target == null || base.spawned > maxspawn) return;
 			block.reload += Novi.delta();
-			base.update(block.x, block.y);
+			base.updateBlock(block.x, block.y);
 			if(block.reload >= buildtime){
 				Drone drone = (Drone)new Drone().set(worldx(base, block.x, block.y), worldy(base, block.x, block.y));
 				drone.velocity.y = -3;
@@ -78,7 +78,7 @@ public enum Material{
 		public void update(Block block, Base base){
 			if(base.target != null){
 				block.rotation = base.autoPredictTargetAngle(worldx(base, block.x, block.y), worldy(base, block.x, block.y), 4f) + 90;
-				base.update(block.x, block.y);
+				base.updateBlock(block.x, block.y);
 				block.reload += Novi.delta();
 				
 				if(block.reload >= reloadtime){
@@ -109,7 +109,7 @@ public enum Material{
 		public void update(Block block, Base base){
 			if(base.target != null){
 				block.rotation = MathUtils.lerpAngleDeg(block.rotation, base.autoPredictTargetAngle(worldx(base, block.x, block.y), worldy(base, block.x, block.y), 3f) + 90, 0.02f);
-				base.update(block.x, block.y);
+				base.updateBlock(block.x, block.y);
 				block.reload += Novi.delta();
 				
 				if(block.reload >= reloadtime){
