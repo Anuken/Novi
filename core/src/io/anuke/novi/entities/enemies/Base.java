@@ -162,7 +162,7 @@ public abstract class Base extends Enemy implements Syncable{
 			for(int y = 0; y < size; y++){
 				if(!blocks[x][y].empty()){
 					Vector2 v = world(x, y);
-					new BreakEffect("ironblock").set(v.x, v.y).send();
+					new BreakEffect(blocks[x][y].material.name()).set(v.x, v.y).send();
 				}
 			}
 		}
