@@ -4,6 +4,8 @@ import java.util.HashSet;
 
 import io.anuke.novi.entities.SolidEntity;
 
+
+//TODO remove this class and use the spatial system for AoE
 public class DamageArea extends SolidEntity implements Damager{
 	transient HashSet<Long> collided = new HashSet<Long>();
 	transient float lifetime = 100f, life;

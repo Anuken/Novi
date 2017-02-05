@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.entities.effects.*;
+import io.anuke.novi.entities.effects.EffectType;
+import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.entities.enemies.Base;
 import io.anuke.novi.entities.enemies.Drone;
 import io.anuke.novi.items.ProjectileType;
@@ -137,9 +138,11 @@ public enum Material{
 	static public final int blocksize = 14;
 
 	public void destroyEvent(Base base, int x, int y){
-		new Shockwave(8f, 0.001f, 0.02f).set(worldx(base, x, y), worldy(base, x, y)).send();
-		new ExplosionEffect().set(worldx(base, x, y), worldy(base, x, y)).send();
-		new BreakEffect(name(), base.velocity, 2.5f).set(worldx(base, x, y), worldy(base, x, y)).send();
+		float wx = worldx(base, x, y), wy = worldy(base, x, y);
+		
+		Effects.effect(EffectType.shockwave, wx, wy);
+		Effects.effect(EffectType.explosion, wx, wy);
+		Effects.blockbreak(name(), wx, wy, 2.5f, base.velocity);
 		
 		base.blocks[x][y].setMaterial(Material.frame);
 		

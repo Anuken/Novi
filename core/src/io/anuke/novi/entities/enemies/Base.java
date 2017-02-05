@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -13,7 +14,9 @@ import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.Damager;
-import io.anuke.novi.entities.effects.*;
+import io.anuke.novi.entities.effects.BreakEffect;
+import io.anuke.novi.entities.effects.EffectType;
+import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.network.BaseSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
@@ -80,7 +83,7 @@ public abstract class Base extends Enemy implements Syncable{
 				block.health -= ((Damager) other).damage();
 				checkHealth(block, vector);
 				updateBlock(block.x, block.y);
-				Effects.explosion(vector.x, vector.y);
+				Effects.effect(EffectType.explosion, vector.x, vector.y);
 				collided = true;
 			}
 		});
@@ -93,7 +96,7 @@ public abstract class Base extends Enemy implements Syncable{
 	public void checkHealth(Block block, Vector2 pos){
 		if(block.health < 0){
 			block.getMaterial().destroyEvent(this, block.x, block.y);
-			new ExplosionEmitter(10f, 1f, 14f).set(pos.x, pos.y).add();
+			Effects.effect(EffectType.explosion, pos.x, pos.y);
 			explosion(block.x, block.y);
 		}
 	}
@@ -170,8 +173,13 @@ public abstract class Base extends Enemy implements Syncable{
 
 		if(texture != null)
 			new BreakEffect(texture, 2f, this.rotation).set(x, y).send();
-		new ExplosionEmitter(120, 1.1f, size * Material.blocksize / 2f).set(x, y).add();
-		new Shockwave().set(x, y).send();
+		
+		float radius = size * Material.blocksize / 1.8f;
+		
+		for(int i = 0; i < 70; i ++)
+			Effects.effect(EffectType.explosion, x + MathUtils.random(-radius, radius), y + MathUtils.random(-radius, radius), MathUtils.random(200));
+		
+		Effects.effect(EffectType.shockwave, x, y);
 		Effects.shake(80f, 40f, x, y);
 	}
 	

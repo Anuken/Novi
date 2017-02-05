@@ -4,9 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.DamageArea;
+import io.anuke.novi.entities.effects.EffectType;
 import io.anuke.novi.entities.effects.Effects;
-import io.anuke.novi.entities.effects.ExplosionEffect;
-import io.anuke.novi.entities.effects.Shockwave;
 import io.anuke.novi.utils.Draw;
 import io.anuke.ucore.graphics.Hue;
 
@@ -58,8 +57,9 @@ public enum ProjectileType{
 		}
 		
 		public void destroyEvent(Bullet bullet){
-			new Shockwave(8f, 0.001f, 0.02f).set(bullet.x, bullet.y).send();
-			new ExplosionEffect().set(bullet.x, bullet.y).send();
+			Effects.effect(EffectType.shockwave, bullet.x, bullet.y);
+			Effects.effect(EffectType.explosion, bullet.x, bullet.y);
+			
 			new DamageArea(30f, 16f).set(bullet.x, bullet.y).add();
 			Effects.shake(20f, 10f, bullet.x, bullet.y);
 		}
@@ -90,10 +90,8 @@ public enum ProjectileType{
 		}
 		
 		public void destroyEvent(Bullet bullet){
-			//new Shockwave(8f, 0.001f, 0.02f).setPosition(bullet.x, bullet.y).SendSelf();
-			//new ExplosionEffect().setPosition(bullet.x, bullet.y).SendSelf();
 			new DamageArea(30f, 16f).setDamage(15).set(bullet.x, bullet.y).add();
-			Effects.explosionCluster(bullet.x, bullet.y, 4, 5f);
+			Effects.effect(EffectType.explosion, bullet.x, bullet.y);
 			Effects.shake(20f, 10f, bullet.x, bullet.y);
 		}
 		
@@ -140,6 +138,10 @@ public enum ProjectileType{
 	
 	public String drawName(){
 		return name();
+	}
+	
+	public EffectType hitEffect(){
+		return EffectType.explosion;
 	}
 	
 	public void destroyEvent(Bullet bullet){

@@ -3,14 +3,9 @@ package io.anuke.novi.entities.enemies;
 
 import static io.anuke.novi.modules.World.*;
 
-import com.badlogic.gdx.math.MathUtils;
-
-import io.anuke.novi.entities.DestructibleEntity;
-import io.anuke.novi.entities.Entities;
-import io.anuke.novi.entities.SolidEntity;
+import io.anuke.novi.entities.*;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
-import io.anuke.novi.entities.effects.ExplosionEffect;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.EnemySyncData;
 import io.anuke.novi.network.SyncData;
@@ -59,10 +54,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	}
 
 	public void onDeath(){
-		int radius = 20;
-		for(int i = 0;i < 10;i ++){
-			new ExplosionEffect().set(x + MathUtils.random( -radius, radius), y + MathUtils.random( -radius, radius)).send();
-		}
+		//TODO enemy death explosion
 	}
 
 	public void shoot(ProjectileType type, float angle){

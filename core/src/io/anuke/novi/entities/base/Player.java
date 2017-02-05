@@ -7,6 +7,8 @@ import com.esotericsoftware.kryonet.Connection;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.combat.Bullet;
+import io.anuke.novi.entities.effects.EffectType;
+import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.Ship;
 import io.anuke.novi.modules.Network;
@@ -26,9 +28,10 @@ public class Player extends DestructibleEntity implements Syncable{
 	public transient boolean client = false;
 	public String name;
 	private float respawntime;
-
-	public boolean shooting, valigned = true; //used for aligning the rotation after you shoot and let go of the mouse
-	public float rotation = 0;
+	
+	public transient boolean valigned = true;
+	public transient boolean shooting; //used for aligning the rotation after you shoot and let go of the mouse
+	public transient float rotation = 0;
 	public transient float reload, altreload = 0, ping;
 	transient InterpolationData data = new InterpolationData();
 	public transient InputHandler input;
@@ -53,7 +56,7 @@ public class Player extends DestructibleEntity implements Syncable{
 			if(respawntime <= 0){
 				x = 0;
 				y = 0;
-				if(NoviServer.active()) new Shockwave(20, 0.1f, 0.01f).set(x, y).send();
+				if(NoviServer.active()) Effects.effect(EffectType.shockwave, x, y);
 			}
 		}
 		if(reload > 0) reload -= delta();
@@ -119,8 +122,6 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 	
 	public void boostUpdate(){
-		System.out.println("Boosting = " + boosting);
-		System.out.println("boostingtime = " + boostingTime);
 		
 		if(boosting){
 			if(boostingTime < 0){

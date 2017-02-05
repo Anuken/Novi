@@ -7,7 +7,7 @@ import io.anuke.novi.modules.World;
 
 public class EffectPacket{
 	public static final float shakerange = 600f;
-	public EffectType type = EffectType.shake;
+	public ScreenEffectType type = ScreenEffectType.shake;
 	public float[] params;
 	
 	public EffectPacket shake(float duration, float intensity, float x, float y){
@@ -16,12 +16,12 @@ public class EffectPacket{
 		params[1] = intensity;
 		params[2] = x;
 		params[3] = y;
-		type = EffectType.shake;
+		type = ScreenEffectType.shake;
 		return this;
 	}
 	
 	public void apply(Novi novi){
-		if(type == EffectType.shake){
+		if(type == ScreenEffectType.shake){
 			float range = 230f * (params[1]/20f+0.5f);
 			float dist = World.wrappedDist(novi.getModule(ClientData.class).player.x, novi.getModule(ClientData.class).player.y, params[2], params[3]);
 			float scl = 1f - dist / range;
@@ -29,7 +29,7 @@ public class EffectPacket{
 		}
 	}
 	
-	public enum EffectType{
+	public enum ScreenEffectType{
 		shake
 	}
 }

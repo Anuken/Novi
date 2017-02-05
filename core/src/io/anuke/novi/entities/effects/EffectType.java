@@ -6,7 +6,7 @@ import io.anuke.novi.utils.Draw;
 import io.anuke.ucore.UCore;
 
 public enum EffectType{
-	explosion(){
+	explosion{
 		public int lifetime(){
 			return 10;
 		}
@@ -16,7 +16,8 @@ public enum EffectType{
 			Draw.rect("explosion", e.x, e.y);
 			Draw.color();
 		}
-	};
+	}, 
+	shockwave;
 	protected String[] frames;
 	
 	private EffectType(String... frames){
@@ -39,7 +40,7 @@ public enum EffectType{
 	}
 	
 	public void draw(Effect e){
-		if(frames != null){
+		if(frames != null && frames.length > 0){
 			Draw.rect(frames[(int)UCore.clamp(e.life/lifetime())*frames.length], e.x, e.y);
 		}else{
 			Draw.rect("error", e.x, e.y);

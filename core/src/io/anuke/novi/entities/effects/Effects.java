@@ -1,5 +1,6 @@
 package io.anuke.novi.entities.effects;
 
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Server;
 
 import io.anuke.novi.network.packets.EffectPacket;
@@ -17,7 +18,15 @@ public class Effects{
 	}
 	
 	public static void effect(EffectType type, float x, float y, float delay){
-		new Effect(type).set(x, y).send();
+		new Effect(type).delay(delay).set(x, y).send();
+	}
+	
+	public static void blockbreak(String name, float x, float y, float offset, Vector2 velocity){
+		new BreakEffect(name, velocity, offset).set(x, y).send();
+	}
+	
+	public static void blockbreak(String name, float x, float y){
+		new BreakEffect(name, 0, 0).set(x, y).send();
 	}
 
 	private static Server server(){

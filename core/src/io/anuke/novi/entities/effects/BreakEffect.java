@@ -43,7 +43,7 @@ public class BreakEffect extends Effect{
 	@Override
 	public final void update(){
 		life += delta();
-		if(life > type.lifetime()){
+		if(life > lifetime){
 			onRemove();
 			remove();
 		}
