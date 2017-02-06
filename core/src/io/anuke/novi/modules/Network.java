@@ -51,6 +51,7 @@ public class Network extends Module<Novi>{
 		pos.y = getModule(ClientData.class).player.y;
 		pos.rotation = getModule(ClientData.class).player.getSpriteRotation();
 		pos.velocity = getModule(ClientData.class).player.velocity;
+		pos.moving = getModule(ClientData.class).player.moving;
 		client.sendUDP(pos);
 	}
 

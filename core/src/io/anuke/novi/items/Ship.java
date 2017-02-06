@@ -17,8 +17,9 @@ public enum Ship{
 		}
 		
 		public void handleInput(Player player, InputHandler input){
+			player.shooting = input.leftMouseDown();
 			if(input.leftMouseDown() && player.reload <= 0){
-				player.bullet(ProjectileType.yellowbullet);
+				player.bullet(ProjectileType.plasmabullet);
 				player.reload = player.getShip().getShootspeed();
 			}
 			

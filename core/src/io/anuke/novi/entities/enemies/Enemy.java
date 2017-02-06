@@ -3,9 +3,13 @@ package io.anuke.novi.entities.enemies;
 
 import static io.anuke.novi.modules.World.*;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.DestructibleEntity;
+import io.anuke.novi.entities.Entities;
+import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
+import io.anuke.novi.entities.effects.EffectType;
+import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.EnemySyncData;
 import io.anuke.novi.network.SyncData;
@@ -55,6 +59,9 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	public void onDeath(){
 		//TODO enemy death explosion
+		Effects.effect(EffectType.smoke, x, y);
+		Effects.effect(EffectType.explosion, x, y);
+		Effects.shake(8f, 10f, x, y);
 	}
 
 	public void shoot(ProjectileType type, float angle){

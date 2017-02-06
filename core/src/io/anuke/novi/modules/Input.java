@@ -23,22 +23,38 @@ public class Input extends Module<Novi>{
 		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			Gdx.app.exit();
 		}
-		
-		if(player.isDead()) return;
-		
+
+		if(player.isDead())
+			return;
+
 		float angle = -9; //why is it -9?
-		if(up()) angle = 90;
-		if(left()) angle = 180;
-		if(down()) angle = 270;
-		if(right()) angle = 0;
-		if(up() && right()) angle = 45;
-		if(up() && left()) angle = 135;
-		if(down() && right()) angle = 315;
-		if(down() && left()) angle = 225;
-		if(angle > -1) player.move(angle);
-		
-		if(boost()) player.boost();
-		
+		if(up())
+			angle = 90;
+		if(left())
+			angle = 180;
+		if(down())
+			angle = 270;
+		if(right())
+			angle = 0;
+		if(up() && right())
+			angle = 45;
+		if(up() && left())
+			angle = 135;
+		if(down() && right())
+			angle = 315;
+		if(down() && left())
+			angle = 225;
+
+		if(angle > -1){
+			player.moving = true;
+			player.move(angle);
+		}else{
+			player.moving = false;
+		}
+
+		if(boost())
+			player.boost();
+
 		if(Gdx.input.isButtonPressed(Buttons.LEFT) && !Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)){
 			player.shooting = true;
 		}else{
@@ -61,7 +77,7 @@ public class Input extends Module<Novi>{
 	boolean down(){
 		return Gdx.input.isKeyPressed(Keys.S) || Gdx.input.isKeyPressed(Keys.O);
 	}
-	
+
 	boolean boost(){
 		return Gdx.input.isKeyPressed(Keys.SPACE);
 	}
@@ -74,7 +90,7 @@ public class Input extends Module<Novi>{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button){
-		//new BreakEffect("titanship").set(player.x+30,player.y+30).add();
+		//new Effect(EffectType.hit).set(player.x + 30, player.y + 30).add();
 		player.rotation = player.velocity.angle();
 		player.valigned = false;
 		sendInput(button == Buttons.LEFT ? InputType.LEFT_CLICK_DOWN : InputType.RIGHT_CLICK_DOWN);
@@ -96,13 +112,4 @@ public class Input extends Module<Novi>{
 		getModule(Renderer.class).zoom(amount / 10f);
 		return false;
 	}
-
-	float ForwardDistance(float angle1, float angle2){
-		if(angle1 > angle2){
-			return angle1 - angle2;
-		}else{
-			return angle2 - angle1;
-		}
-	}
-
 }

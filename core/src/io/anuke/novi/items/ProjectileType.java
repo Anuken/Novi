@@ -10,7 +10,7 @@ import io.anuke.novi.utils.Draw;
 import io.anuke.ucore.graphics.Hue;
 
 public enum ProjectileType{
-	yellowbullet{
+	plasmabullet{
 		
 		public String drawName(){
 			return "bullet";
@@ -25,7 +25,7 @@ public enum ProjectileType{
 		}
 		
 		public int damage(){
-			return 20;
+			return 3;
 		}
 	},
 	redbullet{
@@ -141,7 +141,7 @@ public enum ProjectileType{
 	}
 	
 	public EffectType hitEffect(){
-		return EffectType.explosion;
+		return EffectType.hit;
 	}
 	
 	public void destroyEvent(Bullet bullet){

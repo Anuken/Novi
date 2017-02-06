@@ -30,7 +30,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	private float respawntime;
 	
 	public transient boolean valigned = true;
-	public transient boolean shooting; //used for aligning the rotation after you shoot and let go of the mouse
+	public transient boolean shooting, moving; //used for aligning the rotation after you shoot and let go of the mouse
 	public transient float rotation = 0;
 	public transient float reload, altreload = 0, ping;
 	transient InterpolationData data = new InterpolationData();
@@ -93,8 +93,15 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	@Override
 	public void serverUpdate(){
+		//TODO make this FPS independant
 		input.update();
 		if(frame() % 30 == 0) connection.updateReturnTripTime();
+		
+		//TODO make this render a custom trail instead of individual smoke entities
+		if(moving && frame() % 4 == 0){
+			Vector2 v = Angles.translation(this.rotation-90, 12f);
+			Effects.effect(EffectType.singlesmoke, x + v.x, y + v.y);
+		}
 	}
 
 	public Player(){

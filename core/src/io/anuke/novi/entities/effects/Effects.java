@@ -7,7 +7,7 @@ import io.anuke.novi.network.packets.EffectPacket;
 import io.anuke.novi.server.NoviServer;
 
 /**static utility class for making flashy effects
-NOTE: do NOT use clientside - bad things will happen! (entity ID collisions, ghost entities)*/
+NOTE: do NOT use clientside - it will crash*/
 public class Effects{
 	public static void shake(float duration, float intensity, float x, float y){
 		server().sendToAllTCP(new EffectPacket().shake(duration, intensity, x, y));
@@ -15,6 +15,10 @@ public class Effects{
 	
 	public static void effect(EffectType type, float x, float y){
 		effect(type, x, y, 0);
+	}
+	
+	public static void smoke(float x, float y){
+		effect(EffectType.smoke, x, y, 0);
 	}
 	
 	public static void effect(EffectType type, float x, float y, float delay){

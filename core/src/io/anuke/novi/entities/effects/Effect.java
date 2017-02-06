@@ -44,6 +44,10 @@ public class Effect extends Entity{
 	public float getLayer(){
 		return 1f;
 	}
+	
+	public float fract(){
+		return life/type.lifetime();
+	}
 
 	public void onRemove(){
 

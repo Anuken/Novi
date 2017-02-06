@@ -61,6 +61,10 @@ public class Draw{
 		rend.font.draw(rend.batch, text, x, y, 0, align, false);
 	}
 	
+	public static void color(String hex){
+		rend.batch.setColor(Color.valueOf(hex));
+	}
+	
 	public static void color(Color color){
 		rend.batch.setColor(color);
 	}
@@ -74,8 +78,13 @@ public class Draw{
 		color(l, l, l);
 	}
 	
+	/**Lightness color, alpha.*/
+	public static void colorl(float l, float a){
+		color(l, l, l, a);
+	}
+	
 	public static void color(float r, float g, float b, float a){
-		rend.batch.setColor(r, g, b, a);
+		rend.batch.setColor(clamp(r), clamp(g), clamp(b), clamp(a));
 	}
 	
 	public static void color(float a){

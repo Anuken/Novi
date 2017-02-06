@@ -177,7 +177,7 @@ public abstract class Base extends Enemy implements Syncable{
 		float radius = size * Material.blocksize / 1.8f;
 		
 		for(int i = 0; i < 70; i ++)
-			Effects.effect(EffectType.explosion, x + MathUtils.random(-radius, radius), y + MathUtils.random(-radius, radius), MathUtils.random(200));
+			Effects.effect(EffectType.explosion, x + MathUtils.random(-radius, radius), y + MathUtils.random(-radius, radius), MathUtils.random(180));
 		
 		Effects.effect(EffectType.shockwave, x, y);
 		Effects.shake(80f, 40f, x, y);

@@ -135,7 +135,7 @@ public enum Material{
 
 	}
 
-	static public final int blocksize = 14;
+	static public final int blocksize = 16;
 
 	public void destroyEvent(Base base, int x, int y){
 		float wx = worldx(base, x, y), wy = worldy(base, x, y);

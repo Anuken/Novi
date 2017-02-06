@@ -11,7 +11,7 @@ import io.anuke.novi.server.NoviServer;
 public class Bullet extends FlyingEntity implements Damager{
 	private float life;
 	public transient Entity shooter;
-	public ProjectileType type = ProjectileType.yellowbullet;
+	public ProjectileType type = ProjectileType.plasmabullet;
 
 	{
 		material.drag = 0;

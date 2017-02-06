@@ -43,35 +43,35 @@ filter: Nearest,Nearest
 repeat: none
 entities/titanship
   rotate: false
-  xy: 1, 51
+  xy: 1, 55
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 entities/bigturret
   rotate: false
-  xy: 1, 19
+  xy: 1, 23
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
-entities/turret
+entities/ship
   rotate: false
   xy: 131, 159
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+entities/turret
+  rotate: false
+  xy: 1, 1
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 entities/ship_test
   rotate: false
-  xy: 1, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-entities/ship
-  rotate: false
-  xy: 33, 33
+  xy: 33, 37
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -85,7 +85,7 @@ entities/lasership
   index: -1
 entities/drone
   rotate: false
-  xy: 153, 167
+  xy: 157, 171
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
@@ -156,37 +156,175 @@ Novi5.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-tiles/tile
+effects/explosion3
+  rotate: false
+  xy: 1, 8
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+effects/explosion7
+  rotate: false
+  xy: 26, 8
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+effects/explosion5
+  rotate: false
+  xy: 51, 8
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+effects/explosion1
+  rotate: false
+  xy: 76, 8
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+effects/explosion4
+  rotate: false
+  xy: 101, 8
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+effects/explosion6
+  rotate: false
+  xy: 126, 8
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+effects/explosion2
+  rotate: false
+  xy: 151, 8
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+effects/smoke1
+  rotate: false
+  xy: 176, 15
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+effects/smoke3
+  rotate: false
+  xy: 176, 1
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+effects/smoke2
+  rotate: false
+  xy: 194, 17
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+effects/hit2
+  rotate: false
+  xy: 210, 18
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+effects/hit4
+  rotate: false
+  xy: 225, 18
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+effects/hit3
+  rotate: false
+  xy: 240, 18
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+effects/hit1
+  rotate: false
+  xy: 190, 2
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+effects/hit5
+  rotate: false
+  xy: 203, 2
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+effects/smoke4
+  rotate: false
+  xy: 218, 6
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+effects/smoke5
+  rotate: false
+  xy: 230, 8
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+effects/smoke6
+  rotate: false
+  xy: 240, 10
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+effects/smoke7
+  rotate: false
+  xy: 1, 2
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+
+Novi6.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tiles/dronemaker
   rotate: false
   xy: 1, 15
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tiles/frame
-  rotate: false
-  xy: 19, 17
-  size: 14, 14
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
-tiles/dronemaker
-  rotate: false
-  xy: 19, 1
-  size: 14, 14
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
 tiles/ironblock
   rotate: false
-  xy: 35, 17
+  xy: 19, 15
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tiles/tile
+  rotate: false
+  xy: 37, 15
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tiles/frame
+  rotate: false
+  xy: 55, 17
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 tiles/dronemakerbar
   rotate: false
-  xy: 35, 1
+  xy: 55, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
