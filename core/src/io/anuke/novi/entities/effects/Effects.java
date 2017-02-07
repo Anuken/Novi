@@ -1,5 +1,6 @@
 package io.anuke.novi.entities.effects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Server;
 
@@ -15,6 +16,10 @@ public class Effects{
 	
 	public static void effect(EffectType type, float x, float y){
 		effect(type, x, y, 0);
+	}
+	
+	public static void effect(EffectType type, float x, float y, Color color){
+		new Effect(type).color(color).set(x, y).send();
 	}
 	
 	public static void smoke(float x, float y){

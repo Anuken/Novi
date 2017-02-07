@@ -294,37 +294,37 @@ Novi6.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+tiles/frame
+  rotate: false
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 tiles/dronemaker
   rotate: false
-  xy: 1, 15
+  xy: 19, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tiles/ironblock
   rotate: false
-  xy: 19, 15
+  xy: 37, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tiles/tile
   rotate: false
-  xy: 37, 15
+  xy: 55, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tiles/frame
-  rotate: false
-  xy: 55, 17
-  size: 14, 14
-  orig: 14, 14
-  offset: 0, 0
-  index: -1
 tiles/dronemakerbar
   rotate: false
-  xy: 55, 1
+  xy: 73, 3
   size: 14, 14
   orig: 14, 14
   offset: 0, 0

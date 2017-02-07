@@ -61,7 +61,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 		//TODO enemy death explosion
 		Effects.effect(EffectType.smoke, x, y);
 		Effects.effect(EffectType.explosion, x, y);
-		Effects.shake(8f, 10f, x, y);
+		Effects.shake(8f, 8f, x, y);
 	}
 
 	public void shoot(ProjectileType type, float angle){

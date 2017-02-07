@@ -27,6 +27,10 @@ public enum ProjectileType{
 		public int damage(){
 			return 3;
 		}
+		
+		public void hitEvent(Bullet bullet){
+			Effects.effect(hitEffect(), bullet.x, bullet.y, Color.valueOf("82f4a8ff"));
+		}
 	},
 	redbullet{
 		
@@ -45,6 +49,10 @@ public enum ProjectileType{
 		public int damage(){
 			return 4;
 		}
+		
+		public void hitEvent(Bullet bullet){
+			Effects.effect(hitEffect(), bullet.x, bullet.y, Color.valueOf("ff4141ff"));
+		}
 	},
 	explosivebullet{
 		
@@ -57,6 +65,7 @@ public enum ProjectileType{
 		}
 		
 		public void destroyEvent(Bullet bullet){
+			
 			Effects.effect(EffectType.shockwave, bullet.x, bullet.y);
 			Effects.effect(EffectType.explosion, bullet.x, bullet.y);
 			
@@ -142,6 +151,10 @@ public enum ProjectileType{
 	
 	public EffectType hitEffect(){
 		return EffectType.hit;
+	}
+	
+	public void hitEvent(Bullet bullet){
+		Effects.effect(hitEffect(), bullet.x, bullet.y);
 	}
 	
 	public void destroyEvent(Bullet bullet){

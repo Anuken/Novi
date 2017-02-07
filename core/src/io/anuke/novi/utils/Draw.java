@@ -11,6 +11,7 @@ import io.anuke.ucore.graphics.Atlas;
 
 public class Draw{
 	private static Renderer rend;
+	private static Color temp = new Color();
 	
 	public static void init(Renderer renderer){
 		rend = renderer;
@@ -87,8 +88,13 @@ public class Draw{
 		rend.batch.setColor(clamp(r), clamp(g), clamp(b), clamp(a));
 	}
 	
+	/**Alpha color.*/
 	public static void color(float a){
 		rend.batch.setColor(1f, 1f, 1f, a);
+	}
+	
+	public static void color(int rgba){
+		rend.batch.setColor(temp.set(rgba).toFloatBits());
 	}
 	
 	/**Resets the color to white.*/

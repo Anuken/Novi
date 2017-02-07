@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -83,7 +84,7 @@ public abstract class Base extends Enemy implements Syncable{
 				block.health -= ((Damager) other).damage();
 				checkHealth(block, vector);
 				updateBlock(block.x, block.y);
-				Effects.effect(EffectType.explosion, vector.x, vector.y);
+				Effects.effect(EffectType.hit, vector.x + MathUtils.random(-6f, 6f), vector.y + MathUtils.random(-6f, 6f), Color.valueOf("ffcb4d"));
 				collided = true;
 			}
 		});

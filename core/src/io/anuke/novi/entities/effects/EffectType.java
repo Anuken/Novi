@@ -73,13 +73,18 @@ public enum EffectType{
 	},
 	hit(5){
 		public void draw(Effect e){
-			Draw.color("82f4a8ff");
+			Draw.color(e.color);
 			super.draw(e);
 			Draw.color();
 		}
 
 		public int lifetime(){
-			return 20;
+			return 10;
+		}
+		
+		@Override
+		public Color defaultColor(){
+			return Color.valueOf("00ffffff");
 		}
 	};
 	protected static Random rand = new Random();
@@ -95,6 +100,10 @@ public enum EffectType{
 
 		for(int i = 0; i < frames.length; i++)
 			frames[i] = drawName() + (i + 1);
+	}
+	
+	public Color defaultColor(){
+		return Color.PURPLE;
 	}
 
 	public String drawName(){

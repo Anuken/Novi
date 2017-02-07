@@ -1,8 +1,9 @@
 package io.anuke.novi.entities.combat;
 
-import io.anuke.novi.entities.*;
+import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.FlyingEntity;
+import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
-import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.entities.enemies.Base;
 import io.anuke.novi.entities.enemies.Enemy;
 import io.anuke.novi.items.ProjectileType;
@@ -66,11 +67,13 @@ public class Bullet extends FlyingEntity implements Damager{
 
 	@Override
 	public void collisionEvent(SolidEntity other){
-		Effects.effect(type.hitEffect(), x, y);
 		
 		removeServer();
 		
-		if(NoviServer.active()) type.destroyEvent(this);
+		if(NoviServer.active()){
+			type.hitEvent(this);
+			type.destroyEvent(this);
+		}
 	}
 	
 	public float life(){
