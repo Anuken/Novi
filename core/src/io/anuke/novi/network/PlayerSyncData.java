@@ -2,15 +2,18 @@ package io.anuke.novi.network;
 
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.novi.entities.base.Player.ShipState;
+
 public class PlayerSyncData extends SyncData{
 	public Vector2 velocity;
-	public float rotation, respawntime, ping;
+	public float rotation, ping;
+	public ShipState state;
 
-	public PlayerSyncData(long id, float x, float y, float rotation, float respawntime, float ping, Vector2 velocity){
+	public PlayerSyncData(long id, float x, float y, ShipState state, float rotation, float ping, Vector2 velocity){
 		super(id, x, y);
 		this.velocity = velocity;
 		this.rotation = rotation;
-		this.respawntime = respawntime;
+		this.state = state;
 		this.ping = ping;
 	}
 	

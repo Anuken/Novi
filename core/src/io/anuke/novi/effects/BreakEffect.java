@@ -26,7 +26,7 @@ public class BreakEffect extends Effect{
 	private static Color color = new Color();
 	
 	private String regionName;
-	private transient boolean init;
+	private transient boolean loaded;
 	private transient ChunkParticle[] chunks;
 	private float lifetime;
 	private float velocityscl = 2f;
@@ -178,9 +178,9 @@ public class BreakEffect extends Effect{
 
 	@Override
 	public void draw(){
-		if( !init){
-			init();
-			init = true;
+		if( !loaded){
+			load();
+			loaded = true;
 		}
 		
 		for(ChunkParticle chunk : chunks){
@@ -188,7 +188,7 @@ public class BreakEffect extends Effect{
 		}
 	}
 
-	public void init(){
+	public void load(){
 		if( !loadedchunks.containsKey(regionName)) loadChunkType(regionName);
 		Chunk[][] chunklist = loadedchunks.get(regionName);
 		Chunk[] chunktex = chunklist[MathUtils.random(chunklist.length-1)];

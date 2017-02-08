@@ -55,7 +55,7 @@ public enum EffectType{
 
 			a = a < 0.3f ? a / 0.3f : 1f;
 			
-			Hue.mix(Color.valueOf("7cd99bff"), color.set(0.4f, 0.4f, 0.4f, 1f), e.fract(), color);
+			Hue.mix(color2.set(e.color), color.set(0.4f, 0.4f, 0.4f, 1f), e.fract(), color);
 			color.a = a;
 
 			Draw.color(color);
@@ -63,6 +63,10 @@ public enum EffectType{
 			Draw.rect("smoke" + (frameid(e.life)+3), e.x, e.y);
 
 			Draw.color();
+		}
+		
+		public Color defaultColor(){
+			return Color.valueOf("7cd99bff");
 		}
 
 		public int lifetime(){
@@ -92,6 +96,7 @@ public enum EffectType{
 	protected static Random rand = new Random();
 	protected String[] frames;
 	protected Color color = new Color();
+	protected Color color2 = new Color();
 
 	private EffectType(String... frames) {
 		this.frames = frames;

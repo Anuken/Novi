@@ -32,7 +32,7 @@ public class Drone extends Enemy{
 	public void onDeath(){
 		super.onDeath();
 		if(base != null) base.spawned --;
-		new BreakEffect("drone", velocity, 0.2f).set(x, y).send();
+		new BreakEffect("drone", velocity, 0.2f).set(x, y).add();
 	}
 
 	@Override

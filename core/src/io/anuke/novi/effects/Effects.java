@@ -19,7 +19,7 @@ public class Effects{
 	}
 	
 	public static void effect(EffectType type, float x, float y, Color color){
-		new Effect(type).color(color).set(x, y).send();
+		new Effect(type).color(color).set(x, y).add();
 	}
 	
 	public static void smoke(float x, float y){
@@ -27,15 +27,15 @@ public class Effects{
 	}
 	
 	public static void effect(EffectType type, float x, float y, float delay){
-		new Effect(type).delay(delay).set(x, y).send();
+		new Effect(type).delay(delay).set(x, y).add();
 	}
 	
 	public static void blockbreak(String name, float x, float y, float offset, Vector2 velocity){
-		new BreakEffect(name, velocity, offset).set(x, y).send();
+		new BreakEffect(name, velocity, offset).set(x, y).add();
 	}
 	
 	public static void blockbreak(String name, float x, float y){
-		new BreakEffect(name, 0, 0).set(x, y).send();
+		new BreakEffect(name, 0, 0).set(x, y).add();
 	}
 
 	private static Server server(){

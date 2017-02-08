@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.modules.Renderer;
 import io.anuke.novi.server.NoviServer;
 
 public class Effect{
@@ -58,8 +59,13 @@ public class Effect{
 		return this;
 	}
 	
-	public void send(){
-		NoviServer.instance().sendNear(this, x, y);
+	public void add(){
+		if(NoviServer.active()){
+			NoviServer.instance().sendNear(this, x, y);
+		}else{
+			init();
+			Novi.module(Renderer.class).effects.add(this);
+		}
 	}
 
 	public float getLayer(){
@@ -70,7 +76,7 @@ public class Effect{
 		return life/type.lifetime();
 	}
 	
-	public void onRecieve(){
+	public void init(){
 		if(color == 0 && type != null) color = Color.rgba8888(type.defaultColor());
 		seed = MathUtils.random(0, Integer.MAX_VALUE-100);
 	}

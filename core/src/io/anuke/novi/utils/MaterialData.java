@@ -21,6 +21,15 @@ public class MaterialData{
 		return collides(other.updateHitbox()) || collides(other.updateHitboxWrap());
 	}
 	
+	public void set(float size){
+		rectangle.setSize(size);
+	}
+	
+	public void init(float size, float drag){
+		rectangle.setSize(size);
+		this.drag = drag;
+	}
+	
 	public Rectangle getRectangle(){
 		return rectangle;
 	}

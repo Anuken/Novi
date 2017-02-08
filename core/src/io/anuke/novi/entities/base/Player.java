@@ -1,6 +1,7 @@
 package io.anuke.novi.entities.base;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 
@@ -10,7 +11,7 @@ import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.items.Ship;
+import io.anuke.novi.items.ShipType;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.modules.Renderer;
 import io.anuke.novi.network.PlayerSyncData;
@@ -28,66 +29,109 @@ public class Player extends DestructibleEntity implements Syncable{
 	public transient boolean client = false;
 	public String name;
 	private float respawntime;
-	
+
+	/** State only used for remote players */
+	public transient ShipState state;
 	public transient boolean valigned = true;
 	public transient boolean shooting, moving; //used for aligning the rotation after you shoot and let go of the mouse
+	/** note that rotation is only for remote players or shooting*/
 	public transient float rotation = 0;
 	public transient float reload, altreload = 0, ping;
 	transient InterpolationData data = new InterpolationData();
 	public transient InputHandler input;
-	
+
 	//boost stuff
 	private boolean boosting = false;
 	private float boostingTime = 0;
 
-	private Ship ship = Ship.arrowhead;
+	private ShipType ship = ShipType.arrowhead;
+
+	public enum ShipState{
+		shooting{
+			public boolean is(Player p){
+				return p.state == shooting || p.shooting;
+			}
+		},
+		moving{
+			public boolean is(Player p){
+				return p.state == moving || p.moving;
+			}
+		},
+		boosting{
+			public boolean is(Player p){
+				return p.state == boosting || p.boosting;
+			}
+		},
+		dead{
+			public boolean is(Player p){
+				return p.state == dead || p.isDead();
+			}
+		},
+		still{
+			public boolean is(Player p){
+				return p.state == still;
+			}
+		};
+
+		/** Returns whether or not the player is in this state */
+		public abstract boolean is(Player p);
+	}
 
 	{
-		material.drag = 0.01f;
-		material.getRectangle().setSize(7);
+		material.init(7, 0.01f);
 		health = ship.getMaxhealth();
 	}
 
 	@Override
 	public void update(){
-		
+
 		if(respawntime > 0){
 			respawntime -= delta();
 			if(respawntime <= 0){
 				x = 0;
 				y = 0;
-				if(NoviServer.active()) Effects.effect(EffectType.shockwave, x, y);
+				if(NoviServer.active())
+					Effects.effect(EffectType.shockwave, x, y);
 			}
 		}
-		if(reload > 0) reload -= delta();
-		if(altreload > 0) altreload -= delta();
+		if(reload > 0)
+			reload -= delta();
+		if(altreload > 0)
+			altreload -= delta();
+
+		if(NoviServer.active())
+			return; //don't want to do stuff like getting the mouse angle on the server, do we?
 		
-		if(NoviServer.active()) return; //don't want to do stuff like getting the mouse angle on the server, do we?
-		
-		if( !client) data.update(this);
-		if(client) updateVelocity();
-		
+		if(!client)
+			data.update(this);
+		else
+			updateVelocity();
+
 		//updateBounds();
-		if(!boosting)velocity.limit(ship.getMaxVelocity() * kiteChange());
-		if(rotation > 360f && !ship.getSpin()) rotation -= 360f;
-		if(rotation < 0f && !ship.getSpin()) rotation += 360f;
+		if(!boosting)
+			velocity.limit(ship.getMaxVelocity() * kiteChange());
+		if(rotation > 360f && !ship.getSpin())
+			rotation -= 360f;
+		if(rotation < 0f && !ship.getSpin())
+			rotation += 360f;
 
 		if(shooting && !boosting){
-			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed()*delta());
+			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed() * delta());
 		}else{
 			//align player rotation to velocity rotation
-			if( !valigned) rotation = Angles.MoveToward(rotation, velocity.angle(), ship.getTurnspeed());
+			if(!valigned)
+				rotation = Angles.MoveToward(rotation, velocity.angle(), ship.getTurnspeed());
 		}
-		
+
 		boostUpdate();
 	}
 
 	//don't want to hit other players or other bullets
 	public boolean collides(SolidEntity other){
-		return respawntime <= 0 && super.collides(other) && !(other instanceof Player || (other instanceof Bullet && ((Bullet)other).shooter instanceof Player));
+		return respawntime <= 0 && super.collides(other) && !(other instanceof Player || (other instanceof Bullet && ((Bullet) other).shooter instanceof Player));
 	}
 
-	public Ship getShip(){
+	public ShipType getShip(){
 		return ship;
 	}
 
@@ -95,21 +139,17 @@ public class Player extends DestructibleEntity implements Syncable{
 	public void serverUpdate(){
 		//TODO make this FPS independant
 		input.update();
-		if(frame() % 30 == 0) connection.updateReturnTripTime();
-		
-		//TODO make this render a custom trail instead of individual smoke entities
-		if(moving && frame() % 4 == 0){
-			Vector2 v = Angles.translation(this.rotation-90, 12f);
-			Effects.effect(EffectType.singlesmoke, x + v.x, y + v.y);
-		}
+		if(frame() % 30 == 0)
+			connection.updateReturnTripTime();
 	}
 
-	public Player(){
-		if(NoviServer.active()) input = new InputHandler(this);
+	public Player() {
+		if(NoviServer.active())
+			input = new InputHandler(this);
 	}
 
 	public float kiteChange(){
-		if( !shooting){
+		if(!shooting){
 			return 1f;
 		}else{
 			return 1f - Angles.angleDist(rotation, velocity.angle()) / (180f * 1f / ship.getKiteDebuffMultiplier());
@@ -117,26 +157,29 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	public void move(float angle){
-		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed()*delta()));
+		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed() * delta()));
 	}
 	
+	//TODO make boosting serverside
 	public void boost(){
 		if(!boosting){
 			//not boosting currently, so charge boost
 			boosting = true;
 			boostingTime = -1 * ship.getBoostChargeTime();
+			Effects.effect(EffectType.smoke, x, y);
 		}
 	}
 	
+	//TODO fix crude clientside effects and make them work in a proper animation state
 	public void boostUpdate(){
-		
+
 		if(boosting){
 			if(boostingTime < 0){
 				boostingTime += delta();
 			}else{
 				if(boostingTime < ship.getBoostLength()){
 					boostingTime += delta();
-					velocity.setLength(ship.getMaxVelocity() * ship.getBoostMultiplier());
+					velocity.setLength(ship.getMaxVelocity() + ship.getBoostSpeed() * (1f - boostingTime / ship.getBoostLength()));
 				}else{
 					boosting = false;
 					boostingTime = 0;
@@ -146,13 +189,13 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	public float getSpriteRotation(){
-		return ( !shooting && valigned) ? velocity.angle() - 90 : this.rotation - 90;
+		return (!shooting && valigned) ? velocity.angle() - 90 : this.rotation - 90;
 	}
-	
+
 	public boolean loaded(float playerx, float playery){
 		return true;
 	}
-	
+
 	@Override
 	public float getLayer(){
 		return 1f;
@@ -160,39 +203,48 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	@Override
 	public void draw(){
-		if(respawntime > 0) return;
-		
+		if(respawntime > 0)
+			return;
+
 		Draw.rect("ship", x, y, client ? getSpriteRotation() : rotation);
-		
+
 		if(!client){
 			Draw.tcolor(Color.GOLD);
-			Draw.text(name, x, y+14);
+			Draw.text(name, x, y + 14);
 			Draw.tcolor();
+		}
+		
+		Vector2 back = Angles.translation(velocity.angle()-180, 12f);
+		
+		if(inState(ShipState.moving) && frame() % 60 == 0){
+			Effects.effect(EffectType.singlesmoke, x + back.x, y + back.y);
+		}
+		
+		if(inState(ShipState.boosting) && frame() % 20 == 0){
+			Effects.effect(EffectType.singlesmoke, x + back.x + MathUtils.random(-5, 5), y + back.y + MathUtils.random(-5, 5), Color.CORAL);
 		}
 	}
 
-	
 	@Override
 	public void onDeath(){
 		/*
-		if(NoviServer.active()){
-			new Shockwave(9f, 0.001f, 0.04f).set(x, y).send();
-			new BreakEffect("ship", 2.5f, rotation).set(x, y).send();
-			Effects.explosionCluster(x, y, 6, 16);
-			Effects.shake(50f, 50f, x, y);
-			health = ship.getMaxhealth();
-			connection.sendTCP(new DeathPacket());
-		}
-		velocity.set(0,0);
-		respawntime = 150;
-		*/
+		 * if(NoviServer.active()){ new Shockwave(9f, 0.001f, 0.04f).set(x,
+		 * y).send(); new BreakEffect("ship", 2.5f, rotation).set(x, y).send();
+		 * Effects.explosionCluster(x, y, 6, 16); Effects.shake(50f, 50f, x, y);
+		 * health = ship.getMaxhealth(); connection.sendTCP(new DeathPacket());
+		 * } velocity.set(0,0); respawntime = 150;
+		 */
 	}
-	
+
+	public boolean inState(ShipState state){
+		return state.is(this);
+	}
+
 	//returns whether or not enemies should target this player
 	public boolean isVisible(){
 		return respawntime <= 0;
 	}
-	
+
 	public boolean isDead(){
 		return respawntime > 0;
 	}
@@ -202,7 +254,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	public boolean removeOnDeath(){
 		return false;
 	}
-	
+
 	public void bullet(ProjectileType type){
 		Bullet b = new Bullet(type, rotation + 90);
 		b.x = predictedX();
@@ -210,34 +262,49 @@ public class Player extends DestructibleEntity implements Syncable{
 		b.setShooter(this);
 		b.add().send();
 	}
-	
+
 	public float pingInFrames(){
-		if(!NoviServer.active()) return 0;
-		return ((Network.ping*2f + connection.getReturnTripTime()) / 1000f) * delta() * 60f+1.1f;
+		if(!NoviServer.active())
+			return 0;
+		return ((Network.ping * 2f + connection.getReturnTripTime()) / 1000f) * delta() * 60f + 1.1f;
 	}
-	
+
 	public float predictedX(){
 		return velocity.x * pingInFrames() + x;
 	}
-	
+
 	public float predictedY(){
 		return velocity.y * pingInFrames() + y;
 	}
-	
+
 	public int connectionID(){
 		return connection.getID();
 	}
 
+	public ShipState getState(){
+		if(isDead()){
+			return ShipState.dead;
+		}else if(boosting && boostingTime < ship.getBoostLength()){
+			return ShipState.boosting;
+		}else if(shooting){
+			return ShipState.shooting;
+		}else if(moving){
+			return ShipState.moving;
+		}else{
+			return ShipState.still;
+		}
+	}
+
 	@Override
 	public SyncData writeSync(){
-		return new PlayerSyncData(getID(), x, y, rotation, respawntime, pingInFrames(), velocity);
+		return new PlayerSyncData(getID(), x, y, getState(), rotation, pingInFrames(), velocity);
 	}
 
 	@Override
 	public void readSync(SyncData buffer){
-		PlayerSyncData sync = (PlayerSyncData)buffer;
+		PlayerSyncData sync = (PlayerSyncData) buffer;
 		velocity = sync.velocity;
-		this.respawntime = sync.respawntime;
+		this.state = sync.state;
 		this.ping = sync.ping;
 		data.push(this, sync.x, sync.y, sync.rotation);
 	}

@@ -13,13 +13,14 @@ import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.FlyingEntity;
 import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.base.Player.ShipState;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.DamageArea;
 import io.anuke.novi.entities.enemies.*;
 import io.anuke.novi.entities.enemies.Base.BlockUpdate;
 import io.anuke.novi.items.Item;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.items.Ship;
+import io.anuke.novi.items.ShipType;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.network.packets.EffectPacket.ScreenEffectType;
 import io.anuke.novi.utils.InputType;
@@ -38,11 +39,13 @@ public class Registrator{
 		k.register(DeathPacket.class);
 		k.register(EntityRequestPacket.class);
 		
+		k.register(ShipState.class);
+		
 		k.register(SyncData.class);
 		k.register(BaseSyncData.class);
 		k.register(PlayerSyncData.class);
 		k.register(EnemySyncData.class);
-		k.register(Ship.class);
+		k.register(ShipType.class);
 		k.register(Item.class);
 		k.register(ProjectileType.class);
 		k.register(InputType.class);

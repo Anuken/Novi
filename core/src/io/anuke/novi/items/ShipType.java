@@ -3,7 +3,7 @@ package io.anuke.novi.items;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.server.InputHandler;
 
-public enum Ship{
+public enum ShipType{
 	arrowhead{
 		final float reload2 = 3f;
 		
@@ -40,7 +40,7 @@ public enum Ship{
 	
 	//boost stuff
 	//TODO set these up in a constructor
-	protected int boostMultiplier = 2;
+	protected int boostSpeed = 10;
 	protected int boostChargeTime = 20;
 	protected int boostLength = 60;
 
@@ -48,8 +48,8 @@ public enum Ship{
 
 	}
 	
-	public int getBoostMultiplier(){
-		return boostMultiplier;
+	public int getBoostSpeed(){
+		return boostSpeed;
 	}
 	
 	public int getBoostChargeTime(){

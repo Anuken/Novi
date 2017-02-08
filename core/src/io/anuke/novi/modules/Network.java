@@ -81,7 +81,7 @@ public class Network extends Module<Novi>{
 					//Novi.log("recieved entity of type " + entity.getClass().getSimpleName());
 				}else if(object instanceof Effect){
 					Effect effect = (Effect)object;
-					effect.onRecieve();
+					effect.init();
 					renderer.effects.add(effect);
 				}else if(object instanceof EntityRemovePacket){
 					EntityRemovePacket remove = (EntityRemovePacket)object;
