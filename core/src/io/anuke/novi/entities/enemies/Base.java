@@ -29,6 +29,8 @@ import io.anuke.novi.world.Material;
 import io.anuke.ucore.util.Angles;
 
 public abstract class Base extends Enemy implements Syncable{
+	private static ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
+	
 	public transient int size = 10;
 	private transient Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	public transient float rotation;
@@ -115,6 +117,8 @@ public abstract class Base extends Enemy implements Syncable{
 					continue;
 				Block block = blocks[relx][rely];
 				
+				if(block.material == Material.air) continue;
+				
 				if(block.material != Material.frame)
 				block.health -= (int) ((1f - dist / rad + 0.1f) * block.getMaterial().health());
 				
@@ -186,15 +190,25 @@ public abstract class Base extends Enemy implements Syncable{
 	
 	@Override
 	public void behaviorUpdate(){
+		updates.clear();
+		
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
 				Block block = blocks[x][y];
-				block.updated = false;
+				
+				if(block.updated){
+					updates.add(new BlockUpdate(block));
+					block.updated = false;
+				}
 				
 				if(block.empty())
 					continue;
 				block.getMaterial().update(block, this);
 			}
+		}
+		
+		if(updates.size() != 0){
+			sendEvent(this, updates.toArray());
 		}
 	}
 
@@ -228,10 +242,20 @@ public abstract class Base extends Enemy implements Syncable{
 			}
 		}
 	}
+	
+	@Override
+	public void handleEvent(Object[] data){
+		for(Object o : data){
+			BlockUpdate update = (BlockUpdate)o;
+			update.apply(blocks);
+		}
+	}
 
 	@Override
 	public SyncData writeSync(){
-		ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
+		
+		updates.clear();
+		/*
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
 				Block block = blocks[x][y];
@@ -240,6 +264,7 @@ public abstract class Base extends Enemy implements Syncable{
 				updates.add(new BlockUpdate(block));
 			}
 		}
+		*/
 		return new BaseSyncData(updates, rotation, x, y);
 	}
 

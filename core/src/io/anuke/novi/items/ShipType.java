@@ -40,9 +40,9 @@ public enum ShipType{
 	
 	//boost stuff
 	//TODO set these up in a constructor
-	protected int boostSpeed = 10;
-	protected int boostChargeTime = 20;
-	protected int boostLength = 60;
+	protected int boostSpeed = 50;
+	protected int boostChargeTime = 60;
+	protected int boostLength = 15;
 
 	public void handleInput(Player player, InputHandler input){
 

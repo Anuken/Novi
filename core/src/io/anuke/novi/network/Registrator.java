@@ -42,6 +42,7 @@ public class Registrator{
 		k.register(ShipState.class);
 		
 		k.register(SyncData.class);
+		k.register(EntityEvent.class);
 		k.register(BaseSyncData.class);
 		k.register(PlayerSyncData.class);
 		k.register(EnemySyncData.class);
@@ -62,6 +63,7 @@ public class Registrator{
 		k.register(ShipBase.class);
 		k.register(GunBase.class);
 		
+		k.register(Object[].class);
 		k.register(Material.class);
 		k.register(ScreenEffectType.class);
 		k.register(EffectType.class);

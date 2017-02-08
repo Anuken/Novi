@@ -11,6 +11,7 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
+import io.anuke.novi.network.EntityEvent;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.packets.*;
@@ -79,6 +80,11 @@ public class Network extends Module<Novi>{
 					entity.add();
 					requested.remove(entity.getID());
 					//Novi.log("recieved entity of type " + entity.getClass().getSimpleName());
+				}else if(object instanceof EntityEvent){
+					EntityEvent event = (EntityEvent)object;
+					if(Entities.has(event.id)){
+						((Syncable)Entities.get(event.id)).handleEvent(event.data);
+					}
 				}else if(object instanceof Effect){
 					Effect effect = (Effect)object;
 					effect.init();

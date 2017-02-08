@@ -179,7 +179,7 @@ public class Player extends DestructibleEntity implements Syncable{
 			}else{
 				if(boostingTime < ship.getBoostLength()){
 					boostingTime += delta();
-					velocity.setLength(ship.getMaxVelocity() + ship.getBoostSpeed() * (1f - boostingTime / ship.getBoostLength()));
+					velocity.setLength(ship.getMaxVelocity() + ship.getBoostSpeed() * (1.2f - boostingTime / ship.getBoostLength()));
 				}else{
 					boosting = false;
 					boostingTime = 0;
