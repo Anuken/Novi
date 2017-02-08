@@ -1,25 +1,25 @@
 package io.anuke.novi.modules;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 
 import io.anuke.gif.GifRecorder;
 import io.anuke.novi.Novi;
+import io.anuke.novi.effects.BreakEffect;
+import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
-import io.anuke.novi.entities.effects.BreakEffect;
 import io.anuke.novi.modules.World.MapTile;
 import io.anuke.novi.modules.World.TileCache;
 import io.anuke.novi.utils.Draw;
@@ -38,12 +38,10 @@ public class Renderer extends Module<Novi>{
 	public OrthographicCamera camera; //a camera, seems self explanatory
 	public Atlas atlas; //texture atlas
 	public int scale = 5; //camera zoom/scale
-	public int pixelscale = 1; // pixelation scale
 	public Player player; //player object from ClientData module
 	public World world; // world module
-	public FrameBuffer buffer;
 	public GifRecorder recorder;
-	public GifRecorder rec2;
+	public CopyOnWriteArrayList<Effect> effects = new CopyOnWriteArrayList<Effect>();
 	public boolean debug = true;
 
 	public Renderer(){
@@ -53,10 +51,7 @@ public class Renderer extends Module<Novi>{
 		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		font.setUseIntegerPositions(false);
 		layout = new GlyphLayout();
-		buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getWidth() / pixelscale, Gdx.graphics.getHeight() / pixelscale, false);
-		buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		recorder = new GifRecorder(batch);
-		rec2 = new GifRecorder(batch);
 		Draw.init(this);
 		
 		BreakEffect.createChunks();
@@ -89,12 +84,23 @@ public class Renderer extends Module<Novi>{
 		
 		//renderQuadTree(Entities.getSystem(SpatialSystem.class).quadtree);
 		Entities.drawAll(player.x, player.y);
+		drawEffects();
 		batch.end();
 		batch.setProjectionMatrix(matrix);
 		batch.begin();
 		drawGUI();
 		batch.end();
 		batch.setColor(Color.WHITE);
+	}
+	
+	void drawEffects(){
+		for(Effect effect : effects){
+			if(effect.update()){
+				effects.remove(effect);
+			}else{
+				effect.draw();
+			}
+		}
 	}
 	
 	void renderQuadTree(WrappedQuadTree<Entity> tree){

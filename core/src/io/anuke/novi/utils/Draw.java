@@ -3,6 +3,7 @@ package io.anuke.novi.utils;
 import static io.anuke.ucore.UCore.clamp;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 
@@ -17,10 +18,13 @@ public class Draw{
 		rend = renderer;
 	}
 	
+	public static Batch batch(){
+		return rend.batch;
+	}
+	
 	public static void rect(String name, float x, float y){
 		TextureRegion reg = region(name);
 		rect(reg, x, y, 0);
-		//rend.batch.draw(reg, x - reg.getRegionWidth()/2, y - reg.getRegionHeight()/2, reg.getRegionWidth(), reg.getRegionHeight());
 	}
 	
 	public static void rect(String name, float x, float y, float rotation){

@@ -3,13 +3,13 @@ package io.anuke.novi.entities.enemies;
 
 import static io.anuke.novi.modules.World.*;
 
+import io.anuke.novi.effects.EffectType;
+import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
-import io.anuke.novi.entities.effects.EffectType;
-import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.EnemySyncData;
 import io.anuke.novi.network.SyncData;

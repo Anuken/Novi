@@ -10,7 +10,7 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
-import io.anuke.novi.entities.enemies.GunBase;
+import io.anuke.novi.entities.enemies.ShipBase;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.packets.*;
@@ -140,6 +140,14 @@ public class NoviServer{
 			}
 		});
 	}
+	
+	public void sendNear(Object object, float x, float y){
+		Entities.spatial().getNearby(x, y, Entities.loadRange, (other)->{
+			if(other instanceof Player){
+				server.sendToTCP(other.player().connectionID(), object);
+			}
+		});
+	}
 
 	public void removeEntity(Entity entity){
 		EntityRemovePacket remove = new EntityRemovePacket();
@@ -159,7 +167,7 @@ public class NoviServer{
 	}
 
 	private void addEntities(){
-		new GunBase().set(100, 100).add();
+		new ShipBase().set(100, 100).add();
 		for(int i = 0;i < 20;i ++){
 			//new GunBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
 			//new GunBase().set(400, 400).add();

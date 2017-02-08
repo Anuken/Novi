@@ -7,14 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 
+import io.anuke.novi.effects.BreakEffect;
+import io.anuke.novi.effects.Effect;
+import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.FlyingEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.DamageArea;
-import io.anuke.novi.entities.effects.BreakEffect;
-import io.anuke.novi.entities.effects.Effect;
-import io.anuke.novi.entities.effects.EffectType;
 import io.anuke.novi.entities.enemies.*;
 import io.anuke.novi.entities.enemies.Base.BlockUpdate;
 import io.anuke.novi.items.Item;

@@ -95,51 +95,44 @@ Novi4.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-projectiles/shockwave
-  rotate: false
-  xy: 1, 10
-  size: 500, 500
-  orig: 500, 500
-  offset: 0, 0
-  index: -1
 projectiles/border
   rotate: false
-  xy: 503, 410
+  xy: 1, 26
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 projectiles/explosion
   rotate: false
-  xy: 503, 394
+  xy: 1, 10
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 projectiles/mine
   rotate: false
-  xy: 605, 499
+  xy: 103, 115
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/minecenter
   rotate: false
-  xy: 503, 381
+  xy: 116, 115
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/explosivebullet
   rotate: false
-  xy: 519, 399
+  xy: 17, 15
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/dronebullet
   rotate: false
-  xy: 605, 488
+  xy: 103, 104
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
@@ -156,135 +149,184 @@ Novi5.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+effects/shockwave6
+  rotate: false
+  xy: 1, 17
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+effects/shockwave5
+  rotate: false
+  xy: 48, 21
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: -1
+effects/shockwave1
+  rotate: false
+  xy: 91, 21
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: -1
+effects/shockwave
+  rotate: false
+  xy: 134, 21
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: -1
+effects/shockwave4
+  rotate: false
+  xy: 177, 21
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: -1
+effects/shockwave2
+  rotate: false
+  xy: 220, 21
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: -1
+effects/shockwave3
+  rotate: false
+  xy: 263, 21
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: -1
 effects/explosion3
   rotate: false
-  xy: 1, 8
+  xy: 306, 39
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
 effects/explosion7
   rotate: false
-  xy: 26, 8
+  xy: 331, 39
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
 effects/explosion5
   rotate: false
-  xy: 51, 8
+  xy: 356, 39
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
 effects/explosion1
   rotate: false
-  xy: 76, 8
+  xy: 381, 39
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
 effects/explosion4
   rotate: false
-  xy: 101, 8
+  xy: 406, 39
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
 effects/explosion6
   rotate: false
-  xy: 126, 8
+  xy: 431, 39
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
 effects/explosion2
   rotate: false
-  xy: 151, 8
+  xy: 456, 39
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
 effects/smoke1
   rotate: false
-  xy: 176, 15
+  xy: 306, 21
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-effects/smoke3
-  rotate: false
-  xy: 176, 1
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
 effects/smoke2
   rotate: false
-  xy: 194, 17
+  xy: 1, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 effects/hit2
   rotate: false
-  xy: 210, 18
+  xy: 481, 49
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
 effects/hit4
   rotate: false
-  xy: 225, 18
+  xy: 324, 24
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
 effects/hit3
   rotate: false
-  xy: 240, 18
+  xy: 17, 2
   size: 13, 13
   orig: 13, 13
-  offset: 0, 0
-  index: -1
-effects/hit1
-  rotate: false
-  xy: 190, 2
-  size: 11, 11
-  orig: 11, 11
   offset: 0, 0
   index: -1
 effects/hit5
   rotate: false
-  xy: 203, 2
+  xy: 496, 49
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
+effects/smoke3
+  rotate: false
+  xy: 339, 25
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+effects/hit1
+  rotate: false
+  xy: 32, 4
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
 effects/smoke4
   rotate: false
-  xy: 218, 6
+  xy: 353, 27
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 effects/smoke5
   rotate: false
-  xy: 230, 8
+  xy: 481, 39
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 effects/smoke6
   rotate: false
-  xy: 240, 10
+  xy: 365, 31
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 effects/smoke7
   rotate: false
-  xy: 1, 2
+  xy: 491, 43
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
@@ -301,30 +343,37 @@ tiles/frame
   orig: 16, 16
   offset: 0, 0
   index: -1
-tiles/dronemaker
+tiles/ironblockedge
   rotate: false
   xy: 19, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tiles/ironblock
+tiles/dronemaker
   rotate: false
   xy: 37, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tiles/tile
+tiles/ironblock
   rotate: false
   xy: 55, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+tiles/tile
+  rotate: false
+  xy: 73, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 tiles/dronemakerbar
   rotate: false
-  xy: 73, 3
+  xy: 91, 3
   size: 14, 14
   orig: 14, 14
   offset: 0, 0

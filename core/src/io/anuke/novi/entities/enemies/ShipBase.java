@@ -7,6 +7,7 @@ public class ShipBase extends Base{
 	
 	{
 		texture = "titanship";
+		velocity.set(0, 0.1f);
 	}
 	
 	@Override

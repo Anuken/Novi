@@ -11,13 +11,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.novi.effects.BreakEffect;
+import io.anuke.novi.effects.EffectType;
+import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.Damager;
-import io.anuke.novi.entities.effects.BreakEffect;
-import io.anuke.novi.entities.effects.EffectType;
-import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.network.BaseSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
@@ -201,7 +201,10 @@ public abstract class Base extends Enemy implements Syncable{
 	@Override
 	public void draw(){
 		data.update(this);
-
+		
+		if(texture != null)
+			Draw.rect(texture, x, y, rotation);
+		
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){
 				Block block = blocks[x][y];
@@ -224,9 +227,6 @@ public abstract class Base extends Enemy implements Syncable{
 				block.getMaterial().draw(block, this, x, y);
 			}
 		}
-
-		if(texture != null)
-			Draw.rect(texture, x, y, rotation);
 	}
 
 	@Override

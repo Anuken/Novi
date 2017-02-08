@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.network.Registrator;
@@ -23,10 +24,14 @@ public class Network extends Module<Novi>{
 	private boolean connected = true;
 	private boolean initialconnect = false;
 	Client client;
+	Renderer renderer;
 	//entities requested to be sent
 	ObjectSet<Long> requested = new ObjectSet<Long>();
 
 	public void init(){
+		
+		renderer = getModule(Renderer.class);
+		
 		try{
 			int buffer = (int)Math.pow(2, 7);
 			client = new Client(8192 * buffer, 8192 * buffer);
@@ -74,6 +79,10 @@ public class Network extends Module<Novi>{
 					entity.add();
 					requested.remove(entity.getID());
 					//Novi.log("recieved entity of type " + entity.getClass().getSimpleName());
+				}else if(object instanceof Effect){
+					Effect effect = (Effect)object;
+					effect.onRecieve();
+					renderer.effects.add(effect);
 				}else if(object instanceof EntityRemovePacket){
 					EntityRemovePacket remove = (EntityRemovePacket)object;
 					

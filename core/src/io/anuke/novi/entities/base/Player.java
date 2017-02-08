@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 
+import io.anuke.novi.effects.EffectType;
+import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.combat.Bullet;
-import io.anuke.novi.entities.effects.EffectType;
-import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.Ship;
 import io.anuke.novi.modules.Network;

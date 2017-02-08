@@ -1,4 +1,4 @@
-package io.anuke.novi.entities.effects;
+package io.anuke.novi.effects;
 
 import java.util.HashMap;
 
@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.novi.Novi;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.world.Material;
 import io.anuke.ucore.noise.Noise;
@@ -41,12 +42,13 @@ public class BreakEffect extends Effect{
 	}
 	
 	@Override
-	public final void update(){
-		life += delta();
+	public final boolean update(){
+		life += Novi.delta();
 		if(life > lifetime){
-			onRemove();
-			remove();
+			return true;
 		}
+		
+		return false;
 	}
 
 	public static void createChunks(){
@@ -123,10 +125,10 @@ public class BreakEffect extends Effect{
 			
 			a = 1f - (effect.life / effect.lifetime);
 			
-			x += velocity.x * delta();
-			y += velocity.y * delta();
-			velocity.scl((float)Math.pow(1f - drag, delta()));
-			rotation += rotatevelocity * delta();
+			x += velocity.x * Novi.delta();
+			y += velocity.y * Novi.delta();
+			velocity.scl((float)Math.pow(1f - drag, Novi.delta()));
+			rotation += rotatevelocity * Novi.delta();
 			rotatevelocity = rotatedrag * rotatevelocity;
 			
 			Draw.color(l, l, l, a);

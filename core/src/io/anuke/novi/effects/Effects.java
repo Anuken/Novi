@@ -1,4 +1,4 @@
-package io.anuke.novi.entities.effects;
+package io.anuke.novi.effects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -7,8 +7,8 @@ import com.esotericsoftware.kryonet.Server;
 import io.anuke.novi.network.packets.EffectPacket;
 import io.anuke.novi.server.NoviServer;
 
-/**static utility class for making flashy effects
-NOTE: do NOT use clientside - it will crash*/
+/**static utility class for making effects*
+ * can be used clientside now*/
 public class Effects{
 	public static void shake(float duration, float intensity, float x, float y){
 		server().sendToAllTCP(new EffectPacket().shake(duration, intensity, x, y));

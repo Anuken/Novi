@@ -1,4 +1,4 @@
-package io.anuke.novi.entities.effects;
+package io.anuke.novi.effects;
 
 import java.util.Random;
 
@@ -14,12 +14,14 @@ public enum EffectType{
 			return 20;
 		}
 	},
-	shockwave{
-
+	shockwave(6){
+		public int lifetime(){
+			return 20;
+		}
 	},
 	smoke(5){
 		public void draw(Effect e){
-			rand.setSeed(e.getID());
+			rand.setSeed(e.seed);
 
 			float f = 0.8f - (e.life / e.type.lifetime()) / 1.4f;
 			float a = 1f - e.fract();
@@ -46,7 +48,7 @@ public enum EffectType{
 	},
 	singlesmoke(5){
 		public void draw(Effect e){
-			rand.setSeed(e.getID());
+			rand.setSeed(e.seed);
 
 			//float f = 0.5f - (e.life / e.type.lifetime()) / 1.4f;
 			float a = 1f - e.fract();

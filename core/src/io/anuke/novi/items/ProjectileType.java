@@ -2,10 +2,10 @@ package io.anuke.novi.items;
 
 import com.badlogic.gdx.graphics.Color;
 
+import io.anuke.novi.effects.EffectType;
+import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.DamageArea;
-import io.anuke.novi.entities.effects.EffectType;
-import io.anuke.novi.entities.effects.Effects;
 import io.anuke.novi.utils.Draw;
 import io.anuke.ucore.graphics.Hue;
 
