@@ -31,7 +31,7 @@ import io.anuke.ucore.util.Angles;
 public abstract class Base extends Enemy implements Syncable{
 	private static ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
 	
-	public transient int size = 10;
+	public transient int size = 7;
 	private transient Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	public transient float rotation;
 	public Block[][] blocks;

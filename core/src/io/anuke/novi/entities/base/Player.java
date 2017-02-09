@@ -21,6 +21,7 @@ import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
+import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.modules.ModuleController;
 import io.anuke.ucore.util.Angles;
 
@@ -216,11 +217,11 @@ public class Player extends DestructibleEntity implements Syncable{
 		
 		Vector2 back = Angles.translation(velocity.angle()-180, 12f);
 		
-		if(inState(ShipState.moving) && frame() % 60 == 0){
+		if(inState(ShipState.moving) && Timers.get("playersmoke" + getID(), 4)){
 			Effects.effect(EffectType.singlesmoke, x + back.x, y + back.y);
 		}
 		
-		if(inState(ShipState.boosting) && frame() % 20 == 0){
+		if(inState(ShipState.boosting) && Timers.get("playerboost" + getID(), 3)){
 			Effects.effect(EffectType.singlesmoke, x + back.x + MathUtils.random(-5, 5), y + back.y + MathUtils.random(-5, 5), Color.CORAL);
 		}
 	}

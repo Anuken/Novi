@@ -25,7 +25,7 @@ public enum ProjectileType{
 		}
 		
 		public int damage(){
-			return 3;
+			return 30;
 		}
 		
 		public void hitEvent(Bullet bullet){

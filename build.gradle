@@ -52,7 +52,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 		compile "com.esotericsoftware:kryonet:2.22.0-RC1"
 		compile 'com.github.Anuken:uCore:1.5'
-		compile 'com.github.Anuken:GDXGifRecorder:1.0'
+		compile 'com.github.Anuken:GDXGifRecorder:1.1'
 
     }
 }

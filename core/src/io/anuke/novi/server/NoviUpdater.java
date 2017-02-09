@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
+import io.anuke.novi.utils.Timers;
 
 public class NoviUpdater{
 	NoviServer server;
@@ -14,8 +15,10 @@ public class NoviUpdater{
 	long lastFpsTime;
 	HashSet<Long> collided = new HashSet<Long>(); //used for storing collisions each frame so entities don't collide twice
 
-	void Loop(){
-		if(frameid%100==0){
+	void loop(){
+		Timers.update();
+		
+		if(Timers.get("entityupdate", 100)){
 			Novi.log(60/delta);
 			Novi.log("Entities: " + Entities.list().size());
 		}
@@ -39,7 +42,7 @@ public class NoviUpdater{
 		int fpsmillis = 1000 / maxfps;
 		while(isRunning){
 			long start = System.currentTimeMillis();
-			Loop();
+			loop();
 			frameid ++;
 			//if(frame % 60 == 0)Novi.log(delta + " | " + Entity.entities.size());
 			long end = System.currentTimeMillis();
