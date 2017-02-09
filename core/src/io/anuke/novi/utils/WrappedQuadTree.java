@@ -210,6 +210,22 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
             float y = rect.y;
             float size = World.worldSize;
             
+            if(topx > size && y < 0){
+            	rect.x -= size;
+            	rect.y += size;
+            	getChildIntersections(cons, rect);
+            	rect.x += size;
+            	rect.y -= size;
+            }
+            
+            if(x < 0 && topy > size){
+            	rect.x += size;
+            	rect.y -= size;
+            	getChildIntersections(cons, rect);
+            	rect.x -= size;
+            	rect.y += size;
+            }
+            
             if(y < 0){
             	rect.y += size;
             	getChildIntersections(cons, rect);
@@ -247,8 +263,9 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
             	rect.x -= size;
             	rect.y -= size;
             	getChildIntersections(cons, rect);
+            	rect.x += size;
+            	rect.y += size;
             }
-            
         }
         
         for(T object : objects)
