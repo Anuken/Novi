@@ -10,6 +10,7 @@ public class GunBase extends Base{
 			for(int y = 0;y < size;y ++){
 				blocks[x][y].setMaterial(Material.ironblock);
 				
+				
 				blocks[size/2][0].setMaterial(Material.turret);
 				blocks[size/2][size-1].setMaterial(Material.turret);
 				blocks[0][size/2-1].setMaterial(Material.turret);
@@ -21,6 +22,11 @@ public class GunBase extends Base{
 				blocks[0][0].setMaterial(Material.bigturret);
 				
 				blocks[size/2][size/2-1].setMaterial(Material.dronemaker);
+				
+				
+				//if(Math.random() < 0.1) blocks[x][y].setMaterial(Material.bigturret);
+				//if(Math.random() < 0.1) blocks[x][y].setMaterial(Material.turret);
+				
 			}
 		}
 	}

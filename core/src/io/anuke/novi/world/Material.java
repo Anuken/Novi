@@ -14,6 +14,24 @@ import io.anuke.novi.utils.Draw;
 public enum Material{
 	air, 
 	ironblock{
+		public void draw(Block block, Base base, int x, int y){
+			defaultDraw("ironblock", block, base, x, y);
+			
+			if(!exists(base, x+1, y))
+				defaultDraw("ironblockedge", block, base, x, y, 0);
+			if(!exists(base, x, y+1))
+				defaultDraw("ironblockedge", block, base, x, y, 90);
+			
+			Draw.colorl(0.67f);
+			
+			if(!exists(base, x-1, y))
+				defaultDraw("ironblockedge", block, base, x, y, 180);
+			if(!exists(base, x, y-1))
+				defaultDraw("ironblockedge", block, base, x, y, 270);
+			
+			Draw.color();
+		}
+		
 		public boolean solid(){
 			return false;
 		}
@@ -156,6 +174,11 @@ public enum Material{
 		defaultDraw(name(), block, base, x, y);
 		
 		Draw.color();
+	}
+	
+	public boolean exists(Base base, int x, int y){
+		if(x >= base.size || y >= base.size || x < 0 || y < 0 ) return false;
+		return base.blocks[x][y].getMaterial() == Material.ironblock || base.blocks[x][y].getMaterial().solid();
 	}
 
 	public void defaultDraw(String region, Block block, Base base, int x, int y){
