@@ -1,13 +1,16 @@
 package io.anuke.novi.items;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.DamageArea;
 import io.anuke.novi.utils.Draw;
 import io.anuke.ucore.graphics.Hue;
+import io.anuke.ucore.util.Angles;
 
 public enum ProjectileType{
 	plasmabullet{
@@ -118,12 +121,16 @@ public enum ProjectileType{
 	},
 	laser{
 		
+		public void setup(Bullet bullet){
+			bullet.material.collide = false;
+		}
+		
 		public int getLifetime(){
-			return 60;
+			return 999999999;
 		}
 		
 		public float getSpeed(){
-			return 0;
+			return 0.001f;
 		}
 		
 		public int damage(){
@@ -135,13 +142,38 @@ public enum ProjectileType{
 		}
 		
 		public void draw(Bullet bullet){
-			defaultDraw(bullet);
-			
 			Draw.color(Color.ORANGE);
-			Draw.rect("laser", bullet.x, bullet.y, bullet.velocity.angle() - 90);
+			Draw.rect("laser", bullet.x, bullet.y, bullet.velocity.angle());
 			Draw.color();
 		}
+		
+		public void update(Bullet bullet){
+			float lastx = bullet.x;
+			float lasty = bullet.y;
+			Vector2 v = Angles.translation(bullet.velocity.angle() + 90, 300);
+			
+			Entities.spatial().raycast(bullet.x, bullet.y, bullet.x +v.x, bullet.y + v.y, (entity, x, y)->{
+				bullet.x = x;
+				bullet.y = y;
+				bullet.material.updateHitbox();
+				
+				if(entity.collides(bullet)){
+					entity.collisionEvent(bullet);
+				}
+			});
+			
+			bullet.x = lastx;
+			bullet.y = lasty;
+		}
+		
+		public boolean followParent(){
+			return true;
+		}
 	};
+	
+	public void update(Bullet bullet){
+		
+	}
 	
 	public void setup(Bullet bullet){
 		
@@ -169,6 +201,10 @@ public enum ProjectileType{
 	
 	public boolean collideWithBases(){
 		return true;
+	}
+	
+	public boolean followParent(){
+		return false;
 	}
 	
 	public String drawName(){

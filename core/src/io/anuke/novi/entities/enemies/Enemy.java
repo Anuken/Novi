@@ -54,7 +54,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	}
 
 	public boolean collides(SolidEntity other){
-		return !(other instanceof Enemy) && super.collides(other) && !((other instanceof Bullet && ((Bullet)other).shooter instanceof Enemy));
+		return !(other instanceof Enemy) && super.collides(other) && !((other instanceof Bullet && ((Bullet)other).shooter() instanceof Enemy));
 	}
 
 	public void onDeath(){

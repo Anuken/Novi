@@ -2,14 +2,11 @@ package io.anuke.novi.entities.enemies;
 
 import static io.anuke.novi.modules.World.*;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 
 import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.EffectType;
@@ -31,9 +28,10 @@ import io.anuke.ucore.util.Angles;
 
 public abstract class Base extends Enemy implements Syncable{
 	private static ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
+	private static GridPoint2 point = new GridPoint2();
+	private static Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	
 	public transient int size = 7;
-	private transient Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	public transient float rotation;
 	public Block[][] blocks;
 	public transient int spawned;
@@ -74,9 +72,9 @@ public abstract class Base extends Enemy implements Syncable{
 
 	@Override
 	public boolean collides(SolidEntity other){
-		if(!(other instanceof Damager) || (other instanceof Bullet && !(((Bullet) other).shooter instanceof Player)))
+		if(!(other instanceof Damager) || (other instanceof Bullet && !(((Bullet) other).shooter() instanceof Player)))
 			return false;
-		Point point = blockPosition(other.x, other.y);
+		GridPoint2 point = blockPosition(other.x, other.y);
 		
 		collided = false;
 		
@@ -157,13 +155,13 @@ public abstract class Base extends Enemy implements Syncable{
 		return blocks[blockx][blocky];
 	}
 
-	public Point blockPosition(float x, float y){
+	public GridPoint2 blockPosition(float x, float y){
 		x = relative3(x, this.x);
 		y = relative3(y, this.y);
 		Vector2 v = Angles.rotate(x, y, -rotation);
 		float relx = (v.x - Material.blocksize / 2f + unitSize() / 2f) / Material.blocksize;
 		float rely = (v.y - Material.blocksize / 2f + unitSize() / 2f) / Material.blocksize;
-		return new Point((int) relx, (int) rely);
+		return point.set((int) relx, (int) rely);
 	}
 
 	public void onDeath(){

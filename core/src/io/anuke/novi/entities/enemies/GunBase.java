@@ -12,14 +12,14 @@ public class GunBase extends Base{
 				
 				
 				blocks[size/2][0].setMaterial(Material.turret);
-				//blocks[size/2][size-1].setMaterial(Material.turret);
-				//blocks[0][size/2-1].setMaterial(Material.turret);
-				//blocks[size-1][size/2-1].setMaterial(Material.turret);
+				blocks[size/2][size-1].setMaterial(Material.turret);
+				blocks[0][size/2-1].setMaterial(Material.turret);
+				blocks[size-1][size/2-1].setMaterial(Material.turret);
 				
-				//blocks[size-1][size-1].setMaterial(Material.bigturret);
-				//blocks[0][size-1].setMaterial(Material.bigturret);
-				//blocks[size-1][0].setMaterial(Material.bigturret);
-				//blocks[0][0].setMaterial(Material.bigturret);
+				blocks[size-1][size-1].setMaterial(Material.bigturret);
+				blocks[0][size-1].setMaterial(Material.bigturret);
+				blocks[size-1][0].setMaterial(Material.bigturret);
+				blocks[0][0].setMaterial(Material.bigturret);
 				
 				//blocks[size/2][size/2-1].setMaterial(Material.dronemaker);
 				

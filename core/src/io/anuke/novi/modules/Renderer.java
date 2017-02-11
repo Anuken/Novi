@@ -94,9 +94,13 @@ public class Renderer extends Module<Novi>{
 		
 		ShapeUtils.line(batch, camera.position.x, camera.position.y, v.x, v.y);
 		
+		Draw.color(Color.PURPLE);
+		
 		Entities.spatial().raycast(camera.position.x, camera.position.y, v.x, v.y, (entity, x, y)->{
-			Draw.rect("error", x, y);
+			Draw.rect("blank", x, y, 4, 4, 0);
 		});
+		
+		Draw.color();
 		
 		batch.end();
 		batch.setProjectionMatrix(matrix);

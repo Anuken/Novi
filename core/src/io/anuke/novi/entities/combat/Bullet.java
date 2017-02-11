@@ -1,8 +1,6 @@
 package io.anuke.novi.entities.combat;
 
-import io.anuke.novi.entities.Entity;
-import io.anuke.novi.entities.FlyingEntity;
-import io.anuke.novi.entities.SolidEntity;
+import io.anuke.novi.entities.*;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.enemies.Base;
 import io.anuke.novi.entities.enemies.Enemy;
@@ -11,7 +9,7 @@ import io.anuke.novi.server.NoviServer;
 
 public class Bullet extends FlyingEntity implements Damager{
 	private float life;
-	public transient Entity shooter;
+	public long shooter = -1;
 	public ProjectileType type = ProjectileType.plasmabullet;
 
 	{
@@ -35,6 +33,17 @@ public class Bullet extends FlyingEntity implements Damager{
 
 	@Override
 	public void update(){
+		if(type.followParent() && shooter != -1 && shooter() != null){
+			this.x = shooter().x;
+			this.y = shooter().y;
+			
+			if(shooter() instanceof Player){
+				velocity.setAngle(((Player)shooter()).rotation);
+			}
+		}
+		
+		type.update(this);
+		
 		life += delta();
 		if(life >= type.getLifetime()){
 			remove();
@@ -49,7 +58,7 @@ public class Bullet extends FlyingEntity implements Damager{
 	}
 
 	public Bullet setShooter(Entity entity){
-		shooter = entity;
+		shooter = entity.getID();
 		return this;
 	}
 
@@ -62,7 +71,11 @@ public class Bullet extends FlyingEntity implements Damager{
 
 	//don't want to hit players or other bullets
 	public boolean collides(SolidEntity other){
-		return type.collide() && super.collides(other) && !((other instanceof Base && !type.collideWithBases()) ||(other instanceof Player && shooter instanceof Player) || (other instanceof Bullet && (!type.collideWithOtherProjectiles() && !((Bullet)other).type.collideWithOtherProjectiles())) || other.equals(shooter) || (shooter instanceof Enemy && other instanceof Enemy));
+		return type.collide() && super.collides(other) && !((other instanceof Base && !type.collideWithBases()) ||(other instanceof Player && shooter() instanceof Player) || (other instanceof Bullet && (!type.collideWithOtherProjectiles() && !((Bullet)other).type.collideWithOtherProjectiles())) || other.equals(shooter) || (shooter() instanceof Enemy && other instanceof Enemy));
+	}
+	
+	public Entity shooter(){
+		return Entities.get(shooter);
 	}
 
 	@Override
@@ -84,5 +97,4 @@ public class Bullet extends FlyingEntity implements Damager{
 	public int damage(){
 		return type.damage();
 	}
-
 }

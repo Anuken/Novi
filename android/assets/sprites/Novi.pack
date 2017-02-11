@@ -43,49 +43,63 @@ filter: Nearest,Nearest
 repeat: none
 entities/titanship
   rotate: false
-  xy: 1, 55
+  xy: 1, 73
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 entities/bigturret
   rotate: false
-  xy: 1, 23
+  xy: 1, 41
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
+entities/striker
+  rotate: false
+  xy: 131, 177
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
 entities/ship
   rotate: false
-  xy: 131, 159
+  xy: 131, 177
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+entities/lancer
+  rotate: false
+  xy: 1, 15
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 entities/turret
   rotate: false
-  xy: 1, 1
+  xy: 33, 51
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 entities/ship_test
   rotate: false
-  xy: 33, 37
+  xy: 131, 159
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 entities/lasership
   rotate: false
-  xy: 131, 141
+  xy: 157, 185
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 entities/drone
   rotate: false
-  xy: 157, 171
+  xy: 1, 1
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
@@ -95,44 +109,51 @@ Novi4.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+projectiles/laser
+  rotate: false
+  xy: 1, 125
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
 projectiles/border
   rotate: false
-  xy: 1, 26
+  xy: 1, 23
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 projectiles/explosion
   rotate: false
-  xy: 1, 10
+  xy: 259, 367
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 projectiles/mine
   rotate: false
-  xy: 103, 115
+  xy: 1, 10
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/minecenter
   rotate: false
-  xy: 116, 115
+  xy: 103, 112
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/explosivebullet
   rotate: false
-  xy: 17, 15
+  xy: 259, 356
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/dronebullet
   rotate: false
-  xy: 103, 104
+  xy: 275, 372
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
@@ -336,44 +357,51 @@ Novi6.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-tiles/frame
+tiles/block
   rotate: false
   xy: 1, 1
+  size: 16, 26
+  orig: 16, 26
+  offset: 0, 0
+  index: -1
+tiles/frame
+  rotate: false
+  xy: 19, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tiles/ironblockedge
   rotate: false
-  xy: 19, 1
+  xy: 37, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tiles/dronemaker
   rotate: false
-  xy: 37, 1
+  xy: 55, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tiles/ironblock
   rotate: false
-  xy: 55, 1
+  xy: 73, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tiles/tile
   rotate: false
-  xy: 73, 1
+  xy: 91, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tiles/dronemakerbar
   rotate: false
-  xy: 91, 3
+  xy: 109, 13
   size: 14, 14
   orig: 14, 14
   offset: 0, 0

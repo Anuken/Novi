@@ -45,7 +45,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	private boolean boosting = false;
 	private float boostingTime = 0;
 
-	private ShipType ship = ShipType.arrowhead;
+	private ShipType ship = ShipType.lancer;
 
 	public enum ShipState{
 		shooting{
@@ -129,7 +129,7 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	//don't want to hit other players or other bullets
 	public boolean collides(SolidEntity other){
-		return respawntime <= 0 && super.collides(other) && !(other instanceof Player || (other instanceof Bullet && ((Bullet) other).shooter instanceof Player));
+		return respawntime <= 0 && super.collides(other) && !(other instanceof Player || (other instanceof Bullet && ((Bullet) other).shooter() instanceof Player));
 	}
 
 	public ShipType getShip(){
@@ -192,6 +192,10 @@ public class Player extends DestructibleEntity implements Syncable{
 	public float getSpriteRotation(){
 		return (!shooting && valigned) ? velocity.angle() - 90 : this.rotation - 90;
 	}
+	
+	public float getDrawRotation(){
+		return client ? getSpriteRotation() : rotation;
+	}
 
 	public boolean loaded(float playerx, float playery){
 		return true;
@@ -206,8 +210,8 @@ public class Player extends DestructibleEntity implements Syncable{
 	public void draw(){
 		if(respawntime > 0)
 			return;
-
-		Draw.rect("ship", x, y, client ? getSpriteRotation() : rotation);
+		
+		ship.draw(this);
 
 		if(!client){
 			Draw.tcolor(Color.GOLD);
@@ -256,12 +260,13 @@ public class Player extends DestructibleEntity implements Syncable{
 		return false;
 	}
 
-	public void bullet(ProjectileType type){
+	public Bullet shootBullet(ProjectileType type){
 		Bullet b = new Bullet(type, rotation + 90);
 		b.x = predictedX();
 		b.y = predictedY();
 		b.setShooter(this);
 		b.add().send();
+		return b;
 	}
 
 	public float pingInFrames(){

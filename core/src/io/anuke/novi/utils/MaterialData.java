@@ -10,11 +10,12 @@ public class MaterialData{
 	public float mass = 1f;
 	public float drag = 0.08f;
 	public float maxvelocity = -1;
+	public boolean collide = true;
 	private SolidEntity entity;
 	public Rectangle rectangle;
 	
 	public boolean collides(MaterialData other){
-		return rectangle.overlaps(other.rectangle);
+		return collide && rectangle.overlaps(other.rectangle);
 	}
 	
 	public boolean doubleCheckCollision(MaterialData other){

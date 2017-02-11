@@ -3,10 +3,12 @@ package io.anuke.novi.server;
 import com.badlogic.gdx.utils.Queue;
 
 import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.utils.InputType;
 
 public class InputHandler{
 	public Player player;
+	public Bullet laser;
 	public Queue<InputType> inputqueue = new Queue<InputType>(6);
 	//private InputType lastinput;
 	private boolean leftmousedown, rightmousedown;

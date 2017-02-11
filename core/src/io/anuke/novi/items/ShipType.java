@@ -2,9 +2,10 @@ package io.anuke.novi.items;
 
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.server.InputHandler;
+import io.anuke.novi.utils.Draw;
 
 public enum ShipType{
-	arrowhead{
+	striker{
 		final float reload2 = 3f;
 		
 		{
@@ -19,13 +20,37 @@ public enum ShipType{
 		public void handleInput(Player player, InputHandler input){
 			player.shooting = input.leftMouseDown();
 			if(input.leftMouseDown() && player.reload <= 0){
-				player.bullet(ProjectileType.plasmabullet);
+				player.shootBullet(ProjectileType.plasmabullet);
 				player.reload = player.getShip().getShootspeed();
 			}
 			
 			if(input.rightMouseDown() && player.altreload <= 0){
-				player.bullet(ProjectileType.mine);
+				player.shootBullet(ProjectileType.mine);
 				player.altreload = reload2;
+			}
+		}
+	},
+	lancer{
+		{
+			speed = 0.2f;
+			turnspeed = 12f;
+			maxvelocity = 5f;
+			shootspeed = 4;
+			kiteDebuffMultiplier = 0.5f;
+			maxHealth = 300;
+		}
+		
+		public void handleInput(Player player, InputHandler input){
+			player.shooting = input.leftMouseDown();
+			if(player.shooting){
+				if(input.laser == null){
+					input.laser = player.shootBullet(ProjectileType.laser);
+				}
+			}else{
+				if(input.laser != null){
+					input.laser.removeServer();
+					input.laser = null;
+				}
 			}
 		}
 	};
@@ -46,6 +71,10 @@ public enum ShipType{
 
 	public void handleInput(Player player, InputHandler input){
 
+	}
+	
+	public void draw(Player player){
+		Draw.rect(name(), player.x, player.y, player.getDrawRotation());
 	}
 	
 	public int getBoostSpeed(){
