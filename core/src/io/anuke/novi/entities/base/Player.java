@@ -79,7 +79,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	{
-		material.init(7, 0.01f);
+		material.init(16, 0.01f);
 		health = ship.getMaxhealth();
 	}
 
@@ -217,11 +217,11 @@ public class Player extends DestructibleEntity implements Syncable{
 		
 		Vector2 back = Angles.translation(velocity.angle()-180, 12f);
 		
-		if(inState(ShipState.moving) && Timers.get("playersmoke" + getID(), 4)){
+		if(inState(ShipState.moving) && Timers.get(this, 4)){
 			Effects.effect(EffectType.singlesmoke, x + back.x, y + back.y);
 		}
 		
-		if(inState(ShipState.boosting) && Timers.get("playerboost" + getID(), 3)){
+		if(inState(ShipState.boosting) && Timers.get(this, 3)){
 			Effects.effect(EffectType.singlesmoke, x + back.x + MathUtils.random(-5, 5), y + back.y + MathUtils.random(-5, 5), Color.CORAL);
 		}
 	}

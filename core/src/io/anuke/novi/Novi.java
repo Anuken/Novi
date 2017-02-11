@@ -6,6 +6,7 @@ import io.anuke.novi.entities.Entities;
 import io.anuke.novi.modules.*;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.EntityLoadedSystem;
+import io.anuke.novi.systems.SpatialSystem;
 import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.modules.ModuleController;
 
@@ -22,7 +23,7 @@ public class Novi extends ModuleController<Novi>{
 		
 		
 		Entities.setBaseSystem(new EntityLoadedSystem(getModule(ClientData.class).player));
-		//Entities.addSystem(new SpatialSystem());
+		Entities.addSystem(new SpatialSystem());
 	}
 
 	@Override

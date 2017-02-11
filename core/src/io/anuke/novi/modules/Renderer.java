@@ -12,19 +12,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 
 import io.anuke.gif.GifRecorder;
 import io.anuke.novi.Novi;
 import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
-import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.modules.World.MapTile;
 import io.anuke.novi.modules.World.TileCache;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.WrappedQuadTree;
 import io.anuke.ucore.graphics.Atlas;
+import io.anuke.ucore.graphics.PixmapUtils;
+import io.anuke.ucore.graphics.ShapeUtils;
 import io.anuke.ucore.modules.Module;
 
 public class Renderer extends Module<Novi>{
@@ -45,6 +47,7 @@ public class Renderer extends Module<Novi>{
 	public boolean debug = true;
 
 	public Renderer(){
+		ShapeUtils.region = PixmapUtils.blankTextureRegion();
 		matrix = new Matrix4();
 		batch = new SpriteBatch();
 		atlas = new Atlas(Gdx.files.internal("sprites/Novi.pack"));
@@ -86,6 +89,15 @@ public class Renderer extends Module<Novi>{
 		//renderQuadTree(Entities.getSystem(SpatialSystem.class).quadtree);
 		Entities.drawAll(player.x, player.y);
 		drawEffects();
+		
+		Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+		
+		ShapeUtils.line(batch, camera.position.x, camera.position.y, v.x, v.y);
+		
+		Entities.spatial().raycast(camera.position.x, camera.position.y, v.x, v.y, (entity, x, y)->{
+			Draw.rect("error", x, y);
+		});
+		
 		batch.end();
 		batch.setProjectionMatrix(matrix);
 		batch.begin();
@@ -104,7 +116,7 @@ public class Renderer extends Module<Novi>{
 		}
 	}
 	
-	void renderQuadTree(WrappedQuadTree<Entity> tree){
+	void renderQuadTree(WrappedQuadTree tree){
 		if(tree == null) return;
 		
 		Draw.crect("border", tree.getBounds().x, tree.getBounds().y, tree.getBounds().width, tree.getBounds().height);
@@ -119,9 +131,10 @@ public class Renderer extends Module<Novi>{
 		
 		int camx = (int)(camera.position.x/World.tileSize);
 		int camy = (int)(camera.position.y/World.tileSize);
-
-		for(int rx = -range; rx <= range; rx ++){
-			for(int ry = -range; ry <= range; ry ++){
+		
+		for(int ry = range; ry >= -range; ry --){
+			for(int rx = -range; rx <= range; rx ++){
+			
 				int basex = camx+rx;
 				int basey = camy+ry;
 				

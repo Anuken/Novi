@@ -25,7 +25,7 @@ public enum ProjectileType{
 		}
 		
 		public int damage(){
-			return 30;
+			return 0;
 		}
 		
 		public void hitEvent(Bullet bullet){
@@ -105,7 +105,7 @@ public enum ProjectileType{
 		}
 		
 		public void setup(Bullet bullet){
-			bullet.material.getRectangle().setSize(10f);
+			bullet.material.set(10f);
 		}
 		
 		public int damage(){
@@ -114,6 +114,32 @@ public enum ProjectileType{
 		
 		public boolean collideWithBases(){
 			return false;
+		}
+	},
+	laser{
+		
+		public int getLifetime(){
+			return 60;
+		}
+		
+		public float getSpeed(){
+			return 0;
+		}
+		
+		public int damage(){
+			return 0;
+		}
+		
+		public void hitEvent(Bullet bullet){
+			Effects.effect(hitEffect(), bullet.x, bullet.y, Color.valueOf("ff4141ff"));
+		}
+		
+		public void draw(Bullet bullet){
+			defaultDraw(bullet);
+			
+			Draw.color(Color.ORANGE);
+			Draw.rect("laser", bullet.x, bullet.y, bullet.velocity.angle() - 90);
+			Draw.color();
 		}
 	};
 	

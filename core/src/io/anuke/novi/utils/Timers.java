@@ -8,6 +8,16 @@ public class Timers{
 	private static float time;
 	private static ObjectMap<String, Float> timers = new ObjectMap<String, Float>();
 	
+	public static boolean get(float frames){
+		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
+		return get(e.getClassName() + e.getLineNumber(), frames);
+	}
+	
+	public static boolean get(Object object, float frames){
+		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
+		return get(object.hashCode() + e.getClassName() + e.getLineNumber(), frames);
+	}
+	
 	public static boolean get(String name, float frames){
 		if(timers.containsKey(name)){
 			float out = timers.get(name);

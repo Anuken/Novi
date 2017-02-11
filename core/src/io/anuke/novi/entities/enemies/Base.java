@@ -26,6 +26,7 @@ import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.Material;
+import io.anuke.ucore.graphics.ShapeUtils;
 import io.anuke.ucore.util.Angles;
 
 public abstract class Base extends Enemy implements Syncable{
@@ -41,6 +42,8 @@ public abstract class Base extends Enemy implements Syncable{
 	private transient boolean collided = false;
 
 	public Base() {
+		material.set(size * (Material.blocksize + 1));
+		
 		if(NoviServer.active()){
 			health = Integer.MAX_VALUE;
 			blocks = new Block[size][size];
@@ -50,7 +53,6 @@ public abstract class Base extends Enemy implements Syncable{
 				}
 			}
 			generateBlocks();
-			material.getRectangle().setSize(size * (Material.blocksize + 1), size * (Material.blocksize + 1));
 		}
 	}
 
@@ -241,6 +243,9 @@ public abstract class Base extends Enemy implements Syncable{
 				block.getMaterial().draw(block, this, x, y);
 			}
 		}
+		
+		material.updateHitbox();
+		ShapeUtils.rect(Draw.batch(), material.rectangle.x, material.rectangle.y, material.rectangle.width, material.rectangle.height, 3);
 	}
 	
 	@Override
@@ -286,8 +291,8 @@ public abstract class Base extends Enemy implements Syncable{
 	}
 
 	public Vector2 world(int x, int y){
-		float relx = (x * Material.blocksize - size / 2f * Material.blocksize);
-		float rely = (y * Material.blocksize - size / 2f * Material.blocksize);
+		float relx = (x * Material.blocksize - size / 2f * Material.blocksize + Material.blocksize/2f);
+		float rely = (y * Material.blocksize - size / 2f * Material.blocksize + Material.blocksize/2f);
 		Vector2 v = Angles.rotate(relx, rely, rotation);
 		v.add(this.x, this.y);
 		return v;

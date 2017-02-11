@@ -6,8 +6,9 @@ import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.modules.World;
-import io.anuke.ucore.util.QuadTree;
 
 
 /**
@@ -15,23 +16,24 @@ import io.anuke.ucore.util.QuadTree;
  * <p>
  * This class represents any node, but you will likely only interact with the root node.
  *
- * @param <T> The type of object this quad tree should contain. An object only requires some way of getting rough bounds.
+ * @param <Entity> The type of object this quad tree should contain. An object only requires some way of getting rough bounds.
  * @author xSke
+ * @author Anuke
  */
-public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
+public class WrappedQuadTree {
     private int maxObjectsPerNode;
 
     private int level;
     private Rectangle bounds;
-    private ArrayList<T> objects;
+    private ArrayList<Entity> objects;
 
     private static Rectangle tmp = new Rectangle();
 
     private boolean leaf;
-    private WrappedQuadTree<T> bottomLeftChild;
-    private WrappedQuadTree<T> bottomRightChild;
-    private WrappedQuadTree<T> topLeftChild;
-    private WrappedQuadTree<T> topRightChild;
+    private WrappedQuadTree bottomLeftChild;
+    private WrappedQuadTree bottomRightChild;
+    private WrappedQuadTree topLeftChild;
+    private WrappedQuadTree topRightChild;
 
     /**
      * Constructs a new quad tree.
@@ -48,7 +50,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
         this.level = level;
         this.bounds = bounds;
         this.maxObjectsPerNode = maxObjectsPerNode;
-        objects = new ArrayList<T>();
+        objects = new ArrayList<Entity>();
         leaf = true;
     }
 
@@ -59,16 +61,16 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
         float subH = bounds.height / 2;
 
         leaf = false;
-        bottomLeftChild = new WrappedQuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y, subW, subH));
-        bottomRightChild = new WrappedQuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y, subW, subH));
-        topLeftChild = new WrappedQuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y + subH, subW, subH));
-        topRightChild = new WrappedQuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y + subH, subW, subH));
+        bottomLeftChild = new WrappedQuadTree(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y, subW, subH));
+        bottomRightChild = new WrappedQuadTree(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y, subW, subH));
+        topLeftChild = new WrappedQuadTree(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y + subH, subW, subH));
+        topRightChild = new WrappedQuadTree(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y + subH, subW, subH));
 
         // Transfer objects to children if they fit entirely in one
-        for (Iterator<T> iterator = objects.iterator(); iterator.hasNext(); ) {
-            T obj = iterator.next();
+        for (Iterator<Entity> iterator = objects.iterator(); iterator.hasNext(); ) {
+            Entity obj = iterator.next();
             obj.getBoundingBox(tmp);
-            WrappedQuadTree<T> child = getFittingChild(tmp);
+            WrappedQuadTree child = getFittingChild(tmp);
             if (child != null) {
                 child.insert(obj);
                 iterator.remove();
@@ -90,7 +92,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     /**
      * Inserts an object into this node or its child nodes. This will split a leaf node if it exceeds the object limit.
      */
-    public void insert(T obj) {
+    public void insert(Entity obj) {
         obj.getBoundingBox(tmp);
         if (!bounds.overlaps(tmp)) {
             // New object not in quad tree, ignoring
@@ -106,7 +108,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
         } else {
             obj.getBoundingBox(tmp);
             // Add to relevant child, or root if can't fit completely in a child
-            WrappedQuadTree<T> child = getFittingChild(tmp);
+            WrappedQuadTree child = getFittingChild(tmp);
             if (child != null) {
                 child.insert(obj);
             } else {
@@ -118,14 +120,14 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     /**
      * Removes an object from this node or its child nodes.
      */
-    public void remove(T obj) {
+    public void remove(Entity obj) {
         if (leaf) {
             // Leaf, no children, remove from root
             objects.remove(obj);
         } else {
             // Remove from relevant child
             obj.getBoundingBox(tmp);
-            WrappedQuadTree<T> child = getFittingChild(tmp);
+            WrappedQuadTree child = getFittingChild(tmp);
 
             if (child != null) {
                 child.remove(obj);
@@ -147,7 +149,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     	if(topRightChild!=null)topRightChild.clear();
     }
 
-    private WrappedQuadTree<T> getFittingChild(Rectangle boundingBox) {
+    private WrappedQuadTree getFittingChild(Rectangle boundingBox) {
         float verticalMidpoint = bounds.x + (bounds.width / 2);
         float horizontalMidpoint = bounds.y + (bounds.height / 2);
 
@@ -180,7 +182,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     /**
      * Returns the leaf node directly at the given coordinates, or null if the coordinates are outside this node's bounds.
      */
-    public WrappedQuadTree<T> getNodeAt(float x, float y) {
+    public WrappedQuadTree getNodeAt(float x, float y) {
         if (!bounds.contains(x, y)) return null;
         if (leaf) return this;
 
@@ -199,7 +201,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
      * This will result in false positives, but never a false negative.
      * </p>
      * */
-    public void getPossibleIntersections(Consumer<T> cons, Rectangle rect) {
+    public void getPossibleIntersections(Consumer<Entity> cons, Rectangle rect) {
         if (!leaf) {
         	
         	getChildIntersections(cons, rect);
@@ -268,25 +270,53 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
             }
         }
         
-        for(T object : objects)
+        for(Entity object : objects)
         	cons.accept(object);
     }
     
     /**Gets the intersections for the children, not the object itself*/
-    private void getChildIntersections(Consumer<T> cons, Rectangle rect){
+    private void getChildIntersections(Consumer<Entity> cons, Rectangle rect){
         if (topLeftChild.bounds.overlaps(rect)) topLeftChild.getIntersecting(cons, rect);
         if (topRightChild.bounds.overlaps(rect)) topRightChild.getIntersecting(cons, rect);
         if (bottomLeftChild.bounds.overlaps(rect)) bottomLeftChild.getIntersecting(cons, rect);
         if (bottomRightChild.bounds.overlaps(rect)) bottomRightChild.getIntersecting(cons, rect);
     }
     
+    public void getPointIntersections(CollisionConsumer cons, float x, float y){
+    	if (!leaf) {
+    		if (topLeftChild.bounds.contains(x, y)) topLeftChild.getPointIntersections(cons, x, y);
+    		else if (topRightChild.bounds.contains(x, y)) topRightChild.getPointIntersections(cons, x, y);
+    		else if (bottomLeftChild.bounds.contains(x, y)) bottomLeftChild.getPointIntersections(cons, x, y);
+    		else if (bottomRightChild.bounds.contains(x, y)) bottomRightChild.getPointIntersections(cons, x, y);
+    	}
+        
+        for(Entity object : objects){
+        	if(object instanceof SolidEntity){
+        		SolidEntity s = (SolidEntity)object;
+        		s.material.updateHitbox();
+        		
+            	if(s.material.rectangle.contains(x, y) || s.material.rectangle.contains(World.wrap(x), World.wrap(y))){
+            		cons.accept(s, x, y);
+            		continue;
+            	}
+            	
+            	s.material.updateHitboxWrap();
+            	
+            	if(s.material.rectangle.contains(World.wrap(x), World.wrap(y)) || s.material.rectangle.contains(x, y)){
+            		cons.accept(s, x, y);
+            		continue;
+            	}
+        	}
+        }
+    }
+    
     /**Internally used for children.*/
-    private void getIntersecting(Consumer<T> cons, Rectangle rect){
+    private void getIntersecting(Consumer<Entity> cons, Rectangle rect){
     	if (!leaf) {
     		getChildIntersections(cons, rect);
         }
         
-        for(T object : objects)
+        for(Entity object : objects)
         	cons.accept(object);
     }
 
@@ -300,28 +330,28 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     /**
      * Returns the bottom left child node, or null if this node is a leaf node.
      */
-    public WrappedQuadTree<T> getBottomLeftChild() {
+    public WrappedQuadTree getBottomLeftChild() {
         return bottomLeftChild;
     }
 
     /**
      * Returns the bottom right child node, or null if this node is a leaf node.
      */
-    public WrappedQuadTree<T> getBottomRightChild() {
+    public WrappedQuadTree getBottomRightChild() {
         return bottomRightChild;
     }
 
     /**
      * Returns the top left child node, or null if this node is a leaf node.
      */
-    public WrappedQuadTree<T> getTopLeftChild() {
+    public WrappedQuadTree getTopLeftChild() {
         return topLeftChild;
     }
 
     /**
      * Returns the top right child node, or null if this node is a leaf node.
      */
-    public WrappedQuadTree<T> getTopRightChild() {
+    public WrappedQuadTree getTopRightChild() {
         return topRightChild;
     }
 
@@ -337,7 +367,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
      * <p>
      * If this node isn't a leaf node, it will only return the objects that don't fit perfectly into a specific child node (lie on a border).
      */
-    public ArrayList<T> getObjects() {
+    public ArrayList<Entity> getObjects() {
         return objects;
     }
 
@@ -358,7 +388,7 @@ public class WrappedQuadTree<T extends QuadTree.QuadTreeObject> {
     /**
      * Fills the out ArrayList with all objects in this node and all child nodes, recursively.
      */
-    public void getAllChildren(ArrayList<T> out) {
+    public void getAllChildren(ArrayList<Entity> out) {
         out.addAll(objects);
 
         if (!leaf) {

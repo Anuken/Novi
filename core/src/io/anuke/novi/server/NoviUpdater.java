@@ -18,7 +18,7 @@ public class NoviUpdater{
 	void loop(){
 		Timers.update();
 		
-		if(Timers.get("entityupdate", 100)){
+		if(Timers.get(100)){
 			Novi.log(60/delta);
 			Novi.log("Entities: " + Entities.list().size());
 		}

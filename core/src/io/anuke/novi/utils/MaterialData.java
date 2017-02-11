@@ -11,7 +11,7 @@ public class MaterialData{
 	public float drag = 0.08f;
 	public float maxvelocity = -1;
 	private SolidEntity entity;
-	private Rectangle rectangle;
+	public Rectangle rectangle;
 	
 	public boolean collides(MaterialData other){
 		return rectangle.overlaps(other.rectangle);
