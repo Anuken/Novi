@@ -1,5 +1,7 @@
 package io.anuke.novi.items;
 
+import com.badlogic.gdx.graphics.Color;
+
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.utils.Draw;
@@ -15,6 +17,7 @@ public enum ShipType{
 			shootspeed = 4;
 			kiteDebuffMultiplier = 0.5f;
 			maxHealth = 300;
+			trailColor = Color.valueOf("7cd99bff");
 		}
 		
 		public void handleInput(Player player, InputHandler input){
@@ -38,6 +41,7 @@ public enum ShipType{
 			shootspeed = 4;
 			kiteDebuffMultiplier = 0.5f;
 			maxHealth = 300;
+			trailColor = Color.valueOf("e05f27");
 		}
 		
 		public void handleInput(Player player, InputHandler input){
@@ -63,6 +67,8 @@ public enum ShipType{
 	protected float kiteDebuffMultiplier;
 	protected int maxHealth = 100;
 	
+	protected Color trailColor = Color.WHITE;
+	
 	//boost stuff
 	//TODO set these up in a constructor
 	protected int boostSpeed = 50;
@@ -71,6 +77,10 @@ public enum ShipType{
 
 	public void handleInput(Player player, InputHandler input){
 
+	}
+	
+	public Color getTrailColor(){
+		return trailColor;
 	}
 	
 	public void draw(Player player){

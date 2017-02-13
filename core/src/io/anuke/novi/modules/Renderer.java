@@ -94,10 +94,13 @@ public class Renderer extends Module<Novi>{
 		
 		ShapeUtils.line(batch, camera.position.x, camera.position.y, v.x, v.y);
 		
-		Draw.color(Color.PURPLE);
+		
 		
 		Entities.spatial().raycast(camera.position.x, camera.position.y, v.x, v.y, (entity, x, y)->{
-			Draw.rect("blank", x, y, 4, 4, 0);
+			//Draw.color(Color.PURPLE);
+			//Draw.rect("blank", x, y, 4, 4, 0);
+			//Draw.color(Color.RED);
+			//Draw.crect("rect", entity.material.rect.x, entity.material.rect.y, entity.material.rect.width, entity.material.rect.height);
 		});
 		
 		Draw.color();

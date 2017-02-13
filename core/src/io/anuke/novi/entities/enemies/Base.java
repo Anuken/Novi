@@ -243,7 +243,7 @@ public abstract class Base extends Enemy implements Syncable{
 		}
 		
 		material.updateHitbox();
-		ShapeUtils.rect(Draw.batch(), material.rectangle.x, material.rectangle.y, material.rectangle.width, material.rectangle.height, 3);
+		ShapeUtils.rect(Draw.batch(), material.rect.x, material.rect.y, material.rect.width, material.rect.height, 3);
 	}
 	
 	@Override

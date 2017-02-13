@@ -1,5 +1,6 @@
 package io.anuke.novi.utils;
 
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import io.anuke.novi.entities.SolidEntity;
@@ -12,10 +13,14 @@ public class MaterialData{
 	public float maxvelocity = -1;
 	public boolean collide = true;
 	private SolidEntity entity;
-	public Rectangle rectangle;
+	public Rectangle rect;
+	
+	public boolean intersects(float x1, float y1, float x2, float y2){
+		return Intersector.intersectLines(x1, y1, x2, y2, rect.x, rect.y, rect.x + rect.width, rect.y, null);
+	}
 	
 	public boolean collides(MaterialData other){
-		return collide && rectangle.overlaps(other.rectangle);
+		return collide && rect.overlaps(other.rect);
 	}
 	
 	public boolean doubleCheckCollision(MaterialData other){
@@ -23,30 +28,30 @@ public class MaterialData{
 	}
 	
 	public void set(float size){
-		rectangle.setSize(size);
+		rect.setSize(size);
 	}
 	
 	public void init(float size, float drag){
-		rectangle.setSize(size);
+		rect.setSize(size);
 		this.drag = drag;
 	}
 	
 	public Rectangle getRectangle(){
-		return rectangle;
+		return rect;
 	}
 	
 	public MaterialData(SolidEntity entity, int hitwidth, int hitheight){
 		this.entity = entity;
-		rectangle = new Rectangle(0, 0, hitwidth, hitheight);
+		rect = new Rectangle(0, 0, hitwidth, hitheight);
 	}
 	
 	public MaterialData updateHitbox(){
-		rectangle.setCenter(entity.predictedX(), entity.predictedY());
+		rect.setCenter(entity.predictedX(), entity.predictedY());
 		return this;
 	}
 	
 	public MaterialData updateHitboxWrap(){
-		rectangle.setCenter(World.wrap(entity.predictedX()), World.wrap(entity.predictedY()));
+		rect.setCenter(World.wrap(entity.predictedX()), World.wrap(entity.predictedY()));
 		return this;
 	}
 }

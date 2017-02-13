@@ -111,56 +111,63 @@ filter: Nearest,Nearest
 repeat: none
 projectiles/laser
   rotate: false
-  xy: 1, 125
+  xy: 1, 130
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 projectiles/border
   rotate: false
-  xy: 1, 23
+  xy: 1, 28
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
+projectiles/rect
+  rotate: false
+  xy: 259, 362
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
 projectiles/explosion
   rotate: false
-  xy: 259, 367
+  xy: 1, 12
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 projectiles/mine
   rotate: false
-  xy: 1, 10
+  xy: 103, 117
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/minecenter
   rotate: false
-  xy: 103, 112
+  xy: 259, 349
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/explosivebullet
   rotate: false
-  xy: 259, 356
+  xy: 285, 377
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/dronebullet
   rotate: false
-  xy: 275, 372
+  xy: 1, 1
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/bullet
   rotate: false
-  xy: 1, 1
+  xy: 17, 19
   size: 5, 7
   orig: 5, 7
   offset: 0, 0

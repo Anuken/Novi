@@ -295,14 +295,14 @@ public class WrappedQuadTree {
         		SolidEntity s = (SolidEntity)object;
         		s.material.updateHitbox();
         		
-            	if(s.material.rectangle.contains(x, y) || s.material.rectangle.contains(World.wrap(x), World.wrap(y))){
+            	if(s.material.rect.contains(x, y) || s.material.rect.contains(World.wrap(x), World.wrap(y))){
             		cons.accept(s, x, y);
             		continue;
             	}
             	
             	s.material.updateHitboxWrap();
             	
-            	if(s.material.rectangle.contains(World.wrap(x), World.wrap(y)) || s.material.rectangle.contains(x, y)){
+            	if(s.material.rect.contains(World.wrap(x), World.wrap(y)) || s.material.rect.contains(x, y)){
             		cons.accept(s, x, y);
             		continue;
             	}

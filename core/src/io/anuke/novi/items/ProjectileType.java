@@ -211,6 +211,10 @@ public enum ProjectileType{
 		return name();
 	}
 	
+	public Color trailColor(){
+		return Color.WHITE;
+	}
+	
 	public EffectType hitEffect(){
 		return EffectType.hit;
 	}

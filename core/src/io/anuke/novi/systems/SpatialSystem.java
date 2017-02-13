@@ -34,35 +34,24 @@ public class SpatialSystem extends IteratingSystem{
 		quadtree.getPossibleIntersections(cons, Rectangle.tmp.set(x - size / 2, y - size / 2, size, size));
 	}
 
-	public boolean raycast(float x0f, float y0f, float x1f, float y1f, CollisionConsumer cons){
-		int x0 = (int) x0f;
-		int y0 = (int) y0f;
-		int x1 = (int) x1f;
-		int y1 = (int) y1f;
-		int dx = Math.abs(x1 - x0);
-		int dy = Math.abs(y1 - y0);
-
-		int sx = x0 < x1 ? 1 : -1;
-		int sy = y0 < y1 ? 1 : -1;
-
-		int err = dx - dy;
-		int e2;
-		while(true){
-			quadtree.getPointIntersections(cons, World.bound(x0), World.bound(y0));
-			if(x0 == x1 && y0 == y1)
-				break;
-
-			e2 = 2 * err;
-			if(e2 > -dy){
-				err = err - dy;
-				x0 = x0 + sx;
+	public void raycast(float x, float y, float x2, float y2, CollisionConsumer cons){
+		quadtree.getPossibleIntersections((entity)->{
+			SolidEntity s = (SolidEntity)entity;
+			
+			s.material.updateHitbox();
+			
+			boolean intersects = s.material.intersects(x, y, x2, y2);// || s.material.intersects(wrap(x), wrap(y), wrap(x2), wrap(y2));
+			
+			
+			
+			//s.material.updateHitboxWrap();
+			
+			//wraps = wraps || s.material.intersects(x, y, x2, y2) || s.material.intersects(wrap(x), wrap(y), wrap(x2), wrap(y2));
+			
+			if(intersects){
+				cons.accept(s, s.x, s.y);
 			}
-
-			if(e2 < dx){
-				err = err + dx;
-				y0 = y0 + sy;
-			}
-		}
-		return false;
+			
+		}, Rectangle.tmp.set(x, y, x2-x, y2-y));
 	}
 }

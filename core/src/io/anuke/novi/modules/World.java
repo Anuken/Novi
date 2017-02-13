@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import io.anuke.novi.Novi;
 import io.anuke.novi.utils.Draw;
 import io.anuke.ucore.UCore;
-import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.modules.Module;
 import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.noise.RidgedPerlin;
@@ -87,7 +86,7 @@ public class World extends Module<Novi>{
 		
 		if(caches.size == 0){
 			caches.add(new TileCache());
-		}else if(caches.get(caches.size - 1).draws > 6000){
+		}else if(caches.get(caches.size - 1).draws > 1000){
 			caches.add(new TileCache());
 		}
 		
@@ -95,23 +94,30 @@ public class World extends Module<Novi>{
 		
 		cache.beginCache();
 		
+		for(int z = 0; z < 10; z ++)
 		for(int cx = 0; cx < tileSize/16; cx ++){
-			for(int cy = 0; cy < tileSize/16; cy ++){
+			for(int cy = tileSize/16-1; cy >= 0; cy --){
 				int wx = cx + x*(tileSize/16);
 				int wy = cy + y*(tileSize/16);
 				
-				double noise = Noise.nnoise(wx, wy, 16f, 1f)*2f;
+				double noise = Noise.nnoise(wx, wy, 16f, 2f);
 				double riv = ridge.getValue(wx, wy, 0.01f);
 				
+				int height = (int)(noise*7)+5;
+				
+				if(riv >= 0.01) height = 2;
+				
+				if(z >= height || (z < height-1 && riv < -0.03)) continue;
 				
 				noise = UCore.round((float)(noise - riv), 0.15f);
 				
-				cache.setColor(Hue.mix(Color.FOREST, Color.WHITE, (float)noise));
+				//cache.setColor(Hue.mix(Color.FOREST, Color.WHITE, (float)(noise)));
 				
 				if(riv > 0.01) cache.setColor(Color.TAN);
 				if(riv > 0.08) cache.setColor(Color.NAVY);
 				
-				cache.add(Draw.region("blank"), cx*16, cy*16, 17, 17);
+				
+				cache.add(Draw.region("block"), cx*16, cy*16 + z*6, 16, 26);
 				cache.draws += 1;
 			}
 		}

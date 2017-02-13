@@ -222,7 +222,7 @@ public class Player extends DestructibleEntity implements Syncable{
 		Vector2 back = Angles.translation(velocity.angle()-180, 12f);
 		
 		if(inState(ShipState.moving) && Timers.get(this, 4)){
-			Effects.effect(EffectType.singlesmoke, x + back.x, y + back.y);
+			Effects.effect(EffectType.singlesmoke, x + back.x, y + back.y, ship.getTrailColor());
 		}
 		
 		if(inState(ShipState.boosting) && Timers.get(this, 3)){
