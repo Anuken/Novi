@@ -35,6 +35,14 @@ public class SpatialSystem extends IteratingSystem{
 	}
 
 	public void raycast(float x, float y, float x2, float y2, CollisionConsumer cons){
+		float minx, miny, maxx, maxy;
+		
+		minx = Math.min(x,  x2);
+		miny = Math.min(y,  y2);
+		
+		maxx = Math.max(x,  x2);
+		maxy = Math.max(y,  y2);
+		
 		quadtree.getPossibleIntersections((entity)->{
 			SolidEntity s = (SolidEntity)entity;
 			
@@ -42,16 +50,14 @@ public class SpatialSystem extends IteratingSystem{
 			
 			boolean intersects = s.material.intersects(x, y, x2, y2);// || s.material.intersects(wrap(x), wrap(y), wrap(x2), wrap(y2));
 			
-			
-			
 			//s.material.updateHitboxWrap();
 			
-			//wraps = wraps || s.material.intersects(x, y, x2, y2) || s.material.intersects(wrap(x), wrap(y), wrap(x2), wrap(y2));
+			//intersects = intersects || s.material.intersects(x, y, x2, y2) || s.material.intersects(wrap(x), wrap(y), wrap(x2), wrap(y2));
 			
 			if(intersects){
 				cons.accept(s, s.x, s.y);
 			}
 			
-		}, Rectangle.tmp.set(x, y, x2-x, y2-y));
+		}, Rectangle.tmp.set(minx, miny, maxx-minx, maxy-miny));
 	}
 }

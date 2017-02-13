@@ -101,23 +101,26 @@ public class World extends Module<Novi>{
 				int wy = cy + y*(tileSize/16);
 				
 				double noise = Noise.nnoise(wx, wy, 16f, 2f);
-				double riv = ridge.getValue(wx, wy, 0.01f);
+				double riv = -1f;//ridge.getValue(wx, wy, 0.01f);
 				
 				int height = (int)(noise*7)+5;
 				
 				if(riv >= 0.01) height = 2;
 				
-				if(z >= height || (z < height-1 && riv < -0.03)) continue;
+				if(z >= height || (z < height-1 && riv < -0.035)) continue;
 				
 				noise = UCore.round((float)(noise - riv), 0.15f);
 				
+				float a = height/20.0f;
+				
+				cache.setColor(Color.FOREST.cpy().add(a, a, a, 0f));
 				//cache.setColor(Hue.mix(Color.FOREST, Color.WHITE, (float)(noise)));
 				
 				if(riv > 0.01) cache.setColor(Color.TAN);
 				if(riv > 0.08) cache.setColor(Color.NAVY);
 				
 				
-				cache.add(Draw.region("block"), cx*16, cy*16 + z*6, 16, 26);
+				cache.add(Draw.region("block"), cx*16, cy*16 + z*6, 16.1f, 26.1f);
 				cache.draws += 1;
 			}
 		}
