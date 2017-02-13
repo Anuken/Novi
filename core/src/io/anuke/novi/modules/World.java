@@ -86,7 +86,7 @@ public class World extends Module<Novi>{
 		
 		if(caches.size == 0){
 			caches.add(new TileCache());
-		}else if(caches.get(caches.size - 1).draws > 1000){
+		}else if(caches.get(caches.size - 1).draws > 5000){
 			caches.add(new TileCache());
 		}
 		
@@ -101,7 +101,7 @@ public class World extends Module<Novi>{
 				int wy = cy + y*(tileSize/16);
 				
 				double noise = Noise.nnoise(wx, wy, 16f, 2f);
-				double riv = -1f;//ridge.getValue(wx, wy, 0.01f);
+				double riv = ridge.getValue(wx, wy, 0.01f); //1f;
 				
 				int height = (int)(noise*7)+5;
 				

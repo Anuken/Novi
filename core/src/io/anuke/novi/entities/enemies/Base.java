@@ -15,6 +15,7 @@ import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.base.Player;
 import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.entities.combat.Damager;
+import io.anuke.novi.modules.World;
 import io.anuke.novi.network.BaseSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
@@ -41,6 +42,7 @@ public abstract class Base extends Enemy implements Syncable{
 
 	public Base() {
 		material.set(size * (Material.blocksize + 1));
+		material.updateHitbox();
 		
 		if(NoviServer.active()){
 			health = Integer.MAX_VALUE;
@@ -52,6 +54,29 @@ public abstract class Base extends Enemy implements Syncable{
 			}
 			generateBlocks();
 		}
+	}
+	
+	@Override
+	public Base set(float x, float y){
+		this.x = x;
+		this.y = y;
+		material.updateHitbox();
+		
+		if(material.rect.x < 0)
+			this.x -= (material.rect.x - Material.blocksize*2);
+		
+		if(material.rect.y < 0)
+			this.y -= (material.rect.y - Material.blocksize*2);
+		
+		//Novi.log(this.x + " " + this.y);
+		
+		if(material.rect.x + material.rect.width > World.worldSize)
+			this.x -= (material.rect.x + material.rect.width - World.worldSize) - Material.blocksize;
+		
+		if(material.rect.y + material.rect.height > World.worldSize)
+			this.y -= (material.rect.y + material.rect.height - World.worldSize) - Material.blocksize;
+		
+		return this;
 	}
 
 	abstract void generateBlocks();
@@ -74,6 +99,7 @@ public abstract class Base extends Enemy implements Syncable{
 	public boolean collides(SolidEntity other){
 		if(!(other instanceof Damager) || (other instanceof Bullet && !(((Bullet) other).shooter() instanceof Player)))
 			return false;
+		
 		GridPoint2 point = blockPosition(other.x, other.y);
 		
 		collided = false;

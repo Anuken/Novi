@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
 
 import io.anuke.gif.GifRecorder;
 import io.anuke.novi.Novi;
@@ -55,7 +54,7 @@ public class Renderer extends Module<Novi>{
 		font.setUseIntegerPositions(false);
 		layout = new GlyphLayout();
 		recorder = new GifRecorder(batch);
-		recorder.setSpeedMultiplier(3f);
+		recorder.setSpeedMultiplier(1f);
 		Draw.init(this);
 		
 		BreakEffect.createChunks();
@@ -89,11 +88,10 @@ public class Renderer extends Module<Novi>{
 		//renderQuadTree(Entities.getSystem(SpatialSystem.class).quadtree);
 		Entities.drawAll(player.x, player.y);
 		drawEffects();
-		
+		/*
 		Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 		
 		ShapeUtils.line(batch, camera.position.x, camera.position.y, v.x, v.y);
-		
 		
 		
 		Entities.spatial().raycast(camera.position.x, camera.position.y, v.x, v.y, (entity, x, y)->{
@@ -104,7 +102,7 @@ public class Renderer extends Module<Novi>{
 		});
 		
 		Draw.color();
-		
+		*/
 		batch.end();
 		batch.setProjectionMatrix(matrix);
 		batch.begin();
@@ -179,6 +177,7 @@ public class Renderer extends Module<Novi>{
 			font.draw(batch, "Ping: " + (network.client.getReturnTripTime() + Network.ping * 2), 0, ghheight() - 5);
 			font.draw(batch, "Draws: " + batch.totalRenderCalls, 0, ghheight() - 10);
 			font.draw(batch, "Entities: " + Entities.list().size(), 0, ghheight() - 15);
+			font.draw(batch, "Log: " + Novi.getLastMessage(), 0, ghheight() - 20);
 			batch.totalRenderCalls = 0;
 		}
 

@@ -33,7 +33,44 @@ public class SpatialSystem extends IteratingSystem{
 	public void getNearby(float x, float y, float size, Consumer<Entity> cons){
 		quadtree.getPossibleIntersections(cons, Rectangle.tmp.set(x - size / 2, y - size / 2, size, size));
 	}
+	
+	//TODO fix inefficient algorithm
+	public void raycast(float x0f, float y0f, float x1f, float y1f, CollisionConsumer cons){
+		int x0 = (int) x0f;
+		int y0 = (int) y0f;
+		int x1 = (int) x1f;
+		int y1 = (int) y1f;
+		int dx = Math.abs(x1 - x0);
+		int dy = Math.abs(y1 - y0);
+		
+		int step = 1;
 
+		int sx = x0 < x1 ? step : -step;
+		int sy = y0 < y1 ? step : -step;
+
+		int err = dx - dy;
+		int e2;
+		while(true){
+			
+			quadtree.getPointIntersections(cons, World.bound(x0), World.bound(y0));
+			
+			if(x0 == x1 && y0 == y1)
+				break;
+
+			e2 = 2 * err;
+			if(e2 > -dy){
+				err = err - dy;
+				x0 = x0 + sx;
+			}
+
+			if(e2 < dx){
+				err = err + dx;
+				y0 = y0 + sy;
+			}
+		}
+	}
+	
+	/*
 	public void raycast(float x, float y, float x2, float y2, CollisionConsumer cons){
 		float minx, miny, maxx, maxy;
 		
@@ -60,4 +97,5 @@ public class SpatialSystem extends IteratingSystem{
 			
 		}, Rectangle.tmp.set(minx, miny, maxx-minx, maxy-miny));
 	}
+	*/
 }

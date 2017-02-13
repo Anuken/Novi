@@ -42,6 +42,7 @@ public class Bullet extends FlyingEntity implements Damager{
 			}
 		}
 		
+		if(NoviServer.active())
 		type.update(this);
 		
 		life += delta();

@@ -12,6 +12,7 @@ import io.anuke.ucore.modules.ModuleController;
 
 public class Novi extends ModuleController<Novi>{
 	private static final boolean logtrace = false;
+	private static String lastlog = "";
 
 	@Override
 	public void init(){
@@ -36,6 +37,10 @@ public class Novi extends ModuleController<Novi>{
 		super.render();
 	}
 	
+	public static String getLastMessage(){
+		return lastlog;
+	}
+	
 	public static float delta(){
 		return NoviServer.active() ? NoviServer.instance().delta() : Gdx.graphics.getDeltaTime()*60f;
 	}
@@ -49,6 +54,9 @@ public class Novi extends ModuleController<Novi>{
 			((Exception)o).printStackTrace();
 			return;
 		}
+		
+		lastlog = String.valueOf(o);
+		
 		if( !logtrace){
 			System.out.println(o);
 		}else{
