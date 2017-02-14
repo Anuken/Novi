@@ -1,6 +1,7 @@
 package io.anuke.novi.items;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.effects.EffectType;
@@ -9,6 +10,7 @@ import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.entities.basic.DamageArea;
 import io.anuke.novi.utils.Draw;
+import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.util.Angles;
 
@@ -146,15 +148,17 @@ public enum ProjectileType{
 		public void draw(Bullet bullet){
 			Vector2 vec = Angles.translation(bullet.velocity.angle(), length-3);
 			
-			Draw.line("laser", bullet.x, bullet.y, bullet.x + vec.x, bullet.y + vec.y, 8f);
+			Draw.colorl(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f));
+			
+			Draw.line("laser", bullet.x, bullet.y, bullet.x + vec.x, bullet.y + vec.y, 12f);
 			
 			vec.setLength(length);
 			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle());
 			
-			vec.setLength(10);
+			vec.setLength(12);
 			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle() + 180);
 			
-			
+			Draw.color();
 		}
 		
 		public void update(Bullet bullet){

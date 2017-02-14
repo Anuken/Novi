@@ -125,9 +125,9 @@ projectiles/rect
   index: -1
 projectiles/laserend
   rotate: false
-  xy: 103, 113
-  size: 14, 14
-  orig: 14, 14
+  xy: 103, 109
+  size: 18, 18
+  orig: 18, 18
   offset: 0, 0
   index: -1
 projectiles/explosion
@@ -139,14 +139,14 @@ projectiles/explosion
   index: -1
 projectiles/mine
   rotate: false
-  xy: 103, 100
+  xy: 103, 96
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/minecenter
   rotate: false
-  xy: 116, 100
+  xy: 116, 96
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
@@ -160,9 +160,16 @@ projectiles/explosivebullet
   index: -1
 projectiles/dronebullet
   rotate: false
-  xy: 103, 89
+  xy: 103, 85
   size: 7, 9
   orig: 7, 9
+  offset: 0, 0
+  index: -1
+projectiles/laser
+  rotate: false
+  xy: 123, 115
+  size: 1, 12
+  orig: 1, 12
   offset: 0, 0
   index: -1
 projectiles/bullet
@@ -170,13 +177,6 @@ projectiles/bullet
   xy: 27, 2
   size: 5, 7
   orig: 5, 7
-  offset: 0, 0
-  index: -1
-projectiles/laser
-  rotate: false
-  xy: 34, 1
-  size: 1, 8
-  orig: 1, 8
   offset: 0, 0
   index: -1
 

@@ -33,6 +33,10 @@ public class Timers{
 		}
 	}
 	
+	public static float time(){
+		return time;
+	}
+	
 	public static void update(){
 		time += Novi.delta();
 	}
