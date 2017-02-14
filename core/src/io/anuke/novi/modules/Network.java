@@ -106,7 +106,7 @@ public class Network extends Module<Novi>{
 						if(Entities.has(key)){
 							((Syncable)Entities.get(key)).readSync(packet.updates.get(key));
 						}else{
-							request(key);
+							requestEntity(key);
 						}
 					}
 				}
@@ -117,7 +117,7 @@ public class Network extends Module<Novi>{
 		}
 	}
 	
-	private void request(long id){
+	public void requestEntity(long id){
 		
 		if(!requested.contains(id) && !Entities.has(id)){
 			requested.add(id);

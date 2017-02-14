@@ -1,7 +1,5 @@
 package io.anuke.novi.entities.base;
 
-import io.anuke.novi.world.Material;
-
 public class ShipBase extends Base{
 	float speed = 0.6f;
 	
@@ -12,13 +10,7 @@ public class ShipBase extends Base{
 	
 	@Override
 	public void generateBlocks(){
-		int o = 3;
-		blocks[o-1][o].setMaterial(Material.turret);
-		blocks[size - o+1][o].setMaterial(Material.turret);
-		blocks[o][size - o-1].setMaterial(Material.turret);
-		blocks[size - o][size - o-1].setMaterial(Material.turret);
-		blocks[size / 2][2].setMaterial(Material.dronemaker);
-		blocks[size / 2][size / 2-1].setMaterial(Material.bigturret);
+		
 	}
 	
 	@Override

@@ -15,7 +15,9 @@ public abstract class DestructibleEntity extends FlyingEntity{
 		
 		if(health <= 0){
 			onDeath();
-			if(this.removeOnDeath()) removeServer();
+			if(this.removeOnDeath()){
+				removeServer();
+			}
 		}
 	}
 	

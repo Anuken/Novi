@@ -1,22 +1,21 @@
 package io.anuke.novi.entities.base;
 
-import static io.anuke.novi.modules.World.*;
+import static io.anuke.novi.modules.World.relative3;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.LongArray;
 
+import io.anuke.novi.Novi;
 import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.SolidEntity;
-import io.anuke.novi.entities.basic.Bullet;
-import io.anuke.novi.entities.basic.Damager;
-import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.entities.enemies.Enemy;
+import io.anuke.novi.modules.Network;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
@@ -36,7 +35,7 @@ public abstract class Base extends Enemy implements Syncable{
 	public transient float rotation;
 	public Block[][] blocks;
 	public transient int spawned;
-	protected LongArray entities = new LongArray();
+	protected LongArray blockentities = new LongArray();
 	protected transient String texture = null;
 	private transient InterpolationData data = new InterpolationData();
 	private transient boolean collided = false;
@@ -69,8 +68,6 @@ public abstract class Base extends Enemy implements Syncable{
 		if(material.rect.y < 0)
 			this.y -= (material.rect.y - Material.blocksize*2);
 		
-		//Novi.log(this.x + " " + this.y);
-		
 		if(material.rect.x + material.rect.width > World.worldSize)
 			this.x -= (material.rect.x + material.rect.width - World.worldSize) - Material.blocksize;
 		
@@ -80,8 +77,11 @@ public abstract class Base extends Enemy implements Syncable{
 		return this;
 	}
 
-	abstract void generateBlocks();
-
+	@Override
+	public boolean collides(SolidEntity other){
+		return false;
+	}
+	
 	void updateHealth(){
 		int health = 0;
 		for(int x = 0; x < size; x++){
@@ -96,39 +96,34 @@ public abstract class Base extends Enemy implements Syncable{
 		}
 	}
 
-	@Override
-	public boolean collides(SolidEntity other){
-		if(!(other instanceof Damager) || (other instanceof Bullet && !(((Bullet) other).shooter() instanceof Player)))
-			return false;
-		
-		GridPoint2 point = blockPosition(other.x, other.y);
-		
-		collided = false;
-		
-		radiusBlocks(point.x, point.y, (block)->{
-			Vector2 vector = world(block.x, block.y);
-			rectangle.setCenter(bound(vector.x), bound(vector.y));
-
-			if(other.collides(rectangle)){
-				block.health -= ((Damager) other).damage();
-				checkHealth(block, vector);
-				updateBlock(block.x, block.y);
-				Effects.effect(EffectType.hit, vector.x + MathUtils.random(-6f, 6f), vector.y + MathUtils.random(-6f, 6f), Color.valueOf("ffcb4d"));
-				collided = true;
-			}
-		});
-		
-		if(collided)
-			updateHealth();
-		return collided;
-	}
-
 	public void checkHealth(Block block, Vector2 pos){
 		if(block.health < 0){
 			block.getMaterial().destroyEvent(this, block.x, block.y);
 			Effects.effect(EffectType.explosion, pos.x, pos.y);
 			explosion(block.x, block.y);
 		}
+	}
+	
+	abstract void generateBlocks();
+	
+	protected void addEntity(BaseBlock block, int x, int y){
+		if(blocks[x][y].material == Material.entity){
+			//TODO error message?
+			return;
+		}
+		
+		block.setBase(this, x, y);
+		blocks[x][y].setMaterial(Material.entity);
+		block.add().send();
+		blockentities.add(block.getID());
+	}
+	
+	protected void onBlockDestroyed(BaseBlock block){
+		int x = block.blockx;
+		int y = block.blocky;
+		blockentities.removeValue(block.getID());
+		blocks[x][y].setMaterial(Material.frame);
+		explosion(x, y);
 	}
 	
 	//makes an explosion
@@ -216,6 +211,27 @@ public abstract class Base extends Enemy implements Syncable{
 	}
 	
 	@Override
+	public void update(){
+		super.update();
+		for(int i = 0; i < blockentities.size; i ++){
+			long l = blockentities.get(i);
+			
+			BaseBlock entity = (BaseBlock)Entities.get(l);
+			
+			if(entity == null){
+				if(!NoviServer.active()){
+					Novi.module(Network.class).requestEntity(l);
+				}
+				continue;
+			}
+			
+			Vector2 vector = world(entity.blockx, entity.blocky);
+			
+			entity.set(vector.x, vector.y);
+		}
+	}
+	
+	@Override
 	public void behaviorUpdate(){
 		updates.clear();
 		
@@ -230,7 +246,6 @@ public abstract class Base extends Enemy implements Syncable{
 				
 				if(block.empty())
 					continue;
-				block.getMaterial().update(block, this);
 			}
 		}
 		
@@ -282,18 +297,7 @@ public abstract class Base extends Enemy implements Syncable{
 
 	@Override
 	public SyncData writeSync(){
-		
 		updates.clear();
-		/*
-		for(int x = 0; x < size; x++){
-			for(int y = 0; y < size; y++){
-				Block block = blocks[x][y];
-				if(!block.updated) continue;
-				
-				updates.add(new BlockUpdate(block));
-			}
-		}
-		*/
 		return new SyncData(getID(), x, y, rotation, updates);
 	}
 

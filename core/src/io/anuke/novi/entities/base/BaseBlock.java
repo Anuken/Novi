@@ -1,31 +1,41 @@
 package io.anuke.novi.entities.base;
 
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.enemies.Enemy;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.world.Material;
 
 public abstract class BaseBlock extends Enemy implements Syncable{
-	protected Material material;
 	public transient float reload;
-	public final transient Base base;
-	public transient int blockx, blocky;
+	public transient Base base;
+	public long baseid;
+	public int blockx, blocky;
 	public float rotation;
 	
-	public BaseBlock(Base base, Material material, int blockx, int blocky){
-		this.material = material;
-		this.health = material.health();
-		this.material = material;
-		this.blockx = blockx;
-		this.blocky = blocky;
-		this.base = base;
+	public BaseBlock(){
+		material.set(Material.blocksize);
 	}
 	
-	private BaseBlock(){
-		this.base = null;
+	public void setBase(Base base, int x, int y){
+		blockx = x;
+		blocky = y;
+		this.base = base;
+		this.baseid = base.getID();
+	}
+	
+	@Override
+	public void onDeath(){
+		super.onDeath();
+		base.onBlockDestroyed(this);
 	}
 	
 	@Override
 	public boolean sync(){
 		return false;
+	}
+	
+	@Override
+	public void onRecieve(){
+		base = (Base)Entities.get(baseid);
 	}
 }

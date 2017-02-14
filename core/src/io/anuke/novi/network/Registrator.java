@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.LongArray;
 import com.esotericsoftware.kryo.Kryo;
 
 import io.anuke.novi.effects.BreakEffect;
@@ -12,10 +13,8 @@ import io.anuke.novi.effects.Effect;
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.FlyingEntity;
-import io.anuke.novi.entities.base.Base;
+import io.anuke.novi.entities.base.*;
 import io.anuke.novi.entities.base.Base.BlockUpdate;
-import io.anuke.novi.entities.base.GunBase;
-import io.anuke.novi.entities.base.ShipBase;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.entities.basic.DamageArea;
 import io.anuke.novi.entities.basic.Player;
@@ -61,8 +60,12 @@ public class Registrator{
 		k.register(Player.class);
 		k.register(ShipBase.class);
 		k.register(GunBase.class);
+		k.register(BaseTurret.class);
+		k.register(BaseFactory.class);
 		
 		k.register(Object[].class);
+		k.register(LongArray.class);
+		k.register(long[].class);
 		k.register(Material.class);
 		k.register(ScreenEffectType.class);
 		k.register(EffectType.class);

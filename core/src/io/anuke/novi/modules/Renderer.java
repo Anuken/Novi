@@ -54,7 +54,7 @@ public class Renderer extends Module<Novi>{
 		font.setUseIntegerPositions(false);
 		layout = new GlyphLayout();
 		recorder = new GifRecorder(batch);
-		recorder.setSpeedMultiplier(1f);
+		recorder.setSpeedMultiplier(3f);
 		Draw.init(this);
 		
 		BreakEffect.createChunks();

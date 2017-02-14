@@ -1,18 +1,30 @@
 package io.anuke.novi.entities.base;
 
+import com.badlogic.gdx.math.MathUtils;
+
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.world.Material;
+import io.anuke.novi.network.SyncData;
+import io.anuke.novi.utils.Draw;
 
 public class BaseTurret extends BaseBlock{
-
-	public BaseTurret(Base base, Material material, int blockx, int blocky) {
-		super(base, material, blockx, blocky);
+	float lastrotation = 0;
+	{
+		health = 100;
+	}
+	
+	@Override
+	public void draw(){
+		rotation = MathUtils.lerpAngleDeg(rotation, lastrotation, 0.1f);
+		
+		Draw.rect("ironblock", x, y, base.rotation);
+		Draw.rect("turret", x, y, rotation);
 	}
 
 	@Override
 	public void behaviorUpdate(){
+		
 		if(target == null)
 			return;
 
@@ -25,5 +37,20 @@ public class BaseTurret extends BaseBlock{
 
 			reload = 0;
 		}
+	}
+	
+	@Override
+	public boolean sync(){
+		return true;
+	}
+	
+	@Override
+	public SyncData writeSync(){
+		return new SyncData(getID(), rotation);
+	}
+	
+	@Override
+	public void readSync(SyncData data){
+		this.lastrotation = data.get(0);
 	}
 }

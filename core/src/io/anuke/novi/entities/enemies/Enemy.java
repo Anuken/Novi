@@ -57,7 +57,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	}
 
 	public void onDeath(){
-		//TODO enemy death explosion
+		//TODO better death effects
 		Effects.effect(EffectType.smoke, x, y);
 		Effects.effect(EffectType.explosion, x, y);
 		Effects.effect(EffectType.shockwave, x, y);
@@ -98,7 +98,8 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 		float dist = wrappedDist(target.x, target.y, x, y);
 		return predictTargetAngle(x, y, dist / speed);
 	}
-
+	
+	@Override
 	public void update(){
 		updateVelocity();
 		if(!NoviServer.active()) data.update(this);

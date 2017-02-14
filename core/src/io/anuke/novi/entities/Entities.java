@@ -34,7 +34,8 @@ public class Entities{
 		map.remove(entity.getID());
 		
 		if(NoviServer.active()){
-			binaryRemove(entity);
+			//TODO fix binary remove?
+			list.remove(entity);
 		}else{
 			list.remove(entity);
 		}
