@@ -18,6 +18,9 @@ public class World extends Module<Novi>{
 	public static final int worldScale = 8;
 	public static final int worldSize = 128 * tileSize;
 	public static final int genRange = 3;
+	public static final float mapSpeed = 5f;
+	//TODO make map position sync
+	public float mapX, mapY;
 	private GridMap<MapTile> tiles = new GridMap<MapTile>();
 	private Renderer renderer;
 	private Color color = new Color();
@@ -70,8 +73,8 @@ public class World extends Module<Novi>{
 				int x = camx+rx;
 				int y = camy+ry;
 				
-				x = (int)(World.bound(x*tileSize)/tileSize);
-				y = (int)(World.bound(y*tileSize)/tileSize);
+				x = (int)(bound(x*tileSize)/tileSize);
+				y = (int)(bound(y*tileSize)/tileSize);
 				
 				if(tiles.get(x, y) == null){
 					generateCache(x,y);
@@ -81,8 +84,6 @@ public class World extends Module<Novi>{
 	}
 	
 	private void generateCache(int x, int y){
-		
-		
 		
 		if(caches.size == 0){
 			caches.add(new TileCache());
@@ -111,9 +112,9 @@ public class World extends Module<Novi>{
 				
 				noise = UCore.round((float)(noise - riv), 0.15f);
 				
-				float a = height/20.0f;
+				float a = height/35.0f;
 				
-				cache.setColor(Color.FOREST.cpy().add(a, a, a, 0f));
+				cache.setColor(0.05f + a, 0.26f + a, 0.05f + a, 0f);
 				//cache.setColor(Hue.mix(Color.FOREST, Color.WHITE, (float)(noise)));
 				
 				if(riv > 0.01) cache.setColor(Color.TAN);

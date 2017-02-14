@@ -60,7 +60,8 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 		//TODO enemy death explosion
 		Effects.effect(EffectType.smoke, x, y);
 		Effects.effect(EffectType.explosion, x, y);
-		Effects.shake(8f, 8f, x, y);
+		Effects.effect(EffectType.shockwave, x, y);
+		Effects.shake(10f, 12f, x, y);
 	}
 
 	public void shoot(ProjectileType type, float angle){
@@ -72,7 +73,6 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	public Bullet getShoot(ProjectileType type, float angle){
 		Bullet bullet = new Bullet(type, angle);
-		bullet.set(x, y);
 		bullet.setShooter(this);
 		return bullet;
 	}
@@ -106,8 +106,13 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	@Override
 	public void serverUpdate(){
+		if(targetPlayer())
 		tryRetarget();
 		behaviorUpdate();
+	}
+	
+	public boolean targetPlayer(){
+		return true;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.LongArray;
 
 import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.EffectType;
@@ -35,6 +36,7 @@ public abstract class Base extends Enemy implements Syncable{
 	public transient float rotation;
 	public Block[][] blocks;
 	public transient int spawned;
+	protected LongArray entities = new LongArray();
 	protected transient String texture = null;
 	private transient InterpolationData data = new InterpolationData();
 	private transient boolean collided = false;
@@ -332,8 +334,6 @@ public abstract class Base extends Enemy implements Syncable{
 		private BlockUpdate(){}
 		
 		public BlockUpdate(Block block){
-			this.rotation = block.rotation;
-			this.reload = block.reload;
 			this.x = block.x;
 			this.y = block.y;
 			this.health = block.health;
@@ -342,9 +342,7 @@ public abstract class Base extends Enemy implements Syncable{
 		
 		public void apply(Block[][] blocks){
 			Block b = blocks[x][y];
-			b.reload = this.reload;
 			b.health = this.health;
-			b.rotation = this.rotation;
 			b.material = this.material;
 		}
 	}

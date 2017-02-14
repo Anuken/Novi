@@ -47,7 +47,16 @@ public class Input extends Module<Novi>{
 
 		if(angle > -1){
 			player.moving = true;
+			
+			float lastx = player.x, lasty = player.y;
+			
 			player.move(angle);
+			
+			float dx = player.x - lastx, dy = player.y - lasty;
+			
+			getModule(World.class).mapX += dx/World.mapSpeed;
+			getModule(World.class).mapY += dy/World.mapSpeed;
+			
 		}else{
 			player.moving = false;
 		}

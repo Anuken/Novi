@@ -127,6 +127,7 @@ public enum ProjectileType{
 		
 		public void setup(Bullet bullet){
 			bullet.material.collide = false;
+			bullet.material.set(5);
 		}
 		
 		public int getLifetime(){
@@ -142,7 +143,7 @@ public enum ProjectileType{
 		}
 		
 		public void hitEvent(Bullet bullet){
-			Effects.effect(hitEffect(), bullet.x, bullet.y, Color.ORANGE);
+			Effects.effect(hitEffect(), bullet.x, bullet.y, Color.valueOf("f5d06c"));
 		}
 		
 		public void draw(Bullet bullet){
@@ -155,7 +156,7 @@ public enum ProjectileType{
 			vec.setLength(length);
 			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle());
 			
-			vec.setLength(12);
+			vec.setLength(11);
 			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle() + 180);
 			
 			Draw.color();

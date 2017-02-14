@@ -45,10 +45,10 @@ public abstract class Entity implements QuadTreeObject{
 	public void onRemove(){}
 
 	
-	public Entity set(float x, float y){
+	public <T extends Entity> T set(float x, float y){
 		this.x = x;
 		this.y = y;
-		return this;
+		return (T)this;
 	}
 
 	public void send(){

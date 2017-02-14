@@ -7,6 +7,7 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.base.Base;
+import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.entities.enemies.Drone;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.utils.Draw;
@@ -102,7 +103,7 @@ public enum Material{
 				
 				if(block.reload >= reloadtime){
 					
-					base.getShoot(ProjectileType.redbullet, block.rotation + 90).set(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate(3, 5).add().send();;
+					new Bullet(ProjectileType.redbullet, block.rotation + 90).set(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate(3, 5).add().send();;
 					base.getShoot(ProjectileType.redbullet, block.rotation + 90).set(worldx(base, block.x, block.y), worldy(base, block.x, block.y)).translate( -3, 5).add().send();;
 
 					block.reload = 0;

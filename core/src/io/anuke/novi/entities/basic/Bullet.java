@@ -13,12 +13,17 @@ public class Bullet extends FlyingEntity implements Damager{
 
 	{
 		material.drag = 0;
-		material.getRectangle().setSize(2);
+		material.getRectangle().setSize(3);
 		type.setup(this);
 	}
 
 	private Bullet() {
 
+	}
+	
+	@Override
+	public float getLayer(){
+		return 0.4f;
 	}
 
 	public Bullet(float rotation) {
