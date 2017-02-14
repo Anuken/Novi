@@ -13,14 +13,14 @@ import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.FlyingEntity;
 import io.anuke.novi.entities.base.Base;
+import io.anuke.novi.entities.base.Base.BlockUpdate;
 import io.anuke.novi.entities.base.GunBase;
 import io.anuke.novi.entities.base.ShipBase;
-import io.anuke.novi.entities.base.Base.BlockUpdate;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.entities.basic.DamageArea;
 import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.entities.basic.Player.ShipState;
-import io.anuke.novi.entities.enemies.*;
+import io.anuke.novi.entities.enemies.Drone;
 import io.anuke.novi.items.Item;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
@@ -46,9 +46,6 @@ public class Registrator{
 		
 		k.register(SyncData.class);
 		k.register(EntityEvent.class);
-		k.register(BaseSyncData.class);
-		k.register(PlayerSyncData.class);
-		k.register(MovingSyncData.class);
 		k.register(ShipType.class);
 		k.register(Item.class);
 		k.register(ProjectileType.class);

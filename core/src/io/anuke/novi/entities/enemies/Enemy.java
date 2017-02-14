@@ -11,7 +11,6 @@ import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.network.MovingSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.NoviServer;
@@ -113,14 +112,13 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	@Override
 	public SyncData writeSync(){
-		return new MovingSyncData(getID(), x, y, velocity);
+		return new SyncData(getID(), x, y, velocity.x, velocity.y);
 	}
 
 	@Override
-	public void readSync(SyncData buffer){
-		MovingSyncData sync = (MovingSyncData)buffer;
-		velocity = sync.velocity;
-		data.push(this, sync.x, sync.y, 0);
+	public void readSync(SyncData in){
+		velocity.set(in.get(2), in.get(3));
+		data.push(this, in.get(0), in.get(1), 0);
 	}
 
 	abstract public void behaviorUpdate();

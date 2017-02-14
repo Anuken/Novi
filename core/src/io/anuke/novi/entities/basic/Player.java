@@ -13,7 +13,6 @@ import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.modules.Renderer;
-import io.anuke.novi.network.PlayerSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.InputHandler;
@@ -302,15 +301,14 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	@Override
 	public SyncData writeSync(){
-		return new PlayerSyncData(getID(), x, y, getState(), rotation, pingInFrames(), velocity);
+		return new SyncData(getID(), x, y, getState(), rotation, pingInFrames(), velocity);
 	}
 
 	@Override
-	public void readSync(SyncData buffer){
-		PlayerSyncData sync = (PlayerSyncData) buffer;
-		velocity = sync.velocity;
-		this.state = sync.state;
-		this.ping = sync.ping;
-		data.push(this, sync.x, sync.y, sync.rotation);
+	public void readSync(SyncData in){
+		velocity = in.get(5);
+		this.state = in.get(2);
+		this.ping = in.get(4);
+		data.push(this, in.get(0), in.get(1), in.get(3));
 	}
 }

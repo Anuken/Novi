@@ -17,7 +17,6 @@ import io.anuke.novi.entities.basic.Damager;
 import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.entities.enemies.Enemy;
 import io.anuke.novi.modules.World;
-import io.anuke.novi.network.BaseSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.NoviServer;
@@ -293,14 +292,18 @@ public abstract class Base extends Enemy implements Syncable{
 			}
 		}
 		*/
-		return new BaseSyncData(updates, rotation, x, y);
+		return new SyncData(getID(), x, y, rotation, updates);
 	}
 
 	@Override
-	public void readSync(SyncData buffer){
-		this.rotation = ((BaseSyncData) buffer).rotation;
-		data.push(this, buffer.x, buffer.y, 0f);
-		for(BlockUpdate update : ((BaseSyncData) buffer).updates){
+	public void readSync(SyncData in){
+		this.rotation = in.get(2);
+		
+		data.push(this, in.get(0), in.get(1), 0f);
+		
+		ArrayList<BlockUpdate> updates = in.get(3);
+		
+		for(BlockUpdate update : updates){
 			update.apply(blocks);
 		}
 	}

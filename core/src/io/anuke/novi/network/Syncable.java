@@ -5,7 +5,7 @@ import io.anuke.novi.server.NoviServer;
 
 public interface Syncable{
 	public SyncData writeSync();
-	public void readSync(SyncData buffer);
+	public void readSync(SyncData in);
 	
 	public default void handleEvent(Object[] data){
 		if(data[0] instanceof Integer){

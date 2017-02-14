@@ -2,15 +2,18 @@ package io.anuke.novi.network;
 
 public class SyncData{
 	public long id;
-	public float x,y;
+	public Object[] objects;
 	
-	public SyncData(long id, float x, float y){
+	/**Creates a dictionary of names and values, using an alternating pattern (name-value, name-value, etc)*/
+	public SyncData(long id, Object... objects){
 		this.id = id;
-		this.x = x;
-		this.y = y;
+		
+		this.objects = objects;
 	}
 	
-	public SyncData(){
-		
+	public <T> T get(int index){
+		return (T)objects[index];
 	}
+	
+	private SyncData(){}
 }
