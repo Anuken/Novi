@@ -21,7 +21,7 @@ public class GunBase extends Base{
 				blocks[size-1][0].setMaterial(Material.bigturret);
 				blocks[0][0].setMaterial(Material.bigturret);
 				
-				//blocks[size/2][size/2-1].setMaterial(Material.dronemaker);
+				blocks[size/2][size/2-1].setMaterial(Material.dronemaker);
 				
 				
 				//if(Math.random() < 0.1) blocks[x][y].setMaterial(Material.bigturret);

@@ -101,7 +101,7 @@ public class World extends Module<Novi>{
 				int wy = cy + y*(tileSize/16);
 				
 				double noise = Noise.nnoise(wx, wy, 16f, 2f);
-				double riv = ridge.getValue(wx, wy, 0.01f); //1f;
+				double riv = /*.getValue(wx, wy, 0.01f); //*/-1f;
 				
 				int height = (int)(noise*7)+5;
 				

@@ -46,7 +46,8 @@ public class InterpolationData{
 		temp1.interpolate(temp2, 0.5f*Novi.delta(), Interpolation.linear);
 		entity.set(temp1.x, temp1.y);
 		
-		if(entity instanceof Player)((Player)entity).rotation = MathUtils.lerpAngleDeg(((Player)entity).rotation, lastrotation, 0.25f);
+		if(entity instanceof Player) 
+			((Player)entity).rotation = MathUtils.lerpAngleDeg(((Player)entity).rotation, lastrotation, 0.1f);
 	}
 	
 	public float elapsed(){

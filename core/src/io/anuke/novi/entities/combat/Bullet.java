@@ -18,37 +18,47 @@ public class Bullet extends FlyingEntity implements Damager{
 		type.setup(this);
 	}
 
-	private Bullet(){
-		
+	private Bullet() {
+
 	}
 
-	public Bullet(float rotation){
-		if(NoviServer.active()) initVelocity(rotation);
+	public Bullet(float rotation) {
+		if(NoviServer.active())
+			initVelocity(rotation);
 	}
 
-	public Bullet(ProjectileType type, float rotation){
+	public Bullet(ProjectileType type, float rotation) {
 		this.type = type;
-		if(NoviServer.active()) initVelocity(rotation);
+		if(NoviServer.active())
+			initVelocity(rotation);
 	}
 
 	@Override
 	public void update(){
-		if(type.followParent() && shooter != -1 && shooter() != null){
-			this.x = shooter().x;
-			this.y = shooter().y;
+		if(type.followParent()){
 			
-			if(shooter() instanceof Player){
-				velocity.setAngle(((Player)shooter()).rotation);
+			if(shooter() == null){
+				if(NoviServer.active())
+					removeServer();
+			}else{
+
+				this.x = shooter().x;
+				this.y = shooter().y;
+
+				if(shooter() instanceof Player){
+					velocity.setAngle(((Player) shooter()).getDrawRotation() + 90);
+				}
 			}
 		}
-		
+
 		if(NoviServer.active())
-		type.update(this);
-		
+			type.update(this);
+
 		life += delta();
 		if(life >= type.getLifetime()){
 			remove();
-			if(NoviServer.active()) type.destroyEvent(this);
+			if(NoviServer.active())
+				type.destroyEvent(this);
 		}
 		updateVelocity();
 	}
@@ -72,24 +82,26 @@ public class Bullet extends FlyingEntity implements Damager{
 
 	//don't want to hit players or other bullets
 	public boolean collides(SolidEntity other){
-		return type.collide() && super.collides(other) && !((other instanceof Base && !type.collideWithBases()) ||(other instanceof Player && shooter() instanceof Player) || (other instanceof Bullet && (!type.collideWithOtherProjectiles() && !((Bullet)other).type.collideWithOtherProjectiles())) || other.equals(shooter) || (shooter() instanceof Enemy && other instanceof Enemy));
+		return type.collide() && super.collides(other) && !((other instanceof Base && !type.collideWithBases()) || (other instanceof Player && shooter() instanceof Player) || (other instanceof Bullet && (!type.collideWithOtherProjectiles() && !((Bullet) other).type.collideWithOtherProjectiles())) || other.equals(shooter) || (shooter() instanceof Enemy && other instanceof Enemy));
 	}
-	
+
 	public Entity shooter(){
 		return Entities.get(shooter);
 	}
 
 	@Override
 	public void collisionEvent(SolidEntity other){
-		
-		removeServer();
-		
-		if(NoviServer.active()){
-			type.hitEvent(this);
+
+		if(type.destroyOnHit()){
+			removeServer();
 			type.destroyEvent(this);
 		}
+
+		if(NoviServer.active()){
+			type.hitEvent(this);
+		}
 	}
-	
+
 	public float life(){
 		return life;
 	}

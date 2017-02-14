@@ -121,6 +121,8 @@ public enum ProjectileType{
 	},
 	laser{
 		
+		float length = 300f;
+		
 		public void setup(Bullet bullet){
 			bullet.material.collide = false;
 		}
@@ -130,40 +132,34 @@ public enum ProjectileType{
 		}
 		
 		public float getSpeed(){
-			return 0.001f;
+			return 0.01f;
 		}
 		
 		public int damage(){
-			return 0;
+			return 1;
 		}
 		
 		public void hitEvent(Bullet bullet){
-			Effects.effect(hitEffect(), bullet.x, bullet.y, Color.valueOf("ff4141ff"));
+			Effects.effect(hitEffect(), bullet.x, bullet.y, Color.ORANGE);
 		}
 		
 		public void draw(Bullet bullet){
+			Vector2 vec = Angles.translation(bullet.velocity.angle(), length);
+			
 			Draw.color(Color.ORANGE);
-			Draw.rect("laser", bullet.x, bullet.y, bullet.velocity.angle());
+			Draw.line(bullet.x, bullet.y, bullet.x + vec.x, bullet.y + vec.y, 5f);
 			Draw.color();
 		}
 		
 		public void update(Bullet bullet){
-			float lastx = bullet.x;
-			float lasty = bullet.y;
-			Vector2 v = Angles.translation(bullet.velocity.angle() + 90, 300);
+			Vector2 v = Angles.translation(bullet.velocity.angle() + 90, length);
 			
-			Entities.spatial().raycast(bullet.x, bullet.y, bullet.x +v.x, bullet.y + v.y, (entity, x, y)->{
-				bullet.x = x;
-				bullet.y = y;
-				bullet.material.updateHitbox();
-				
-				if(entity.collides(bullet)){
-					entity.collisionEvent(bullet);
-				}
-			});
+			Entities.spatial().raycastBullet(bullet.x, bullet.y, bullet.x + v.x, bullet.y + v.y, bullet);
 			
-			bullet.x = lastx;
-			bullet.y = lasty;
+		}
+		
+		public boolean destroyOnHit(){
+			return false;
 		}
 		
 		public boolean followParent(){
@@ -177,6 +173,10 @@ public enum ProjectileType{
 	
 	public void setup(Bullet bullet){
 		
+	}
+	
+	public boolean destroyOnHit(){
+		return true;
 	}
 	
 	public float getSpeed(){

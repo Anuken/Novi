@@ -24,7 +24,6 @@ import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.Material;
-import io.anuke.ucore.graphics.ShapeUtils;
 import io.anuke.ucore.util.Angles;
 
 public abstract class Base extends Enemy implements Syncable{
@@ -269,7 +268,6 @@ public abstract class Base extends Enemy implements Syncable{
 		}
 		
 		material.updateHitbox();
-		ShapeUtils.rect(Draw.batch(), material.rect.x, material.rect.y, material.rect.width, material.rect.height, 3);
 	}
 	
 	@Override

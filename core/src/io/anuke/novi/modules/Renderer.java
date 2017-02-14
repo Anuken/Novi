@@ -286,38 +286,6 @@ public class Renderer extends Module<Novi>{
 		batch.setColor(new Color(r, g, b, a));
 	}
 
-	public float overlapx(float i, float r){
-		if(MathUtils.isEqual(i, camera.position.x, (camera.viewportWidth * camera.zoom) / 2f + 10f + r)){
-			return i;
-		}else{
-			return i < World.worldSize / 2f ? i + World.worldSize : i - World.worldSize;
-		}
-	}
-
-	public float overlapy(float i, float r){
-		if(MathUtils.isEqual(i, camera.position.y, (camera.viewportHeight * camera.zoom) / 2f + 10 + r)){
-			return i;
-		}else{
-			return i < World.worldSize / 2f ? i + World.worldSize : i - World.worldSize;
-		}
-	}
-
-	public float overlapx(float i){
-		if(MathUtils.isEqual(i, camera.position.x, (camera.viewportWidth * camera.zoom) / 2f + 10f)){
-			return i;
-		}else{
-			return i < World.worldSize / 2f ? i + World.worldSize : i - World.worldSize;
-		}
-	}
-
-	public float overlapy(float i){
-		if(MathUtils.isEqual(i, camera.position.y, (camera.viewportHeight * camera.zoom) / 2f + 10f)){
-			return i;
-		}else{
-			return i < World.worldSize / 2f ? i + World.worldSize : i - World.worldSize;
-		}
-	}
-
 	//utility/shortcut draw method
 	public void draw(String region, float x, float y){
 		batch.draw(atlas.findRegion(region), x - atlas.regionWidth(region) / 2, y - atlas.regionHeight(region) / 2);

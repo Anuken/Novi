@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.ObjectSet;
 
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.SolidEntity;
@@ -13,6 +14,7 @@ import io.anuke.novi.utils.WrappedQuadTree;
 
 public class SpatialSystem extends IteratingSystem{
 	public WrappedQuadTree quadtree = new WrappedQuadTree(4, new Rectangle(0, 0, World.worldSize, World.worldSize));
+	private ObjectSet<Long> rayHit = new ObjectSet<Long>();
 
 	@Override
 	public void update(Entity entity){
@@ -32,6 +34,31 @@ public class SpatialSystem extends IteratingSystem{
 
 	public void getNearby(float x, float y, float size, Consumer<Entity> cons){
 		quadtree.getPossibleIntersections(cons, Rectangle.tmp.set(x - size / 2, y - size / 2, size, size));
+	}
+	
+	public void raycastBullet(float x, float y, float x2, float y2, SolidEntity hitter){
+		rayHit.clear();
+		
+		float lastx = hitter.x;
+		float lasty = hitter.y;
+		
+		raycast(x, y, x2, y2, (entity, cx, cy)->{
+			if(!rayHit.contains(entity.getID())){
+				hitter.x = cx;
+				hitter.y = cy;
+				hitter.material.updateHitbox();
+				
+				if(entity.collides(hitter)){
+					entity.collisionEvent(hitter);
+					hitter.collisionEvent(entity);
+				}
+				
+				rayHit.add(entity.getID());
+			}
+		});
+		
+		hitter.x = lastx;
+		hitter.y = lasty;
 	}
 	
 	//TODO fix inefficient algorithm

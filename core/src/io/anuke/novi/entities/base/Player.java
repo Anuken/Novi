@@ -194,7 +194,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 	
 	public float getDrawRotation(){
-		return client ? getSpriteRotation() : rotation;
+		return client ? getSpriteRotation() : NoviServer.active() ? rotation - 90 : rotation;
 	}
 
 	public boolean loaded(float playerx, float playery){
