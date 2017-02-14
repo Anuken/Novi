@@ -24,6 +24,6 @@ public interface Syncable{
 	}
 	
 	public default void sendEvent(Entity entity, Object... data){
-		NoviServer.instance().sendNear(new EntityEvent(entity.getID(), data), entity.x, entity.y);
+		NoviServer.instance().sendNear(new SyncData(entity.getID(), data), entity.x, entity.y);
 	}
 }

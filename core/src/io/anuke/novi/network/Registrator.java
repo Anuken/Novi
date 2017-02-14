@@ -45,7 +45,6 @@ public class Registrator{
 		k.register(ShipState.class);
 		
 		k.register(SyncData.class);
-		k.register(EntityEvent.class);
 		k.register(ShipType.class);
 		k.register(Item.class);
 		k.register(ProjectileType.class);
