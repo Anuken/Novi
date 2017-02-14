@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.effects.BreakEffect;
+import io.anuke.novi.entities.base.Base;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.utils.Draw;

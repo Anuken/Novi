@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.network.packets.InputPacket;
 import io.anuke.novi.utils.InputType;
 import io.anuke.ucore.modules.Module;

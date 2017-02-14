@@ -1,4 +1,4 @@
-package io.anuke.novi.entities.base;
+package io.anuke.novi.entities.basic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,7 +9,6 @@ import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
-import io.anuke.novi.entities.combat.Bullet;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.modules.Network;

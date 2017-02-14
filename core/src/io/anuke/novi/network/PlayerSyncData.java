@@ -2,7 +2,7 @@ package io.anuke.novi.network;
 
 import com.badlogic.gdx.math.Vector2;
 
-import io.anuke.novi.entities.base.Player.ShipState;
+import io.anuke.novi.entities.basic.Player.ShipState;
 
 public class PlayerSyncData extends SyncData{
 	public Vector2 velocity;

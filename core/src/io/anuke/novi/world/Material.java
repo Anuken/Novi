@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.anuke.novi.Novi;
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
-import io.anuke.novi.entities.enemies.Base;
+import io.anuke.novi.entities.base.Base;
 import io.anuke.novi.entities.enemies.Drone;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.utils.Draw;

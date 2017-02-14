@@ -1,4 +1,4 @@
-package io.anuke.novi.entities.enemies;
+package io.anuke.novi.entities.base;
 
 import static io.anuke.novi.modules.World.*;
 
@@ -12,9 +12,10 @@ import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.SolidEntity;
-import io.anuke.novi.entities.base.Player;
-import io.anuke.novi.entities.combat.Bullet;
-import io.anuke.novi.entities.combat.Damager;
+import io.anuke.novi.entities.basic.Bullet;
+import io.anuke.novi.entities.basic.Damager;
+import io.anuke.novi.entities.basic.Player;
+import io.anuke.novi.entities.enemies.Enemy;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.network.BaseSyncData;
 import io.anuke.novi.network.SyncData;

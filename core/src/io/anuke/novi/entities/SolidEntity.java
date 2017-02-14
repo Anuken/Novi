@@ -2,7 +2,7 @@ package io.anuke.novi.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import io.anuke.novi.entities.combat.Bullet;
+import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.utils.MaterialData;
 

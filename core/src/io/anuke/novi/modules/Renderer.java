@@ -18,7 +18,7 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
-import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.modules.World.MapTile;
 import io.anuke.novi.modules.World.TileCache;
 import io.anuke.novi.utils.Draw;

@@ -1,4 +1,4 @@
-package io.anuke.novi.entities.combat;
+package io.anuke.novi.entities.basic;
 
 import java.util.HashSet;
 

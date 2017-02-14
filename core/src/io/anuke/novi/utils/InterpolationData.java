@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.FlyingEntity;
-import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.basic.Player;
 
 public class InterpolationData{
 	static final float correctrange = 20f;

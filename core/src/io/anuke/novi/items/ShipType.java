@@ -2,7 +2,7 @@ package io.anuke.novi.items;
 
 import com.badlogic.gdx.graphics.Color;
 
-import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.utils.Draw;
 

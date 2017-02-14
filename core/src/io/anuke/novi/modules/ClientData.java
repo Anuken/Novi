@@ -1,7 +1,7 @@
 package io.anuke.novi.modules;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.entities.base.Player;
+import io.anuke.novi.entities.basic.Player;
 import io.anuke.ucore.modules.Module;
 
 public class ClientData extends Module<Novi>{

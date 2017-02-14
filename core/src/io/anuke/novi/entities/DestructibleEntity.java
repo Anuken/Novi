@@ -1,6 +1,6 @@
 package io.anuke.novi.entities;
 
-import io.anuke.novi.entities.combat.Damager;
+import io.anuke.novi.entities.basic.Damager;
 
 //an entity that can be hit and/or destroyed by bullets
 public abstract class DestructibleEntity extends FlyingEntity{

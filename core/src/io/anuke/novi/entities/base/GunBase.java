@@ -1,4 +1,4 @@
-package io.anuke.novi.entities.enemies;
+package io.anuke.novi.entities.base;
 
 import io.anuke.novi.world.Material;
 

@@ -8,10 +8,10 @@ import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.SolidEntity;
-import io.anuke.novi.entities.base.Player;
-import io.anuke.novi.entities.combat.Bullet;
+import io.anuke.novi.entities.basic.Bullet;
+import io.anuke.novi.entities.basic.Player;
 import io.anuke.novi.items.ProjectileType;
-import io.anuke.novi.network.EnemySyncData;
+import io.anuke.novi.network.MovingSyncData;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.NoviServer;
@@ -113,12 +113,12 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 
 	@Override
 	public SyncData writeSync(){
-		return new EnemySyncData(getID(), x, y, velocity);
+		return new MovingSyncData(getID(), x, y, velocity);
 	}
 
 	@Override
 	public void readSync(SyncData buffer){
-		EnemySyncData sync = (EnemySyncData)buffer;
+		MovingSyncData sync = (MovingSyncData)buffer;
 		velocity = sync.velocity;
 		data.push(this, sync.x, sync.y, 0);
 	}
