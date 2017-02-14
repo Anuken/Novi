@@ -121,7 +121,7 @@ public enum ProjectileType{
 	},
 	laser{
 		
-		float length = 300f;
+		float length = 200f;
 		
 		public void setup(Bullet bullet){
 			bullet.material.collide = false;
@@ -144,11 +144,17 @@ public enum ProjectileType{
 		}
 		
 		public void draw(Bullet bullet){
-			Vector2 vec = Angles.translation(bullet.velocity.angle(), length);
+			Vector2 vec = Angles.translation(bullet.velocity.angle(), length-3);
 			
-			Draw.color(Color.ORANGE);
-			Draw.line(bullet.x, bullet.y, bullet.x + vec.x, bullet.y + vec.y, 5f);
-			Draw.color();
+			Draw.line("laser", bullet.x, bullet.y, bullet.x + vec.x, bullet.y + vec.y, 8f);
+			
+			vec.setLength(length);
+			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle());
+			
+			vec.setLength(10);
+			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle() + 180);
+			
+			
 		}
 		
 		public void update(Bullet bullet){

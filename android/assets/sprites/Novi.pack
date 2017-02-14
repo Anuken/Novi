@@ -109,67 +109,74 @@ Novi4.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-projectiles/laser
-  rotate: false
-  xy: 1, 130
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
 projectiles/border
   rotate: false
-  xy: 1, 28
+  xy: 1, 27
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 projectiles/rect
   rotate: false
-  xy: 259, 362
+  xy: 1, 1
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
+projectiles/laserend
+  rotate: false
+  xy: 103, 113
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
 projectiles/explosion
   rotate: false
-  xy: 1, 12
+  xy: 27, 11
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 projectiles/mine
   rotate: false
-  xy: 103, 117
+  xy: 103, 100
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/minecenter
   rotate: false
-  xy: 259, 349
+  xy: 116, 100
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/explosivebullet
   rotate: false
-  xy: 285, 377
+  xy: 43, 16
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/dronebullet
   rotate: false
-  xy: 1, 1
+  xy: 103, 89
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/bullet
   rotate: false
-  xy: 17, 19
+  xy: 27, 2
   size: 5, 7
   orig: 5, 7
+  offset: 0, 0
+  index: -1
+projectiles/laser
+  rotate: false
+  xy: 34, 1
+  size: 1, 8
+  orig: 1, 8
   offset: 0, 0
   index: -1
 

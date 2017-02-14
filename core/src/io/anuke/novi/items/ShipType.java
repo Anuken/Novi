@@ -36,12 +36,13 @@ public enum ShipType{
 	lancer{
 		{
 			speed = 0.2f;
-			turnspeed = 12f;
+			turnspeed = 4f;
 			maxvelocity = 5f;
 			shootspeed = 4;
 			kiteDebuffMultiplier = 0.5f;
 			maxHealth = 300;
 			trailColor = Color.valueOf("e05f27");
+			shootingMoveSpeedMultiplier = 0.5f;
 		}
 		
 		public void handleInput(Player player, InputHandler input){
@@ -65,6 +66,7 @@ public enum ShipType{
 	protected float maxvelocity;
 	protected float shootspeed;
 	protected float kiteDebuffMultiplier;
+	protected float shootingMoveSpeedMultiplier = 1f;
 	protected int maxHealth = 100;
 	
 	protected Color trailColor = Color.WHITE;
@@ -109,6 +111,10 @@ public enum ShipType{
 
 	public float getTurnspeed(){
 		return turnspeed;
+	}
+	
+	public float getShootingMoveSpeedMultiplier(){
+		return shootingMoveSpeedMultiplier;
 	}
 
 	public float getMaxVelocity(){

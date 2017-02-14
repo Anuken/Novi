@@ -108,7 +108,7 @@ public class Player extends DestructibleEntity implements Syncable{
 
 		//updateBounds();
 		if(!boosting)
-			velocity.limit(ship.getMaxVelocity() * kiteChange());
+			velocity.limit(ship.getMaxVelocity() * kiteChange() * (shooting ? ship.getShootingMoveSpeedMultiplier() : 1f));
 		if(rotation > 360f && !ship.getSpin())
 			rotation -= 360f;
 		if(rotation < 0f && !ship.getSpin())
@@ -156,7 +156,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	}
 
 	public void move(float angle){
-		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed() * delta()));
+		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed() * delta() * (shooting ? ship.getShootingMoveSpeedMultiplier() : 1f)));
 	}
 	
 	//TODO make boosting serverside
@@ -217,7 +217,7 @@ public class Player extends DestructibleEntity implements Syncable{
 			Draw.tcolor();
 		}
 		
-		Vector2 back = Angles.translation(velocity.angle()-180, 12f);
+		Vector2 back = Angles.translation(getSpriteRotation()-90, 12f);
 		
 		if(inState(ShipState.moving) && Timers.get(this, 4)){
 			Effects.effect(EffectType.singlesmoke, x + back.x, y + back.y, ship.getTrailColor());

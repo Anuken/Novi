@@ -60,9 +60,10 @@ public class Draw{
 		rend.batch.draw(reg, x - reg.getRegionWidth()/2, y - reg.getRegionHeight()/2, reg.getRegionWidth()/2, reg.getRegionHeight()/2, reg.getRegionWidth(), reg.getRegionHeight(), 1f, 1f, rotation);
 	}
 	
-	public static void line(float x, float y, float x2, float y2, float thickness){
+	public static void line(String tex, float x, float y, float x2, float y2, float thickness){
 		
 		ShapeUtils.thickness = thickness;
+		ShapeUtils.region = region(tex);
 		
 		//yes that's a lot of draw calls
 		//TODO fix this mess
@@ -72,6 +73,8 @@ public class Draw{
 				ShapeUtils.line(rend.batch, x + cx*World.worldSize, y + cy*World.worldSize, x2 + cx*World.worldSize, y2 + cy*World.worldSize);
 			}
 		}
+		
+		ShapeUtils.region = region("blank");
 	}
 	
 	public static void text(String text, float x, float y){
