@@ -68,11 +68,11 @@ public abstract class Base extends Enemy implements Syncable{
 		if(material.rect.y < 0)
 			this.y -= (material.rect.y - Material.blocksize*2);
 		
-		if(material.rect.x + material.rect.width > World.worldSize)
-			this.x -= (material.rect.x + material.rect.width - World.worldSize) - Material.blocksize;
+		if(material.rect.x + material.rect.width > World.size)
+			this.x -= (material.rect.x + material.rect.width - World.size) - Material.blocksize;
 		
-		if(material.rect.y + material.rect.height > World.worldSize)
-			this.y -= (material.rect.y + material.rect.height - World.worldSize) - Material.blocksize;
+		if(material.rect.y + material.rect.height > World.size)
+			this.y -= (material.rect.y + material.rect.height - World.size) - Material.blocksize;
 		
 		return this;
 	}

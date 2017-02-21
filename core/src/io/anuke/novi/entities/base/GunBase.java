@@ -18,10 +18,11 @@ public class GunBase extends Base{
 				
 				//if(Math.random() < 0.1) blocks[x][y].setMaterial(Material.bigturret);
 				//if(Math.random() < 0.1) blocks[x][y].setMaterial(Material.turret);
-				
 			}
 		}
 		
 		addEntity(new BaseTurret(), size/2, size/2);
+		
+		addEntity(new BaseTurret(), size/2-1, size/2);
 	}
 }

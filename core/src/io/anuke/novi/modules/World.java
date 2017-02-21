@@ -16,7 +16,7 @@ import io.anuke.ucore.util.GridMap;
 public class World extends Module<Novi>{
 	public static final int tileSize = 512;
 	public static final int worldScale = 8;
-	public static final int worldSize = 128 * tileSize;
+	public static final int size = 128 * tileSize;
 	public static final int genRange = 3;
 	public static final float mapSpeed = 5f;
 	//TODO make map position sync
@@ -134,11 +134,11 @@ public class World extends Module<Novi>{
 	}
 
 	public static int worldWidthPixels(){
-		return worldSize;
+		return size;
 	}
 
 	public static int worldHeightPixels(){
-		return worldSize;
+		return size;
 	}
 
 	//square distance with wrapping
@@ -163,15 +163,15 @@ public class World extends Module<Novi>{
 	//returns the wrapped distance from a to b
 	public static float owrapdst(float a, float b){
 		if(a > b){
-			return a - (World.worldSize + b);
+			return a - (World.size + b);
 		}else{
-			return -(b - (World.worldSize + a));
+			return -(b - (World.size + a));
 		}
 	}
 
 	//returns the unsigned wrapped distance from a to b
 	public static float uowrapdst(float a, float b){
-		return a - (World.worldSize + b);
+		return a - (World.size + b);
 	}
 
 	//minimum distance from a to b with wrapping
@@ -183,17 +183,17 @@ public class World extends Module<Novi>{
 
 	//wraps crap
 	public static float wrap(float i){
-		if(i > World.worldSize / 2)
-			return World.worldSize - i;
+		if(i > World.size / 2)
+			return World.size - i;
 		return i;
 	}
 
 	//corrects coord bounds
 	public static float bound(float i){
 		if(i < 0){
-			return World.worldSize + i;
+			return World.size + i;
 		}else{
-			return i % World.worldSize;
+			return i % World.size;
 		}
 	}
 }

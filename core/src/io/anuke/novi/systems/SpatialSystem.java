@@ -13,7 +13,7 @@ import io.anuke.novi.utils.CollisionConsumer;
 import io.anuke.novi.utils.WrappedQuadTree;
 
 public class SpatialSystem extends IteratingSystem{
-	public WrappedQuadTree quadtree = new WrappedQuadTree(4, new Rectangle(0, 0, World.worldSize, World.worldSize));
+	public WrappedQuadTree quadtree = new WrappedQuadTree(4, new Rectangle(0, 0, World.size, World.size));
 	private ObjectSet<Long> rayHit = new ObjectSet<Long>();
 
 	@Override

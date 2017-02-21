@@ -3,7 +3,7 @@ package io.anuke.novi.systems;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
-import io.anuke.novi.entities.basic.Player;
+import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.packets.WorldUpdatePacket;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.entities.basic.Player;
+import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;

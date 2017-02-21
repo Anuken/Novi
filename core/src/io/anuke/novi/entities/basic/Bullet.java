@@ -3,6 +3,7 @@ package io.anuke.novi.entities.basic;
 import io.anuke.novi.entities.*;
 import io.anuke.novi.entities.base.Base;
 import io.anuke.novi.entities.enemies.Enemy;
+import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.server.NoviServer;
 

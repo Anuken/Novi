@@ -70,7 +70,7 @@ public class Draw{
 		
 		for(int cx = -1; cx <= 1; cx ++){
 			for(int cy = -1; cy <= 1; cy ++){
-				ShapeUtils.line(rend.batch, x + cx*World.worldSize, y + cy*World.worldSize, x2 + cx*World.worldSize, y2 + cy*World.worldSize);
+				ShapeUtils.line(rend.batch, x + cx*World.size, y + cy*World.size, x2 + cx*World.size, y2 + cy*World.size);
 			}
 		}
 		
@@ -154,10 +154,10 @@ public class Draw{
 		if(MathUtils.isEqual(i, rend.camera.position.x, (rend.camera.viewportWidth * rend.camera.zoom) / 2f + 10f + r)){
 			return vector;
 		}else{
-			if(i < World.worldSize / 2f){
-				vector.set(x1 + World.worldSize, x2 + World.worldSize);
+			if(i < World.size / 2f){
+				vector.set(x1 + World.size, x2 + World.size);
 			}else{
-				vector.set(x1 - World.worldSize, x2 - World.worldSize);
+				vector.set(x1 - World.size, x2 - World.size);
 			}
 			return vector;
 		}
@@ -173,10 +173,10 @@ public class Draw{
 		if(MathUtils.isEqual(i, rend.camera.position.y, (rend.camera.viewportHeight * rend.camera.zoom) / 2f + 10f + r)){
 			return vector;
 		}else{
-			if(i < World.worldSize / 2f){
-				vector.set(y1 + World.worldSize, y2 + World.worldSize);
+			if(i < World.size / 2f){
+				vector.set(y1 + World.size, y2 + World.size);
 			}else{
-				vector.set(y1 - World.worldSize, y2 - World.worldSize);
+				vector.set(y1 - World.size, y2 - World.size);
 			}
 			return vector;
 		}
@@ -186,7 +186,7 @@ public class Draw{
 		if(MathUtils.isEqual(i, rend.camera.position.x, (rend.camera.viewportWidth * rend.camera.zoom) / 2f + 10f + r)){
 			return i;
 		}else{
-			return i < World.worldSize / 2f ? i + World.worldSize : i - World.worldSize;
+			return i < World.size / 2f ? i + World.size : i - World.size;
 		}
 	}
 
@@ -194,7 +194,7 @@ public class Draw{
 		if(MathUtils.isEqual(i, rend.camera.position.y, (rend.camera.viewportHeight * rend.camera.zoom) / 2f + 10 + r)){
 			return i;
 		}else{
-			return i < World.worldSize / 2f ? i + World.worldSize : i - World.worldSize;
+			return i < World.size / 2f ? i + World.size : i - World.size;
 		}
 	}
 }

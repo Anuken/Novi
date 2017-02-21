@@ -9,7 +9,7 @@ import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.basic.Bullet;
-import io.anuke.novi.entities.basic.Player;
+import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;

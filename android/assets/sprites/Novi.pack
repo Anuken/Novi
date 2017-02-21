@@ -43,63 +43,70 @@ filter: Nearest,Nearest
 repeat: none
 entities/titanship
   rotate: false
-  xy: 1, 73
+  xy: 1, 125
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
+entities/playerbase
+  rotate: false
+  xy: 1, 23
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
 entities/bigturret
   rotate: false
-  xy: 1, 41
+  xy: 131, 223
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 entities/striker
   rotate: false
-  xy: 131, 177
+  xy: 103, 99
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 entities/ship
   rotate: false
-  xy: 131, 177
+  xy: 103, 99
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 entities/lancer
   rotate: false
-  xy: 1, 15
+  xy: 131, 197
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 entities/turret
   rotate: false
-  xy: 33, 51
+  xy: 1, 1
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 entities/ship_test
   rotate: false
-  xy: 131, 159
+  xy: 163, 237
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 entities/lasership
   rotate: false
-  xy: 157, 185
+  xy: 103, 81
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 entities/drone
   rotate: false
-  xy: 1, 1
+  xy: 131, 183
   size: 12, 12
   orig: 12, 12
   offset: 0, 0

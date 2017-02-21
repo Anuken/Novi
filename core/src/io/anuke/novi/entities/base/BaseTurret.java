@@ -16,7 +16,7 @@ public class BaseTurret extends BaseBlock{
 	
 	@Override
 	public void draw(){
-		rotation = MathUtils.lerpAngleDeg(rotation, lastrotation, 0.1f);
+		rotation = MathUtils.lerpAngleDeg(rotation, lastrotation, 0.09f);
 		
 		Draw.rect("ironblock", x, y, base.rotation);
 		Draw.rect("turret", x, y, rotation);

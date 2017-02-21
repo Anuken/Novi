@@ -210,7 +210,7 @@ public class WrappedQuadTree {
             float topy = rect.y + rect.getHeight();
             float x = rect.x;
             float y = rect.y;
-            float size = World.worldSize;
+            float size = World.size;
             
             if(topx > size && y < 0){
             	rect.x -= size;
