@@ -41,65 +41,72 @@ Novi3.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+entities/playerbase
+  rotate: false
+  xy: 1, 59
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
 entities/titanship
   rotate: false
-  xy: 1, 73
+  xy: 153, 81
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 entities/bigturret
   rotate: false
-  xy: 1, 41
+  xy: 1, 27
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 entities/striker
   rotate: false
-  xy: 131, 177
+  xy: 283, 185
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 entities/ship
   rotate: false
-  xy: 131, 177
+  xy: 283, 185
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 entities/lancer
   rotate: false
-  xy: 1, 15
+  xy: 1, 1
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 entities/turret
   rotate: false
-  xy: 33, 51
+  xy: 153, 59
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 entities/ship_test
   rotate: false
-  xy: 131, 159
+  xy: 33, 41
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 entities/lasership
   rotate: false
-  xy: 157, 185
+  xy: 283, 167
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 entities/drone
   rotate: false
-  xy: 1, 1
+  xy: 309, 197
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
@@ -130,51 +137,65 @@ projectiles/laserend
   orig: 18, 18
   offset: 0, 0
   index: -1
+projectiles/healbeamend
+  rotate: false
+  xy: 27, 7
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
 projectiles/explosion
   rotate: false
-  xy: 27, 11
+  xy: 103, 93
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 projectiles/mine
   rotate: false
-  xy: 103, 96
+  xy: 47, 14
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/minecenter
   rotate: false
-  xy: 116, 96
+  xy: 47, 1
   size: 11, 11
   orig: 11, 11
   offset: 0, 0
   index: -1
 projectiles/explosivebullet
   rotate: false
-  xy: 43, 16
+  xy: 103, 82
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 projectiles/dronebullet
   rotate: false
-  xy: 103, 85
+  xy: 60, 16
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
-projectiles/laser
+projectiles/healbeam
   rotate: false
   xy: 123, 115
   size: 1, 12
   orig: 1, 12
   offset: 0, 0
   index: -1
+projectiles/laser
+  rotate: false
+  xy: 126, 115
+  size: 1, 12
+  orig: 1, 12
+  offset: 0, 0
+  index: -1
 projectiles/bullet
   rotate: false
-  xy: 27, 2
+  xy: 103, 73
   size: 5, 7
   orig: 5, 7
   offset: 0, 0

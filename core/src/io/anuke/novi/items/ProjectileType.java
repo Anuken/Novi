@@ -148,17 +148,18 @@ public enum ProjectileType{
 		
 		public void draw(Bullet bullet){
 			Vector2 vec = Angles.translation(bullet.velocity.angle(), length-3);
-			
-			Draw.colorl(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f));
-			
-			Draw.line("laser", bullet.x, bullet.y, bullet.x + vec.x, bullet.y + vec.y, 12f);
-			
-			vec.setLength(length);
-			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle());
+			float rotation = bullet.velocity.angle();
 			
 			vec.setLength(11);
-			Draw.rect("laserend", bullet.x + vec.x, bullet.y + vec.y, bullet.velocity.angle() + 180);
 			
+			float x = bullet.x + vec.x, y = bullet.y + vec.y;
+			
+			vec.setLength(length);
+			
+			float x2 = bullet.x + vec.x, y2 = bullet.y + vec.y;
+			
+			Draw.colorl(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f));
+			Draw.laser("laser", "laserend", x, y, x2, y2, rotation);
 			Draw.color();
 		}
 		

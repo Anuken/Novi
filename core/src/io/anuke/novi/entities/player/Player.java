@@ -14,13 +14,16 @@ import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.modules.Renderer;
+import io.anuke.novi.modules.World;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
+import io.anuke.novi.network.packets.DeathPacket;
 import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.utils.Timers;
+import io.anuke.ucore.UCore;
 import io.anuke.ucore.modules.ModuleController;
 import io.anuke.ucore.util.Angles;
 
@@ -34,7 +37,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	public transient ShipState state;
 	public transient boolean valigned = true;
 	public transient boolean shooting, moving; //used for aligning the rotation after you shoot and let go of the mouse
-	/** note that rotation is only for remote players or shooting*/
+	/** note that rotation is only for remote players or shooting */
 	public transient float rotation = 0;
 	public transient float reload, altreload = 0, ping;
 	transient InterpolationData data = new InterpolationData();
@@ -88,8 +91,8 @@ public class Player extends DestructibleEntity implements Syncable{
 		if(respawntime > 0){
 			respawntime -= delta();
 			if(respawntime <= 0){
-				x = 0;
-				y = 0;
+				x = World.size/2;
+				y = World.size/2;
 				if(NoviServer.active())
 					Effects.effect(EffectType.shockwave, x, y);
 			}
@@ -101,7 +104,7 @@ public class Player extends DestructibleEntity implements Syncable{
 
 		if(NoviServer.active())
 			return; //don't want to do stuff like getting the mouse angle on the server, do we?
-		
+
 		if(!client)
 			data.update(this);
 		else
@@ -159,7 +162,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	public void move(float angle){
 		velocity.add(new Vector2(1f, 1f).setAngle(angle).setLength(ship.getSpeed() * delta() * (shooting ? ship.getShootingMoveSpeedMultiplier() : 1f)));
 	}
-	
+
 	//TODO make boosting serverside
 	public void boost(){
 		if(!boosting){
@@ -169,7 +172,7 @@ public class Player extends DestructibleEntity implements Syncable{
 			Effects.effect(EffectType.smoke, x, y);
 		}
 	}
-	
+
 	//TODO fix crude clientside effects and make them work in a proper animation state
 	public void boostUpdate(){
 
@@ -191,7 +194,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	public float getSpriteRotation(){
 		return (!shooting && valigned) ? velocity.angle() - 90 : this.rotation - 90;
 	}
-	
+
 	public float getDrawRotation(){
 		return client ? getSpriteRotation() : NoviServer.active() ? rotation - 90 : rotation;
 	}
@@ -209,7 +212,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	public void draw(){
 		if(respawntime > 0)
 			return;
-		
+
 		ship.draw(this);
 
 		if(!client){
@@ -217,13 +220,13 @@ public class Player extends DestructibleEntity implements Syncable{
 			Draw.text(name, x, y + 14);
 			Draw.tcolor();
 		}
-		
-		Vector2 back = Angles.translation(getSpriteRotation()-90, 12f);
-		
+
+		Vector2 back = Angles.translation(getSpriteRotation() - 90, 12f);
+
 		if(inState(ShipState.moving) && Timers.get(this, 4)){
 			Effects.effect(EffectType.singlesmoke, x + back.x, y + back.y, ship.getTrailColor());
 		}
-		
+
 		if(inState(ShipState.boosting) && Timers.get(this, 3)){
 			Effects.effect(EffectType.singlesmoke, x + back.x + MathUtils.random(-5, 5), y + back.y + MathUtils.random(-5, 5), Color.CORAL);
 		}
@@ -231,13 +234,21 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	@Override
 	public void onDeath(){
-		/*
-		 * if(NoviServer.active()){ new Shockwave(9f, 0.001f, 0.04f).set(x,
-		 * y).send(); new BreakEffect("ship", 2.5f, rotation).set(x, y).send();
-		 * Effects.explosionCluster(x, y, 6, 16); Effects.shake(50f, 50f, x, y);
-		 * health = ship.getMaxhealth(); connection.sendTCP(new DeathPacket());
-		 * } velocity.set(0,0); respawntime = 150;
-		 */
+		
+		if(input.laser != null)
+			input.laser.removeServer();
+		
+		if(NoviServer.active()){
+			Effects.shake(50f, 50f, x, y);
+			Effects.effect(EffectType.explosion, x, y);
+			Effects.effect(EffectType.shockwave, x, y);
+			Effects.blockbreak(ship.name(), x, y, 2f, velocity);
+			health = ship.getMaxhealth();
+			connection.sendTCP(new DeathPacket());
+		}
+		
+		velocity.set(0, 0);
+		respawntime = 150;
 	}
 
 	public boolean inState(ShipState state){
@@ -284,6 +295,12 @@ public class Player extends DestructibleEntity implements Syncable{
 
 	public int connectionID(){
 		return connection.getID();
+	}
+	
+	public boolean heal(float amount){
+		if(health >= ship.getMaxhealth()) return true;
+		health = UCore.clamp(health + amount, 0, ship.getMaxhealth());
+		return false;
 	}
 
 	public ShipState getState(){

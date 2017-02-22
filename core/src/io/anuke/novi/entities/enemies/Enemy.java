@@ -28,7 +28,7 @@ public abstract class Enemy extends DestructibleEntity implements Syncable{
 	public void targetPlayers(int range){
 		neardist = Float.MAX_VALUE;
 		
-		if(target != null && target.isRemoved()){
+		if(target != null && (target.isRemoved() || !target.isVisible())){
 			target = null;
 		}
 		

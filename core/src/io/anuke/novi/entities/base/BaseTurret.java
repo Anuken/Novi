@@ -10,6 +10,7 @@ import io.anuke.novi.utils.Draw;
 
 public class BaseTurret extends BaseBlock{
 	float lastrotation = 0;
+	static float reloadtime = 30;
 	{
 		health = 100;
 	}
@@ -31,7 +32,7 @@ public class BaseTurret extends BaseBlock{
 		rotation = autoPredictTargetAngle(x, y, 4f) + 90;
 		reload += Novi.delta();
 
-		if(reload >= 100){
+		if(reload >= reloadtime){
 			new Bullet(ProjectileType.redbullet, rotation + 90).setShooter(base).set(x, y).translate(3, 5).add().send();
 			new Bullet(ProjectileType.redbullet, rotation + 90).setShooter(base).set(x, y).translate(-3, 5).add().send();
 

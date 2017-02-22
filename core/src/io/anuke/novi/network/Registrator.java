@@ -20,6 +20,7 @@ import io.anuke.novi.entities.basic.DamageArea;
 import io.anuke.novi.entities.enemies.Drone;
 import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.entities.player.Player.ShipState;
+import io.anuke.novi.entities.player.RepairBase;
 import io.anuke.novi.items.Item;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
@@ -62,6 +63,8 @@ public class Registrator{
 		k.register(GunBase.class);
 		k.register(BaseTurret.class);
 		k.register(BaseFactory.class);
+		k.register(RepairBase.class);
+		
 		
 		k.register(Object[].class);
 		k.register(LongArray.class);

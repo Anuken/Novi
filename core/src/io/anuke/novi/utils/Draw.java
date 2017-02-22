@@ -60,6 +60,23 @@ public class Draw{
 		rend.batch.draw(reg, x - reg.getRegionWidth()/2, y - reg.getRegionHeight()/2, reg.getRegionWidth()/2, reg.getRegionHeight()/2, reg.getRegionWidth(), reg.getRegionHeight(), 1f, 1f, rotation);
 	}
 	
+	public static void laser(String edge, String line, float x, float y, float x2, float y2){
+		laser(edge, line, x, y, x2, y2, vector.set(x2 - x, y2 -y).angle());
+	}
+	
+	public static void laser(String line, String edge, float x, float y, float x2, float y2, float rotation){
+		
+		//Draw.colorl(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f));
+		
+		Draw.line(line,x, y, x2, y2, 12f);
+		
+		Draw.rect(edge, x, y, rotation + 180);
+		
+		Draw.rect(edge, x2, y2, rotation);
+		
+		//Draw.color();
+	}
+	
 	public static void line(String tex, float x, float y, float x2, float y2, float thickness){
 		
 		ShapeUtils.thickness = thickness;
