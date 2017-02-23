@@ -22,8 +22,8 @@ public class RepairBase extends DestructibleEntity implements Syncable{
 		Draw.rect("playerbase", x, y);
 		
 		for(Entity entity : Entities.list()){
-			if(Vector2.dst(entity.x, entity.y, x, y) < range){
-				Draw.colorl(0.8f + MathUtils.random(0.1f) + Math.abs(MathUtils.sin(Timers.time()/3f)/5f));
+			if(entity instanceof Player && Vector2.dst(entity.x, entity.y, x, y) < range){
+				Draw.colorl(0.85f + MathUtils.random(0.05f) + Math.abs(MathUtils.sin(Timers.time()/3f)/6f));
 				Draw.laser("healbeam", "healbeamend", x, y, entity.x, entity.y);
 				Draw.color();
 			}

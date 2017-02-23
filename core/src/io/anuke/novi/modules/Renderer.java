@@ -3,9 +3,7 @@ package io.anuke.novi.modules;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -66,6 +64,12 @@ public class Renderer extends Module<Novi>{
 		player = getModule(ClientData.class).player;
 		world = getModule(World.class);
 		network = getModule(Network.class);
+		
+		Texture texture = new Texture("cursors/cursor.png");
+		texture.getTextureData().prepare();
+		
+		Cursor cursor = Gdx.graphics.newCursor(texture.getTextureData().consumePixmap(), texture.getWidth()/2, texture.getHeight()/2);
+		Gdx.graphics.setCursor(cursor);
 	}
 
 	@Override
