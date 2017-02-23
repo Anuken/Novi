@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 
@@ -27,8 +27,8 @@ import io.anuke.ucore.graphics.ShapeUtils;
 import io.anuke.ucore.modules.Module;
 
 public class Renderer extends Module<Novi>{
+	public static final int GUIscale = 5;
 	public float cameraShakeDuration, cameraShakeIntensity, cameraDrag;
-	public final float GUIscale = 5f;
 	public Network network;
 	public SpriteBatch batch; //novi's batch
 	public BitmapFont font; //a font for displaying text
@@ -110,7 +110,7 @@ public class Renderer extends Module<Novi>{
 		batch.end();
 		batch.setProjectionMatrix(matrix);
 		batch.begin();
-		drawGUI();
+		drawDebug();
 		batch.end();
 		batch.setColor(Color.WHITE);
 	}
@@ -166,22 +166,25 @@ public class Renderer extends Module<Novi>{
 		}
 	}
 
-	public void drawGUI(){
+	public void drawDebug(){
 		color(Color.WHITE);
 		font.getData().setScale(1f / GUIscale);
+		/*
 		drawc("healthbarcontainer", 0, 0);
 		AtlasRegion region = atlas.findRegion("healthbar");
 		region.setRegionWidth((int)(region.getRotatedPackedWidth() * player.health / player.getShip().getMaxhealth()));
 		batch.draw(region, 1, 1);
-
+		 */
+		
 		if(debug){
-			//	float f = ((WorldUtils.bound(camera.unproject(new Vector3(Gdx.input.getX(),Gdx.graphics.getHeight()/2,0)).x)));
 			font.setColor(Color.ORANGE);
-			font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, ghheight());
-			font.draw(batch, "Ping: " + (network.client.getReturnTripTime() + Network.ping * 2), 0, ghheight() - 5);
-			font.draw(batch, "Draws: " + batch.totalRenderCalls, 0, ghheight() - 10);
-			font.draw(batch, "Entities: " + Entities.list().size(), 0, ghheight() - 15);
-			font.draw(batch, "Log: " + Novi.getLastMessage(), 0, ghheight() - 20);
+			font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond() + "\n" + 
+			"Ping: " + (network.client.getReturnTripTime() + Network.ping * 2) + "\n" + 
+			"xy: " + (int)player.x + ", " + (int)player.y + "\n" + 
+			"Draws: " + batch.totalRenderCalls + "\n" + 
+			"Entities: " + Entities.list().size() + "\n" + 
+			"Log: " + Novi.getLastMessage()
+			, 0, ghheight());
 			batch.totalRenderCalls = 0;
 		}
 
@@ -193,8 +196,6 @@ public class Renderer extends Module<Novi>{
 		}
 		
 		recorder.update();
-		
-		//rec2.update();
 
 	}
 
@@ -204,26 +205,12 @@ public class Renderer extends Module<Novi>{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
-	void drawWorld(){
-		/*
-		Random rand = new Random();
-		rand.setSeed(1);
-		float scl = 1000f;
-		float time = (float)Gdx.graphics.getFrameId() / 10f + 1000f - player.x / 100f;
-		for(int i = 1;i <= 100;i ++){
-			float randx = (rand.nextFloat() - 0.5f) * scl;
-			float randy = (rand.nextFloat() - 0.5f) * scl;
-			int iscl = (i % 5 + 1);
-			float airadd = (iscl * time) % 2000f - 1000f;
-			layer("cloud" + (i % 7 + 1), camera.position.x + airadd + randx, camera.position.y + randy).setLayer( -2f);
-		}
-		*/
-	}
-
 	void updateCamera(){
+		//this is needed to reset the UI viewport.
+		HdpiUtils.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
 		camera.position.set(player.x, player.y, 0f);
 		shakeCamera();
-		//limitCamera();
 		camera.update();
 	}
 
@@ -234,14 +221,6 @@ public class Renderer extends Module<Novi>{
 			camera.position.y += MathUtils.random( -cameraShakeIntensity, cameraShakeIntensity);
 			cameraShakeIntensity -= cameraDrag * Novi.delta();
 		}
-	}
-
-	void limitCamera(){
-		//limit camera position, snap to sides
-		if(camera.position.x - camera.viewportWidth / 2 * camera.zoom < 0) camera.position.x = camera.viewportWidth / 2 * camera.zoom;
-		if(camera.position.y - camera.viewportHeight / 2 * camera.zoom < 0) camera.position.y = camera.viewportHeight / 2 * camera.zoom;
-		if(camera.position.x + camera.viewportWidth / 2 * camera.zoom > World.worldWidthPixels()) camera.position.x = World.worldWidthPixels() - camera.viewportWidth / 2 * camera.zoom;
-		if(camera.position.y + camera.viewportHeight / 2 * camera.zoom > World.worldHeightPixels()) camera.position.y = World.worldHeightPixels() - camera.viewportHeight / 2 * camera.zoom;
 	}
 
 	public void resize(int width, int height){

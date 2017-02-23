@@ -18,6 +18,7 @@ public class Novi extends ModuleController<Novi>{
 	public void init(){
 		addModule(World.class);
 		addModule(Renderer.class);
+		addModule(UI.class);
 		addModule(Input.class);
 		addModule(Network.class);
 		addModule(ClientData.class);

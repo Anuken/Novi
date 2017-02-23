@@ -4,6 +4,7 @@ import static io.anuke.ucore.UCore.clamp;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -153,7 +154,7 @@ public class Draw{
 		rend.font.setColor(Color.WHITE);
 	}
 	
-	public static TextureRegion region(String name){
+	public static TextureAtlas.AtlasRegion region(String name){
 		return rend.atlas.findRegion(name);
 	}
 	

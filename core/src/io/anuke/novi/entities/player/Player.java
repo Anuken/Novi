@@ -90,6 +90,7 @@ public class Player extends DestructibleEntity implements Syncable{
 
 		if(respawntime > 0){
 			respawntime -= delta();
+			health = 0;
 			if(respawntime <= 0){
 				x = World.size/2;
 				y = World.size/2;
@@ -235,7 +236,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	@Override
 	public void onDeath(){
 		
-		if(input.laser != null)
+		if(input != null && input.laser != null)
 			input.laser.removeServer();
 		
 		if(NoviServer.active()){

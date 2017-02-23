@@ -31,6 +31,7 @@ public abstract class Base extends Enemy implements Syncable{
 	private static GridPoint2 point = new GridPoint2();
 	private static Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
 	
+	public boolean enemy = true;
 	public transient int size = 7;
 	public transient float rotation;
 	public Block[][] blocks;
@@ -40,7 +41,7 @@ public abstract class Base extends Enemy implements Syncable{
 	private transient InterpolationData data = new InterpolationData();
 	private transient boolean collided = false;
 
-	public Base() {
+	public Base(){
 		material.set(size * (Material.blocksize + 1));
 		material.updateHitbox();
 		
@@ -328,6 +329,10 @@ public abstract class Base extends Enemy implements Syncable{
 		Vector2 v = Angles.rotate(relx, rely, rotation);
 		v.add(this.x, this.y);
 		return v;
+	}
+	
+	public boolean targetPlayer(){
+		return false;
 	}
 	
 	public static class BlockUpdate{
