@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.utils.Array;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.utils.Draw;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.ucore.UCore;
 import io.anuke.ucore.modules.Module;
 import io.anuke.ucore.noise.Noise;

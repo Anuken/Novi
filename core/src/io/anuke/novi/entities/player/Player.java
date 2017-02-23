@@ -10,6 +10,8 @@ import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.basic.Bullet;
+import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Shaders;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.modules.Network;
@@ -20,7 +22,6 @@ import io.anuke.novi.network.Syncable;
 import io.anuke.novi.network.packets.DeathPacket;
 import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.UCore;
@@ -214,8 +215,12 @@ public class Player extends DestructibleEntity implements Syncable{
 		if(respawntime > 0)
 			return;
 
+		Draw.shader(Shaders.outline, 0.5f, 1f, 0f);
+		
 		ship.draw(this);
-
+		
+		Draw.shader();
+		
 		if(!client){
 			Draw.tcolor(Color.GOLD);
 			Draw.text(name, x, y + 14);

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
 
-import io.anuke.novi.utils.Draw;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.ucore.UCore;
 import io.anuke.ucore.graphics.Hue;
 

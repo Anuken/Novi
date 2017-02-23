@@ -1,7 +1,7 @@
 package io.anuke.novi.entities.base;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.utils.Draw;
+import io.anuke.novi.graphics.Draw;
 
 public class BaseFactory extends BaseBlock{
 	static final float buildtime = 60;

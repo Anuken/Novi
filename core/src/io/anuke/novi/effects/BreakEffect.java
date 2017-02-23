@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.utils.Draw;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.world.Material;
 import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.noise.VoronoiNoise;

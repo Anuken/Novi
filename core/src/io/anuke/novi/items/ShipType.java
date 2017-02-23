@@ -3,8 +3,8 @@ package io.anuke.novi.items;
 import com.badlogic.gdx.graphics.Color;
 
 import io.anuke.novi.entities.player.Player;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.server.InputHandler;
-import io.anuke.novi.utils.Draw;
 
 public enum ShipType{
 	striker{

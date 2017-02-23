@@ -1,4 +1,4 @@
-package io.anuke.novi.utils;
+package io.anuke.novi.graphics;
 
 import static io.anuke.ucore.UCore.clamp;
 
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
@@ -26,6 +27,29 @@ public class Draw{
 	
 	public static Batch batch(){
 		return rend.batch;
+	}
+	
+	public static float zoom(){
+		return rend.camera.zoom;
+	}
+	
+	public static void shader(){
+		shader(null);
+	}
+	
+	public static void shader(ShaderProgram shader, Object...params){
+		boolean rendering = batch().isDrawing();
+		
+		if(rendering)
+			batch().end();
+		
+		if(shader != null)
+		Shaders.setParams(shader, params);
+		
+		batch().setShader(shader);
+		
+		if(rendering)
+			batch().begin();
 	}
 	
 	public static void rect(String name, float x, float y){

@@ -9,7 +9,7 @@ import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.entities.basic.DamageArea;
-import io.anuke.novi.utils.Draw;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.util.Angles;

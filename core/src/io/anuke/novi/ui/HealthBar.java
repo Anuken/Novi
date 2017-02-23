@@ -8,8 +8,8 @@ import com.kotcrab.vis.ui.VisUI;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.player.Player;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.modules.ClientData;
-import io.anuke.novi.utils.Draw;
 
 public class HealthBar extends Widget{
 	

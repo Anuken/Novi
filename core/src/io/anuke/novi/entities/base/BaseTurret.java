@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.basic.Bullet;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.SyncData;
-import io.anuke.novi.utils.Draw;
 
 public class BaseTurret extends BaseBlock{
 	float lastrotation = 0;

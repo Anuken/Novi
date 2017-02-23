@@ -17,9 +17,10 @@ import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.player.Player;
+import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Shaders;
 import io.anuke.novi.modules.World.MapTile;
 import io.anuke.novi.modules.World.TileCache;
-import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.WrappedQuadTree;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.graphics.PixmapUtils;
@@ -54,6 +55,7 @@ public class Renderer extends Module<Novi>{
 		recorder = new GifRecorder(batch);
 		recorder.setSpeedMultiplier(3f);
 		Draw.init(this);
+		Shaders.loadAll();
 		
 		BreakEffect.createChunks();
 	}

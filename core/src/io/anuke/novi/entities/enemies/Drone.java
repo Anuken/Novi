@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.entities.base.Base;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.modules.World;
-import io.anuke.novi.utils.Draw;
 
 public class Drone extends Enemy{
 	transient float speed = 0.1f;

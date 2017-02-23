@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.entities.*;
+import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
-import io.anuke.novi.utils.Draw;
 import io.anuke.novi.utils.Physics;
 import io.anuke.novi.utils.Timers;
 
