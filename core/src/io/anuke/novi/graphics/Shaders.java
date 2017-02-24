@@ -1,9 +1,9 @@
 package io.anuke.novi.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 public class Shaders{
 	public static ShaderProgram outline;
@@ -21,7 +21,7 @@ public class Shaders{
 			shader.setUniformf("u_viewportInverse", new Vector2(1f / width, 1f / height));
 			//shader.setUniformf("u_offset", 1f);
 			//shader.setUniformf("u_step", Math.min(1f, width / 70f));
-			shader.setUniformf("u_color", new Vector3((float)params[0], (float)params[1], (float)params[2]));
+			shader.setUniformf("u_color", new Color((float)params[0], (float)params[1], (float)params[2], (float)params[3]));
 			shader.end();
 		}
 	}

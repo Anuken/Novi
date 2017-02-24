@@ -44,13 +44,13 @@ repeat: none
 entities/playerbase
   rotate: false
   xy: 1, 75
-  size: 150, 150
-  orig: 150, 150
+  size: 152, 152
+  orig: 152, 152
   offset: 0, 0
   index: -1
 entities/titanship
   rotate: false
-  xy: 153, 97
+  xy: 155, 99
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -64,7 +64,7 @@ entities/bigturret
   index: -1
 entities/striker
   rotate: false
-  xy: 283, 199
+  xy: 285, 201
   size: 26, 26
   orig: 26, 26
   offset: 0, 0
@@ -85,21 +85,21 @@ entities/ship
   index: -1
 entities/turret
   rotate: false
-  xy: 153, 75
+  xy: 155, 77
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 entities/ship_test
   rotate: false
-  xy: 283, 181
+  xy: 285, 183
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 entities/lasership
   rotate: false
-  xy: 311, 209
+  xy: 313, 211
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

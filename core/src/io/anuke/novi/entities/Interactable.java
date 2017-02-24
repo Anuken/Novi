@@ -4,4 +4,5 @@ public interface Interactable{
 	
 	/**The interaction display message*/
 	public String message();
+	public void onInteracting();
 }

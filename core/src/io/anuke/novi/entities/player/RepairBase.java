@@ -1,10 +1,15 @@
 package io.anuke.novi.entities.player;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.novi.Novi;
 import io.anuke.novi.entities.*;
 import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Shaders;
+import io.anuke.novi.modules.UI;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.utils.Physics;
@@ -12,6 +17,7 @@ import io.anuke.novi.utils.Timers;
 
 public class RepairBase extends DestructibleEntity implements Syncable, Interactable{
 	public static float range = 200;
+	transient boolean interacting;
 	
 	public RepairBase(){
 		this.material.set(100);
@@ -19,7 +25,14 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 	
 	@Override
 	public void draw(){
+		
+		if(interacting)
+		Draw.shader(Shaders.outline, 0.6f, 0.6f, 1f, Novi.module(UI.class).interactAlpha());
+		
 		Draw.rect("playerbase", x, y);
+		
+		if(interacting)
+		Draw.shader();
 		
 		for(Entity entity : Entities.list()){
 			if(entity instanceof Player && Vector2.dst(entity.x, entity.y, x, y) < range){
@@ -28,11 +41,13 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 				Draw.color();
 			}
 		}
+		
+		if(Novi.module(UI.class).interactAlpha() <= 0f)
+		interacting = false;
 	}
 	
 	@Override
 	public void serverUpdate(){
-		//if(Timers.get(this, 10))
 		Physics.rectCast(x, y, range, e->{
 			if(!(e instanceof Player)) return;
 			Player p = (Player)e;
@@ -61,5 +76,15 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 	@Override
 	public String message(){
 		return "press Q to switch classes";
+	}
+
+	@Override
+	public void onInteracting(){
+		interacting = true;
+		
+		if(Gdx.input.isKeyJustPressed(Keys.Q)){
+			Novi.module(UI.class).openClassMenu();
+		}
+		
 	}
 }

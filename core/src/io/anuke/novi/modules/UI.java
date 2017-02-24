@@ -18,9 +18,9 @@ import io.anuke.novi.ui.HealthBar;
 import io.anuke.ucore.modules.Module;
 
 public class UI extends Module<Novi>{
-	Stage stage;
-	VisTable hudtable;
-	VisLabel inText; //interact label text
+	public Stage stage;
+	public VisTable hudtable;
+	public VisLabel inText; //interact label text
 	
 	public UI(){
 		loadSkin();
@@ -28,7 +28,7 @@ public class UI extends Module<Novi>{
 		setup();
 	}
 	
-	public void setup(){
+	private void setup(){
 		hudtable = new VisTable();
 		hudtable.setFillParent(true);
 		stage.addActor(hudtable);
@@ -39,7 +39,7 @@ public class UI extends Module<Novi>{
 		setupHUD();
 	}
 	
-	public void setupHUD(){
+	private void setupHUD(){
 		HealthBar bar = new HealthBar();
 		hudtable.left().bottom().add(bar);
 		
@@ -51,15 +51,15 @@ public class UI extends Module<Novi>{
 		stage.addActor(inText);
 	}
 	
-	public void loadSkin(){
+	private void loadSkin(){
 		VisUI.load(Gdx.files.internal("ui/uiskin.json"));
 	}
 	
-	public void updateUIVisibility(){
+	private void updateUIVisibility(){
 		
 	}
 	
-	public void updateInteractions(){
+	private void updateInteractions(){
 		Player player = Novi.module(ClientData.class).player;
 		
 		Interactable i = null;
@@ -74,13 +74,22 @@ public class UI extends Module<Novi>{
 		}
 		
 		if(i != null){
-			inText.getColor().a += 0.006f;
+			i.onInteracting();
+			inText.getColor().a += 0.008f;
 			inText.setText(i.message() + "\n\n\n\n\n\n");
 		}else{
-			inText.getColor().a -= 0.006f;
+			inText.getColor().a -= 0.008f;
 		}
 		
 		inText.getColor().clamp();
+	}
+	
+	public void openClassMenu(){
+		
+	}
+	
+	public float interactAlpha(){
+		return inText.getColor().a;
 	}
 	
 	//returns screen width / scale

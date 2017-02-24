@@ -9,7 +9,7 @@ uniform sampler2D u_texture;
 uniform vec2 u_viewportInverse;
 
 // Color of the outline
-uniform vec3 u_color;
+uniform vec4 u_color;
 
 varying vec4 v_color;
 varying vec2 v_texCoord;
@@ -24,26 +24,27 @@ void main() {
 	
 	vec2 s = T;
 
-	bool empty = texture2D(u_texture, T).a <= 0.1;
+	bool empty = texture2D(u_texture, T).a > 0.1;
 	bool any = false;
 
-	float thickness = 1;
+	float thickness = 2;
 	float step = 1.0;
 
 	for(float ix = -thickness; ix <= thickness; ix += step){
-		any = any || texture2D(u_texture, s + vec2(ix, 0) * v).a > 0.1;
+		for(float iy = -thickness; iy <= thickness; iy += step)
+		any = any || texture2D(u_texture, s + vec2(ix, iy) * v).a < 0.1;
 	}
 
-	for(float iy = -thickness; iy <= thickness; iy += step){
-		any = any || texture2D(u_texture, s + vec2(0, iy*1.159) * v).a > 0.1;
-	}
+	
+		//any = any || texture2D(u_texture, s + vec2(0, iy*1.159) * v).a < 0.1;
+	//}
 
 	empty = empty && any;
 
 	if(!empty){
 		gl_FragColor = vec4(texture2D(u_texture, T));
 	}else{
-		gl_FragColor = vec4(u_color, 1.0);
+		gl_FragColor = vec4(mix(u_color.rgb, texture2D(u_texture, T).rgb, 1.0-u_color.a), 1.0);
 	}
 
 }
