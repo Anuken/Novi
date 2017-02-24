@@ -11,7 +11,6 @@ import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.graphics.Draw;
-import io.anuke.novi.graphics.Shaders;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.modules.Network;
@@ -215,11 +214,11 @@ public class Player extends DestructibleEntity implements Syncable{
 		if(respawntime > 0)
 			return;
 
-		Draw.shader(Shaders.outline, 0.5f, 1f, 0f);
+		//Draw.shader(Shaders.outline, 0.4f, 0.4f, 0.6f);
 		
 		ship.draw(this);
 		
-		Draw.shader();
+		//Draw.shader();
 		
 		if(!client){
 			Draw.tcolor(Color.GOLD);

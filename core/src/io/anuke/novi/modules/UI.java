@@ -1,6 +1,7 @@
 package io.anuke.novi.modules;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -11,15 +12,15 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.Interactable;
 import io.anuke.novi.entities.player.Player;
-import io.anuke.novi.entities.player.RepairBase;
 import io.anuke.novi.ui.HealthBar;
 import io.anuke.ucore.modules.Module;
 
 public class UI extends Module<Novi>{
 	Stage stage;
 	VisTable hudtable;
-	VisLabel classText;
+	VisLabel inText; //interact label text
 	
 	public UI(){
 		loadSkin();
@@ -42,11 +43,12 @@ public class UI extends Module<Novi>{
 		HealthBar bar = new HealthBar();
 		hudtable.left().bottom().add(bar);
 		
-		classText = new VisLabel("press K to change class");
-		classText.setFillParent(true);
-		classText.setColor(1, 1, 1, 0);
-		classText.setAlignment(Align.center);
-		stage.addActor(classText);
+		//TODO less hacky way to offset text
+		inText = new VisLabel();
+		inText.setFillParent(true);
+		inText.setColor(1, 1, 1, 0);
+		inText.setAlignment(Align.center);
+		stage.addActor(inText);
 	}
 	
 	public void loadSkin(){
@@ -60,19 +62,25 @@ public class UI extends Module<Novi>{
 	public void updateInteractions(){
 		Player player = Novi.module(ClientData.class).player;
 		
-		boolean nearClass = false;
+		Interactable i = null;
+		
 		for(Entity e : Entities.list()){
-			if(e instanceof RepairBase && Math.abs(e.x - player.x) < 100 && Math.abs(e.y - player.y) < 100){
-				nearClass = true;
-				break;
+			if(e instanceof Interactable){
+				e.getBoundingBox(Rectangle.tmp);
+				if(Rectangle.tmp.contains(player.x, player.y)){
+					i = (Interactable)e;
+				}
 			}
 		}
 		
-		if(nearClass){
-			classText.setColor(1, 1, 1, classText.getColor().a + 0.006f);
+		if(i != null){
+			inText.getColor().a += 0.006f;
+			inText.setText(i.message() + "\n\n\n\n\n\n");
 		}else{
-			classText.setColor(1, 1, 1, classText.getColor().a - 0.006f);
+			inText.getColor().a -= 0.006f;
 		}
+		
+		inText.getColor().clamp();
 	}
 	
 	//returns screen width / scale

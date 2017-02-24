@@ -10,7 +10,7 @@ import io.anuke.novi.network.Syncable;
 import io.anuke.novi.utils.Physics;
 import io.anuke.novi.utils.Timers;
 
-public class RepairBase extends DestructibleEntity implements Syncable{
+public class RepairBase extends DestructibleEntity implements Syncable, Interactable{
 	public static float range = 200;
 	
 	public RepairBase(){
@@ -56,5 +56,10 @@ public class RepairBase extends DestructibleEntity implements Syncable{
 	@Override
 	public void readSync(SyncData in){
 		
+	}
+
+	@Override
+	public String message(){
+		return "press Q to switch classes";
 	}
 }
