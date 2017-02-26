@@ -9,9 +9,11 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.entities.*;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.graphics.Shaders;
+import io.anuke.novi.modules.ClientData;
 import io.anuke.novi.modules.UI;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
+import io.anuke.novi.tween.Actions;
 import io.anuke.novi.utils.Physics;
 import io.anuke.novi.utils.Timers;
 
@@ -83,6 +85,8 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 		interacting = true;
 		
 		if(Gdx.input.isKeyJustPressed(Keys.Q) && !Novi.module(UI.class).dialogOpen()){
+			Player player = Novi.module(ClientData.class).player;
+			Actions.moveTo(player, x, y, 4.5f);
 			Novi.module(UI.class).openClassMenu();
 		}
 		

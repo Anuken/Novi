@@ -54,6 +54,7 @@ project(":core") {
 		compile 'com.github.anuken:ucore:a3e508942a'
 		compile 'com.github.Anuken:GDXGifRecorder:1.1'
 		compile "com.kotcrab.vis:vis-ui:$visuiVersion"
+		compile 'com.github.anuken:universal-tween-engine:53638b0'
     }
 }
 

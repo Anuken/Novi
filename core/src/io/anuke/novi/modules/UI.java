@@ -20,6 +20,7 @@ import io.anuke.novi.entities.Interactable;
 import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.items.ShipType;
+import io.anuke.novi.tween.Actions;
 import io.anuke.novi.ui.HealthBar;
 import io.anuke.novi.ui.UIUtils;
 import io.anuke.ucore.modules.Module;
@@ -49,7 +50,11 @@ public class UI extends Module<Novi>{
 	}
 	
 	private void setupMenus(){
-		classMenu = new VisDialog("Classes");
+		classMenu = new VisDialog("Classes"){
+			public void result(Object object){
+				Actions.clear(getModule(ClientData.class).player);
+			}
+		};
 		UIUtils.addCloseButton(classMenu);
 		classMenu.setResizable(false);
 		classMenu.setMovable(false);
@@ -65,6 +70,7 @@ public class UI extends Module<Novi>{
 			button.addListener(new ClickListener(){
 				public void clicked(InputEvent event, float x, float y){
 					getModule(Input.class).switchClass(ship);
+					Actions.clear(getModule(ClientData.class).player);
 					classMenu.hide();
 				}
 			});
@@ -135,7 +141,6 @@ public class UI extends Module<Novi>{
 	}
 	
 	public void openClassMenu(){
-		getModule(ClientData.class).player.velocity.set(0, 0.001f);
 		classMenu.show(stage);
 	}
 	

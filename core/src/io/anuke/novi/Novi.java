@@ -7,6 +7,7 @@ import io.anuke.novi.modules.*;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.systems.EntityLoadedSystem;
 import io.anuke.novi.systems.SpatialSystem;
+import io.anuke.novi.tween.Actions;
 import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.modules.ModuleController;
 
@@ -31,6 +32,7 @@ public class Novi extends ModuleController<Novi>{
 	@Override
 	public void render(){
 		Timers.update();
+		Actions.update();
 		
 		Entities.updateAll();
 		Entities.checkUnload(getModule(ClientData.class).player.x, getModule(ClientData.class).player.y);
