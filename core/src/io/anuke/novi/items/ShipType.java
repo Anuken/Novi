@@ -76,9 +76,15 @@ public enum ShipType{
 	protected int boostSpeed = 50;
 	protected int boostChargeTime = 60;
 	protected int boostLength = 15;
+	
+	protected String description = "insert ship description here";
 
 	public void handleInput(Player player, InputHandler input){
 
+	}
+	
+	public String getDescription(){
+		return description;
 	}
 	
 	public Color getTrailColor(){

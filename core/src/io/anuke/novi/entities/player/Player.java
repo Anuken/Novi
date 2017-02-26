@@ -302,6 +302,10 @@ public class Player extends DestructibleEntity implements Syncable{
 		return connection.getID();
 	}
 	
+	public void setShip(ShipType type){
+		this.ship = type;
+	}
+	
 	public boolean heal(float amount){
 		if(health >= ship.getMaxhealth()) return true;
 		health = UCore.clamp(health + amount, 0, ship.getMaxhealth());

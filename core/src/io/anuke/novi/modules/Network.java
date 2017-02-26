@@ -11,6 +11,7 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.network.Registrator;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
@@ -89,6 +90,11 @@ public class Network extends Module<Novi>{
 					Effect effect = (Effect)object;
 					effect.init();
 					renderer.effects.add(effect);
+				}else if(object instanceof ClassSwitchPacket){
+					ClassSwitchPacket p = (ClassSwitchPacket)object;
+					if(Entities.has(p.id))
+						((Player)Entities.get(p.id)).setShip(p.type);
+					
 				}else if(object instanceof EntityRemovePacket){
 					EntityRemovePacket remove = (EntityRemovePacket)object;
 					

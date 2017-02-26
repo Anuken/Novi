@@ -41,6 +41,7 @@ public class Registrator{
 		k.register(InputPacket.class);
 		k.register(DeathPacket.class);
 		k.register(EntityRequestPacket.class);
+		k.register(ClassSwitchPacket.class);
 		
 		k.register(ShipState.class);
 		

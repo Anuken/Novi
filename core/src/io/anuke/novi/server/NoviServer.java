@@ -111,6 +111,13 @@ public class NoviServer{
 				}else if(object instanceof InputPacket){
 					InputPacket packet = (InputPacket)object;
 					getPlayer(connection.getID()).input.inputEvent(packet.input);
+				}else if(object instanceof ClassSwitchPacket){
+					ClassSwitchPacket packet = (ClassSwitchPacket)object;
+					Player player = getPlayer(connection.getID());
+					//TODO validate class switch
+					player.setShip(packet.type);
+					packet.id = player.getID();
+					sendNear(packet, player.x, player.y);
 				}else if(object instanceof EntityRequestPacket){
 					EntityRequestPacket packet = (EntityRequestPacket)object;
 					if(Entities.has(packet.id)){

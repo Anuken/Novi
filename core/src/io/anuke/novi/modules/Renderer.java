@@ -28,7 +28,7 @@ import io.anuke.ucore.graphics.ShapeUtils;
 import io.anuke.ucore.modules.Module;
 
 public class Renderer extends Module<Novi>{
-	public static final int GUIscale = 5;
+	public static final int GUIscale = 1;
 	public float cameraShakeDuration, cameraShakeIntensity, cameraDrag;
 	public Network network;
 	public SpriteBatch batch; //novi's batch

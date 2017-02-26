@@ -3,9 +3,12 @@ package io.anuke.novi.modules;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.player.Player;
+import io.anuke.novi.items.ShipType;
+import io.anuke.novi.network.packets.ClassSwitchPacket;
 import io.anuke.novi.network.packets.InputPacket;
 import io.anuke.novi.utils.InputType;
 import io.anuke.ucore.modules.Module;
@@ -15,7 +18,11 @@ public class Input extends Module<Novi>{
 
 	public void init(){
 		player = getModule(ClientData.class).player;
-		Gdx.input.setInputProcessor(this);
+		
+		InputMultiplexer plex = new InputMultiplexer();
+		plex.addProcessor(getModule(UI.class).stage);
+		plex.addProcessor(this);
+		Gdx.input.setInputProcessor(plex);
 	}
 
 	@Override
@@ -24,10 +31,11 @@ public class Input extends Module<Novi>{
 			Gdx.app.exit();
 		}
 
-		if(player.isDead())
+		if(player.isDead() || getModule(UI.class).dialogOpen())
 			return;
 
 		float angle = -9; //why is it -9?
+		
 		if(up())
 			angle = 90;
 		if(left())
@@ -90,6 +98,12 @@ public class Input extends Module<Novi>{
 	boolean boost(){
 		return Gdx.input.isKeyPressed(Keys.SPACE);
 	}
+	
+	public void switchClass(ShipType type){
+		ClassSwitchPacket p = new ClassSwitchPacket();
+		p.type = type;
+		getModule(Network.class).client.sendTCP(p);
+	}
 
 	void sendInput(InputType type){
 		InputPacket input = new InputPacket();
@@ -99,6 +113,7 @@ public class Input extends Module<Novi>{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button){
+		if(getModule(UI.class).dialogOpen()) return false;
 		//new Effect(EffectType.hit).set(player.x + 30, player.y + 30).add();
 		player.rotation = player.velocity.angle();
 		player.valigned = false;
