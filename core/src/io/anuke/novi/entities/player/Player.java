@@ -304,6 +304,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	
 	public void setShip(ShipType type){
 		this.ship = type;
+		this.health = type.getMaxhealth();
 	}
 	
 	public boolean heal(float amount){

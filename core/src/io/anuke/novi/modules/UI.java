@@ -1,6 +1,7 @@
 package io.anuke.novi.modules;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +21,7 @@ import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.ui.HealthBar;
+import io.anuke.novi.ui.UIUtils;
 import io.anuke.ucore.modules.Module;
 
 public class UI extends Module<Novi>{
@@ -48,16 +50,15 @@ public class UI extends Module<Novi>{
 	
 	private void setupMenus(){
 		classMenu = new VisDialog("Classes");
-		classMenu.addCloseButton();
+		UIUtils.addCloseButton(classMenu);
 		classMenu.setResizable(false);
 		classMenu.setMovable(false);
+		classMenu.getTitleTable().getCells().first().padLeft(10);
+		classMenu.getTitleLabel().setColor(Color.YELLOW);
 		
 		Table table = classMenu.getContentTable();
 		
 		table.pad(10);
-		
-		//table.add("Classes");
-		//table.row();
 		
 		for(ShipType ship : ShipType.values()){
 			VisImageButton button = new VisImageButton(new TextureRegionDrawable(Draw.region(ship.name())));
@@ -70,14 +71,15 @@ public class UI extends Module<Novi>{
 			
 			button.getImageCell().size(100);
 			
+			table.add(ship.name()).align(Align.left);
+			table.add().row();
+			
 			table.add(button);
 			
 			table.add(ship.getDescription());
 			
 			table.row().padTop(8);
 		}
-		
-		//Table buttons = classMenu.getButtonsTable();
 		
 		VisTextButton cancel = new VisTextButton("Cancel");
 		cancel.pad(10f);
@@ -133,6 +135,7 @@ public class UI extends Module<Novi>{
 	}
 	
 	public void openClassMenu(){
+		getModule(ClientData.class).player.velocity.set(0, 0.001f);
 		classMenu.show(stage);
 	}
 	

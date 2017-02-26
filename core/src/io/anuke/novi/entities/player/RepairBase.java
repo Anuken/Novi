@@ -82,7 +82,7 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 	public void onInteracting(){
 		interacting = true;
 		
-		if(Gdx.input.isKeyJustPressed(Keys.Q)){
+		if(Gdx.input.isKeyJustPressed(Keys.Q) && !Novi.module(UI.class).dialogOpen()){
 			Novi.module(UI.class).openClassMenu();
 		}
 		

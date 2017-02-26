@@ -29,7 +29,7 @@ public class HealthBar extends Widget{
 		TextureAtlas.AtlasRegion region = Draw.region("healthbar");
 		region.setRegionWidth((int)(region.getRotatedPackedWidth() * fract));
 		
-		batch.draw(region, scale, scale, region.getRotatedPackedWidth()*scale, region.getRotatedPackedHeight()*scale);
+		batch.draw(region, scale, scale, fract*region.getRotatedPackedWidth()*scale, region.getRotatedPackedHeight()*scale);
 		
 		
 		VisUI.getSkin().getFont("default-font").draw(batch, (int)player.health + "/" + player.getShip().getMaxhealth(), getX() + getWidth()/2*scale, getHeight()*scale - 1.2f*scale, 0, Align.center, false);
