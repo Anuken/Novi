@@ -14,10 +14,11 @@ import io.anuke.novi.modules.UI;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.tween.Actions;
+import io.anuke.novi.ui.Landmark;
 import io.anuke.novi.utils.Physics;
 import io.anuke.novi.utils.Timers;
 
-public class RepairBase extends DestructibleEntity implements Syncable, Interactable{
+public class RepairBase extends DestructibleEntity implements Syncable, Interactable, Markable{
 	public static float range = 200;
 	transient boolean interacting;
 	
@@ -37,7 +38,7 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 		Draw.shader();
 		
 		for(Entity entity : Entities.list()){
-			if(entity instanceof Player && Vector2.dst(entity.x, entity.y, x, y) < range){
+			if(entity instanceof Player && Vector2.dst(entity.x, entity.y, x, y) < range && ((Player)entity).isVisible()){
 				Draw.colorl(0.85f + MathUtils.random(0.05f) + Math.abs(MathUtils.sin(Timers.time()/3f)/6f));
 				Draw.laser("healbeam", "healbeamend", x, y, entity.x, entity.y);
 				Draw.color();
@@ -90,5 +91,10 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 			Novi.module(UI.class).openClassMenu();
 		}
 		
+	}
+
+	@Override
+	public Landmark getLandmark(){
+		return Landmark.base;
 	}
 }

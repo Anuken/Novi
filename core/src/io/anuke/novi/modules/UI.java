@@ -22,14 +22,18 @@ import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.tween.Actions;
 import io.anuke.novi.ui.HealthBar;
+import io.anuke.novi.ui.MapScreen;
 import io.anuke.novi.ui.UIUtils;
 import io.anuke.ucore.modules.Module;
 
 public class UI extends Module<Novi>{
+	private boolean mapRefresh = false;
 	public Stage stage;
 	public VisTable hudtable;
 	public VisLabel inText; //interact label text
+	public MapScreen map;
 	VisDialog classMenu;
+	VisTable mapMenu;
 	
 	public UI(){
 		loadSkin();
@@ -50,6 +54,17 @@ public class UI extends Module<Novi>{
 	}
 	
 	private void setupMenus(){
+		VisTable center = new VisTable();
+		center.setFillParent(true);
+		stage.addActor(center);
+		
+		mapMenu = new VisTable();
+		mapMenu.background("window");
+		mapMenu.add((map=new MapScreen())).size(600);
+		
+		center.add(mapMenu).expand().size(600);
+		mapMenu.setVisible(false);
+		
 		classMenu = new VisDialog("Classes"){
 			public void result(Object object){
 				Actions.clear(getModule(ClientData.class).player);
@@ -97,7 +112,6 @@ public class UI extends Module<Novi>{
 		HealthBar bar = new HealthBar();
 		hudtable.left().bottom().add(bar);
 		
-
 		inText = new VisLabel();
 		inText.setFillParent(true);
 		inText.setColor(1, 1, 1, 0);
@@ -110,7 +124,10 @@ public class UI extends Module<Novi>{
 	}
 	
 	private void updateUIVisibility(){
-		
+		if(mapRefresh){
+			map.updateMap();
+			mapRefresh = false;
+		}
 	}
 	
 	private void updateInteractions(){
@@ -138,6 +155,23 @@ public class UI extends Module<Novi>{
 		}
 		
 		inText.getColor().clamp();
+	}
+	
+	public void updateMap(){
+		mapRefresh = true;
+	}
+	
+	public void openMap(){
+		if(mapMenu.isVisible()){
+			mapMenu.setVisible(false);
+			//stage.setKeyboardFocus(null);
+			stage.setScrollFocus(null);
+		}else{
+			getModule(Network.class).requestMap();
+			mapMenu.setVisible(true);
+			//stage.setKeyboardFocus(map);
+			stage.setScrollFocus(map);
+		}
 	}
 	
 	public void openClassMenu(){
@@ -169,6 +203,8 @@ public class UI extends Module<Novi>{
 		
 		stage.act();
 		stage.draw();
+		
+		getModule(Renderer.class).recorder.update();
 	}
 	
 	@Override

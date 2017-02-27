@@ -120,6 +120,7 @@ public class Draw{
 	}
 	
 	public static void text(String text, float x, float y){
+		rend.font.getData().setScale(1f/Renderer.GUIscale);
 		text(text, x, y, Align.center);
 	}
 	

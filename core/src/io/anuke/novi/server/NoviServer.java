@@ -2,6 +2,7 @@ package io.anuke.novi.server;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -9,6 +10,7 @@ import com.esotericsoftware.kryonet.Server;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
+import io.anuke.novi.entities.Markable;
 import io.anuke.novi.entities.base.GunBase;
 import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.entities.player.RepairBase;
@@ -19,6 +21,7 @@ import io.anuke.novi.network.packets.*;
 import io.anuke.novi.systems.CollisionSystem;
 import io.anuke.novi.systems.SpatialSystem;
 import io.anuke.novi.systems.SyncSystem;
+import io.anuke.novi.ui.Marker;
 
 public class NoviServer{
 	private static NoviServer instance;
@@ -111,6 +114,17 @@ public class NoviServer{
 				}else if(object instanceof InputPacket){
 					InputPacket packet = (InputPacket)object;
 					getPlayer(connection.getID()).input.inputEvent(packet.input);
+				}else if(object instanceof MapRequestPacket){
+					MapPacket out = new MapPacket();
+					
+					for(Entity entity : Entities.list()){
+						if(entity instanceof Markable){
+							Markable mark = (Markable)entity;
+							out.markers.add(new Marker(mark.getLandmark(), entity.x, entity.y));
+						}
+					}
+					
+					connection.sendTCP(out);
 				}else if(object instanceof ClassSwitchPacket){
 					ClassSwitchPacket packet = (ClassSwitchPacket)object;
 					Player player = getPlayer(connection.getID());
@@ -176,12 +190,15 @@ public class NoviServer{
 	}
 
 	private void addEntities(){
-		new GunBase().set(World.size/2, World.size/2+1000).add();
+		//new GunBase().set(World.size/2, World.size/2+1000).add();
 		
 		new RepairBase().set(World.size/2, World.size/2).add();
 		
+		for(int i = 0; i < 4; i ++)
+			new RepairBase().set(100+ MathUtils.random(World.size-100), 100 + MathUtils.random(World.size-100)).add();
+		
 		for(int i = 0;i < 20;i ++){
-			//new GunBase().set(100+ MathUtils.random(World.worldSize-100), 100 + MathUtils.random(World.worldSize-100)).add();
+			new GunBase().set(100+ MathUtils.random(World.size-100), 100 + MathUtils.random(World.size-100)).add();
 			//new GunBase().set(400, 400).add();
 		}
 	}

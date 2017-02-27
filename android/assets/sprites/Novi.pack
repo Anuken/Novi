@@ -17,9 +17,23 @@ gui/healthbar
   orig: 120, 4
   offset: 0, 0
   index: -1
+gui/landmark-base
+  rotate: false
+  xy: 125, 5
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+gui/landmark-player
+  rotate: false
+  xy: 135, 5
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 gui/blank
   rotate: false
-  xy: 125, 12
+  xy: 145, 12
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

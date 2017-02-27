@@ -90,6 +90,10 @@ public class Network extends Module<Novi>{
 					Effect effect = (Effect)object;
 					effect.init();
 					renderer.effects.add(effect);
+				}else if(object instanceof MapPacket){
+					MapPacket packet = (MapPacket)object;
+					getModule(ClientData.class).map = packet.markers;
+					getModule(UI.class).updateMap();
 				}else if(object instanceof ClassSwitchPacket){
 					ClassSwitchPacket p = (ClassSwitchPacket)object;
 					if(Entities.has(p.id))
@@ -121,6 +125,11 @@ public class Network extends Module<Novi>{
 				Novi.log("Packet recieve error!");
 			}
 		}
+	}
+	
+	public void requestMap(){
+		MapRequestPacket p = new MapRequestPacket();
+		client.sendTCP(p);
 	}
 	
 	public void requestEntity(long id){

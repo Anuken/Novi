@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongArray;
 import com.esotericsoftware.kryo.Kryo;
 
@@ -26,6 +27,8 @@ import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.network.packets.EffectPacket.ScreenEffectType;
+import io.anuke.novi.ui.Landmark;
+import io.anuke.novi.ui.Marker;
 import io.anuke.novi.utils.InputType;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.Material;
@@ -42,6 +45,8 @@ public class Registrator{
 		k.register(DeathPacket.class);
 		k.register(EntityRequestPacket.class);
 		k.register(ClassSwitchPacket.class);
+		k.register(MapRequestPacket.class);
+		k.register(MapPacket.class);
 		
 		k.register(ShipState.class);
 		
@@ -50,6 +55,8 @@ public class Registrator{
 		k.register(Item.class);
 		k.register(ProjectileType.class);
 		k.register(InputType.class);
+		k.register(Marker.class);
+		k.register(Landmark.class);
 		
 		k.register(Effect.class);
 		k.register(Entity.class);
@@ -68,6 +75,7 @@ public class Registrator{
 		
 		
 		k.register(Object[].class);
+		k.register(Array.class);
 		k.register(LongArray.class);
 		k.register(long[].class);
 		k.register(Material.class);

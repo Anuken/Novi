@@ -16,7 +16,7 @@ import io.anuke.ucore.util.GridMap;
 public class World extends Module<Novi>{
 	public static final int tileSize = 512;
 	public static final int worldScale = 8;
-	public static final int size = 128 * tileSize;
+	public static final int size = 256 * tileSize;
 	public static final int genRange = 3;
 	public static final float mapSpeed = 5f;
 	//TODO make map position sync

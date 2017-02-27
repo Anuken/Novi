@@ -3,6 +3,7 @@ package io.anuke.novi.entities.base;
 import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.novi.Novi;
+import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.items.ProjectileType;
@@ -17,6 +18,11 @@ public class BaseTurret extends BaseBlock{
 	
 	@Override
 	public void draw(){
+		if(base == null){
+			base = (Base)Entities.get(baseid);
+			return;
+		}
+		
 		rotation = MathUtils.lerpAngleDeg(rotation, lastrotation, 0.09f);
 		
 		Draw.rect("ironblock", x, y, base.rotation);

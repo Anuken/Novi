@@ -53,7 +53,7 @@ public class Renderer extends Module<Novi>{
 		font.setUseIntegerPositions(false);
 		layout = new GlyphLayout();
 		recorder = new GifRecorder(batch);
-		recorder.setSpeedMultiplier(3f);
+		//recorder.setSpeedMultiplier(3f);
 		Draw.init(this);
 		Shaders.loadAll();
 		
@@ -171,12 +171,6 @@ public class Renderer extends Module<Novi>{
 	public void drawDebug(){
 		color(Color.WHITE);
 		font.getData().setScale(1f / GUIscale);
-		/*
-		drawc("healthbarcontainer", 0, 0);
-		AtlasRegion region = atlas.findRegion("healthbar");
-		region.setRegionWidth((int)(region.getRotatedPackedWidth() * player.health / player.getShip().getMaxhealth()));
-		batch.draw(region, 1, 1);
-		 */
 		
 		if(debug){
 			font.setColor(Color.ORANGE);
@@ -197,7 +191,7 @@ public class Renderer extends Module<Novi>{
 			drawFont(network.initialconnect() ? "Connecting..." : "Failed to connect to server.", ghwidth() / 2, ghheight() / 2);
 		}
 		
-		recorder.update();
+		//recorder.update();
 
 	}
 

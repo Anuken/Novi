@@ -30,6 +30,10 @@ public class Input extends Module<Novi>{
 		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			Gdx.app.exit();
 		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.M)){
+			getModule(UI.class).openMap();
+		}
 
 		if(player.isDead() || getModule(UI.class).dialogOpen())
 			return;
@@ -118,7 +122,7 @@ public class Input extends Module<Novi>{
 		player.rotation = player.velocity.angle();
 		player.valigned = false;
 		sendInput(button == Buttons.LEFT ? InputType.LEFT_CLICK_DOWN : InputType.RIGHT_CLICK_DOWN);
-		return true;
+		return false;
 	}
 
 	@Override
@@ -133,6 +137,7 @@ public class Input extends Module<Novi>{
 
 	@Override
 	public boolean scrolled(int amount){
+		if(getModule(UI.class).stage.getScrollFocus() == null)
 		getModule(Renderer.class).zoom(amount / 10f);
 		return false;
 	}

@@ -13,6 +13,7 @@ import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.Entities;
+import io.anuke.novi.entities.Markable;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.enemies.Enemy;
 import io.anuke.novi.graphics.Draw;
@@ -21,12 +22,13 @@ import io.anuke.novi.modules.World;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.NoviServer;
+import io.anuke.novi.ui.Landmark;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.Material;
 import io.anuke.ucore.util.Angles;
 
-public abstract class Base extends Enemy implements Syncable{
+public abstract class Base extends Enemy implements Syncable, Markable{
 	private static ArrayList<BlockUpdate> updates = new ArrayList<BlockUpdate>();
 	private static GridPoint2 point = new GridPoint2();
 	private static Rectangle rectangle = new Rectangle(0, 0, Material.blocksize, Material.blocksize);
@@ -354,5 +356,10 @@ public abstract class Base extends Enemy implements Syncable{
 			b.health = this.health;
 			b.material = this.material;
 		}
+	}
+	
+	@Override
+	public Landmark getLandmark(){
+		return Landmark.enemybase;
 	}
 }
