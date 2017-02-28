@@ -120,7 +120,6 @@ public class Draw{
 	}
 	
 	public static void text(String text, float x, float y){
-		rend.font.getData().setScale(1f/Renderer.GUIscale);
 		text(text, x, y, Align.center);
 	}
 	
@@ -128,6 +127,7 @@ public class Draw{
 		x = overlapx(x, 80);
 		y = overlapy(y, 30);
 		
+		rend.font.getData().setScale(1f/Renderer.scale);
 		rend.font.draw(rend.batch, text, x, y, 0, align, false);
 	}
 	

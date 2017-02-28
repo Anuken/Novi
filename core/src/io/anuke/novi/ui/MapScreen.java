@@ -9,6 +9,7 @@ import io.anuke.novi.Novi;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.modules.ClientData;
 import io.anuke.novi.modules.World;
+import io.anuke.ucore.UCore;
 
 public class MapScreen extends Group{
 	private Array<MapObject> objects = new Array<MapObject>();
@@ -22,7 +23,7 @@ public class MapScreen extends Group{
 			
 			public boolean scrolled (InputEvent event, float x, float y, int amount) {
 				zoom -= amount/10f;
-				//zoom = UCore.clamp(zoom, 0.01f, 10f);
+				zoom = UCore.clamp(zoom, 0.01f, 10f);
 				return false;
 			}
 			
@@ -77,7 +78,7 @@ public class MapScreen extends Group{
 		dx += 300;
 		
 		//if(dx < 0) dx += w*zoom;
-		//dx = dx % w*zoom;
+		dx = dx % Math.max(w*zoom, w);
 		
 		return dx;
 	}
@@ -95,6 +96,7 @@ public class MapScreen extends Group{
 		
 		//if(dy < 0) dy += h*zoom;
 		//dy = dy % h*zoom;
+		dy = dy % Math.max(h*zoom, h);
 		
 		return dy;
 	}

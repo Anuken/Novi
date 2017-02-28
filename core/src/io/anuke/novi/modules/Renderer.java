@@ -29,6 +29,7 @@ import io.anuke.ucore.modules.Module;
 
 public class Renderer extends Module<Novi>{
 	public static final int GUIscale = 1;
+	public static final int scale = 5; //camera zoom/scale
 	public float cameraShakeDuration, cameraShakeIntensity, cameraDrag;
 	public Network network;
 	public SpriteBatch batch; //novi's batch
@@ -37,7 +38,6 @@ public class Renderer extends Module<Novi>{
 	public GlyphLayout layout; // used for getting font bounds
 	public OrthographicCamera camera; //a camera, seems self explanatory
 	public Atlas atlas; //texture atlas
-	public int scale = 5; //camera zoom/scale
 	public Player player; //player object from ClientData module
 	public World world; // world module
 	public GifRecorder recorder;
