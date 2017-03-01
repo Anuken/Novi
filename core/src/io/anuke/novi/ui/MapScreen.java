@@ -23,7 +23,7 @@ public class MapScreen extends Group{
 			
 			public boolean scrolled (InputEvent event, float x, float y, int amount) {
 				zoom -= amount/10f;
-				zoom = UCore.clamp(zoom, 0.01f, 10f);
+				zoom = UCore.clamp(zoom, 1f, 10f);
 				return false;
 			}
 			
@@ -77,8 +77,9 @@ public class MapScreen extends Group{
 		dx *= zoom;
 		dx += 300;
 		
-		//if(dx < 0) dx += w*zoom;
+		
 		dx = dx % Math.max(w*zoom, w);
+		if(dx < 0) dx += Math.max(w*zoom, w);
 		
 		return dx;
 	}
@@ -95,24 +96,25 @@ public class MapScreen extends Group{
 		dy += 300;
 		
 		//if(dy < 0) dy += h*zoom;
-		//dy = dy % h*zoom;
+		
 		dy = dy % Math.max(h*zoom, h);
+		if(dy < 0) dy += Math.max(h*zoom, h);
 		
 		return dy;
 	}
 	
 	public void draw(Batch batch, float alpha){
-		/*
+		
 		batch.end();
 		batch.begin();
 		this.clipBegin(getX(), getY()+26, getWidth()-2, getHeight());
-		*/
+		
 		super.draw(batch, alpha);
-		/*
+		
 		this.clipEnd();
 		batch.end();
 		batch.begin();
-		*/
+		
 		/*
 		float w = getWidth();
 		float h = getHeight();
