@@ -3,7 +3,7 @@ package io.anuke.novi.ui;
 import com.badlogic.gdx.graphics.Color;
 
 public enum Landmark{
-	base("base", Color.ROYAL), enemybase("base", Color.FIREBRICK);
+	base("base", Color.ROYAL), enemybase("base", Color.FIREBRICK), player("player", Color.GREEN);
 	private Color color;
 	private String texture;
 	

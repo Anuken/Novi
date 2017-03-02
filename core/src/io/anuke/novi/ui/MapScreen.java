@@ -1,6 +1,5 @@
 package io.anuke.novi.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -13,8 +12,9 @@ import io.anuke.ucore.UCore;
 
 public class MapScreen extends Group{
 	private Array<MapObject> objects = new Array<MapObject>();
+	MapObject mplayer = new MapObject(new Marker(Landmark.player, 0, 0));
 	float zoom = 1f;
-	float zoomx = 300, zoomy = 300;
+	float zoomx = 00, zoomy = 00;
 	float scl = 4;
 	
 	public MapScreen(){
@@ -39,8 +39,8 @@ public class MapScreen extends Group{
 			public void touchDragged (InputEvent event, float x, float y, int pointer) {
 				y -= 25;
 				
-				zoomx -= (x-lastx);
-				zoomy -= (y-lasty);
+				zoomx += (x-lastx)/zoom;
+				zoomy += (y-lasty)/zoom;
 				//if(zoomx < 0) zoomx += getWidth();
 				//if(zoomy < 0) zoomy += getHeight();
 				//zoomx = zoomx & getWidth();
@@ -107,25 +107,27 @@ public class MapScreen extends Group{
 		
 		batch.end();
 		batch.begin();
-		this.clipBegin(getX(), getY()+26, getWidth()-2, getHeight());
+		this.clipBegin(getX(), getY()+26, getWidth()-2, getHeight()-2);
 		
 		super.draw(batch, alpha);
+		
+		applyTransform(batch, computeTransform());
+		
+		drawChildren(batch, alpha);
+		
+		float px = Novi.module(ClientData.class).player.x;
+		float py = Novi.module(ClientData.class).player.y;
+		
+		mplayer.setPosition(transX(px), transY(py));
+		
+		mplayer.draw(batch, alpha);
+		
+		resetTransform(batch);
 		
 		this.clipEnd();
 		batch.end();
 		batch.begin();
 		
-		/*
-		float w = getWidth();
-		float h = getHeight();
-		float x = getX();
-		float y = getY();
-		*/
-		float px = Novi.module(ClientData.class).player.x;
-		float py = Novi.module(ClientData.class).player.y;
-		
-		batch.setColor(Color.GREEN);
-		batch.draw(Draw.region("landmark-player"),transX(px)-4*scl + getX(), transY(py)-4*scl + getY()+25, 8*scl, 8*scl);
 	}
 	
 	/*
@@ -176,7 +178,24 @@ public class MapScreen extends Group{
 		public void draw(Batch batch, float alpha){
 			batch.setColor(marker.mark.color().r, marker.mark.color().g, marker.mark.color().b, alpha);
 			
-			batch.draw(Draw.region("landmark-"+marker.mark.texture()), getX() - 4*scl, 25+getY() - 4*scl, 8*scl, 8*scl);
+			float x = getX();
+			float y = getY() + 25;
+			float s = 8*scl;
+			
+			float w = MapScreen.this.getWidth()*zoom;
+			float h = MapScreen.this.getHeight()*zoom;
+			
+			if(x + s > w) draw(batch, x - w, y);
+			if(x - s < 0) draw(batch, x + w, y);
+			
+			if(y + s > h) draw(batch, x, y - h);
+			if(y - s < 0) draw(batch, x, y + h);
+			
+			draw(batch, x, y);
+		}
+		
+		void draw(Batch batch, float x, float y){
+			batch.draw(Draw.region("landmark-"+marker.mark.texture()), x - 4*scl, y - 4*scl, 8*scl, 8*scl);
 		}
 	}
 }
