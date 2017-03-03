@@ -41,9 +41,6 @@ public class MapScreen extends Group{
 				
 				zoomx += (x-lastx)/zoom;
 				zoomy += (y-lasty)/zoom;
-				//if(zoomx < 0) zoomx += getWidth();
-				//if(zoomy < 0) zoomy += getHeight();
-				//zoomx = zoomx & getWidth();
 				
 				lastx = x;
 				lasty = y;
@@ -53,13 +50,6 @@ public class MapScreen extends Group{
 	
 	public void act(float delta){
 		super.act(delta);
-		
-		//float w = getWidth();
-		//float h = getHeight();
-		//float x = getX();
-		//float y = getY();
-		//float px = Novi.module(ClientData.class).player.x;
-		//float py = Novi.module(ClientData.class).player.y;
 		
 		for(MapObject object : objects){
 			object.setPosition(transX(object.marker.x), transY(object.marker.y));
@@ -95,8 +85,6 @@ public class MapScreen extends Group{
 		dy *= zoom;
 		dy += 300;
 		
-		//if(dy < 0) dy += h*zoom;
-		
 		dy = dy % Math.max(h*zoom, h);
 		if(dy < 0) dy += Math.max(h*zoom, h);
 		
@@ -129,31 +117,6 @@ public class MapScreen extends Group{
 		batch.begin();
 		
 	}
-	
-	/*
-	public void draw(Batch batch, float alpha){
-		Array<Marker> markers = Novi.module(ClientData.class).map;
-		float w = getWidth();
-		float h = getHeight();
-		float x = getX();
-		float y = getY();
-		float px = Novi.module(ClientData.class).player.x;
-		float py = Novi.module(ClientData.class).player.y;
-		float scl = 4;
-		
-		//batch.setColor(Color.SKY.r, Color.SKY.g, Color.SKY.b, alpha);
-		//batch.draw(Draw.region("blank"), x, y, w, h);
-		
-		for(Marker m : markers){
-			float sx = m.x / World.size * w, sy = m.y / World.size * h;
-			batch.setColor(m.mark.color().r, m.mark.color().g, m.mark.color().b, alpha);
-			batch.draw(Draw.region("landmark-"+m.mark.texture()), x+sx - 4*scl, y+sy - 4*scl, 8*scl, 8*scl);
-		}
-		
-		batch.setColor(0, 1, 0, alpha);
-		batch.draw(Draw.region("landmark-player"), x+px/World.size*w - 4*scl, y+py/World.size*h - 4*scl, 8*scl, 8*scl);
-	}
-	*/
 	
 	public void updateMap(){
 		clearChildren();
