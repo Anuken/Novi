@@ -1,14 +1,14 @@
 package io.anuke.novi.ui;
 
 public class Marker{
-	Landmark mark;
+	MarkerType type;
 	float x, y;
 	
 	public Marker(){}
 	
-	public Marker(Landmark mark, float x, float y){
+	public Marker(MarkerType mark, float x, float y){
 		this.x = x;
 		this.y = y;
-		this.mark = mark;
+		this.type = mark;
 	}
 }

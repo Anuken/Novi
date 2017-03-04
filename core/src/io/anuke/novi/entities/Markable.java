@@ -1,7 +1,7 @@
 package io.anuke.novi.entities;
 
-import io.anuke.novi.ui.Landmark;
+import io.anuke.novi.ui.MarkerType;
 
 public interface Markable{
-	public Landmark getLandmark();
+	public MarkerType getLandmark();
 }

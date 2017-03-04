@@ -22,7 +22,7 @@ import io.anuke.novi.modules.World;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.server.NoviServer;
-import io.anuke.novi.ui.Landmark;
+import io.anuke.novi.ui.MarkerType;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.Material;
@@ -359,7 +359,7 @@ public abstract class Base extends Enemy implements Syncable, Markable{
 	}
 	
 	@Override
-	public Landmark getLandmark(){
-		return Landmark.enemybase;
+	public MarkerType getLandmark(){
+		return MarkerType.enemybase;
 	}
 }

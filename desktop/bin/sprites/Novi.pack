@@ -17,14 +17,14 @@ gui/healthbar
   orig: 120, 4
   offset: 0, 0
   index: -1
-gui/landmark-base
+gui/marker-player
   rotate: false
   xy: 125, 5
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-gui/landmark-player
+gui/marker-base
   rotate: false
   xy: 135, 5
   size: 8, 8

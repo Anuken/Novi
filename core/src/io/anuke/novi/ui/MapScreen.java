@@ -1,18 +1,26 @@
 package io.anuke.novi.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pools;
+import com.kotcrab.vis.ui.VisUI;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.modules.ClientData;
 import io.anuke.novi.modules.World;
 import io.anuke.ucore.UCore;
+import io.anuke.ucore.graphics.Hue;
 
 public class MapScreen extends Group{
 	private Array<MapObject> objects = new Array<MapObject>();
-	MapObject mplayer = new MapObject(new Marker(Landmark.player, 0, 0));
+	MapObject mplayer = new MapObject(new Marker(MarkerType.player, 0, 0));
 	float zoom = 1f;
 	float zoomx = 00, zoomy = 00;
 	float scl = 4;
@@ -133,17 +141,41 @@ public class MapScreen extends Group{
 	
 	class MapObject extends Actor{
 		Marker marker;
+		float mscl = 1f;
+		ClickListener click;
 		
 		public MapObject(Marker marker){
 			this.marker = marker;
+			addListener(click = new ClickListener());
 		}
 		
+		@Override
+		public void setPosition(float x, float y){
+			super.setPosition(x - getWidth()/2, y - getHeight()/2+25);
+		}
+		
+		@Override
 		public void draw(Batch batch, float alpha){
-			batch.setColor(marker.mark.color().r, marker.mark.color().g, marker.mark.color().b, alpha);
+			if(click.isOver()){
+				mscl += 0.01f;
+				toFront();
+			}else{
+				mscl -= 0.01f;
+			}
+			
+			mscl = UCore.clamp(mscl, 1f, 2f);
+			
+			setColor(Hue.mix(marker.type.color(), Color.CORAL, mscl-1f));
+			
+			batch.setColor(getColor().r, getColor().g, getColor().b, alpha);
+			
+			float scl = 4*mscl;
 			
 			float x = getX();
-			float y = getY() + 25;
+			float y = getY();
 			float s = 8*scl;
+			
+			setSize(s, s);
 			
 			float w = MapScreen.this.getWidth()*zoom;
 			float h = MapScreen.this.getHeight()*zoom;
@@ -155,10 +187,26 @@ public class MapScreen extends Group{
 			if(y - s < 0) draw(batch, x, y + h);
 			
 			draw(batch, x, y);
+			
+			BitmapFont font = VisUI.getSkin().getFont("default-font");
+			
+			font.setColor(1,1,1,(mscl-1f));
+			
+			GlyphLayout lay = Pools.obtain(GlyphLayout.class);
+			
+			String text = marker.type.description();
+			
+			lay.setText(font, text);
+			
+			font.draw(batch, text, getX() + getWidth()/2 + lay.width/2f, getY(), Align.top, 0, false);
+		
+			Pools.free(lay);
+			
+			font.setColor(Color.WHITE);
 		}
 		
 		void draw(Batch batch, float x, float y){
-			batch.draw(Draw.region("landmark-"+marker.mark.texture()), x - 4*scl, y - 4*scl, 8*scl, 8*scl);
+			batch.draw(Draw.region("marker-" + marker.type.texture()), x, y, getWidth(), getHeight());
 		}
 	}
 }

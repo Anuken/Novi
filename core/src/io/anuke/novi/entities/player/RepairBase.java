@@ -14,7 +14,7 @@ import io.anuke.novi.modules.UI;
 import io.anuke.novi.network.SyncData;
 import io.anuke.novi.network.Syncable;
 import io.anuke.novi.tween.Actions;
-import io.anuke.novi.ui.Landmark;
+import io.anuke.novi.ui.MarkerType;
 import io.anuke.novi.utils.Physics;
 import io.anuke.novi.utils.Timers;
 
@@ -94,7 +94,7 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 	}
 
 	@Override
-	public Landmark getLandmark(){
-		return Landmark.base;
+	public MarkerType getLandmark(){
+		return MarkerType.base;
 	}
 }

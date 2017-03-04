@@ -27,7 +27,7 @@ import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.network.packets.EffectPacket.ScreenEffectType;
-import io.anuke.novi.ui.Landmark;
+import io.anuke.novi.ui.MarkerType;
 import io.anuke.novi.ui.Marker;
 import io.anuke.novi.utils.InputType;
 import io.anuke.novi.world.Block;
@@ -56,7 +56,7 @@ public class Registrator{
 		k.register(ProjectileType.class);
 		k.register(InputType.class);
 		k.register(Marker.class);
-		k.register(Landmark.class);
+		k.register(MarkerType.class);
 		
 		k.register(Effect.class);
 		k.register(Entity.class);
