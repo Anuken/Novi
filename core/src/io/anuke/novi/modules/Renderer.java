@@ -46,6 +46,7 @@ public class Renderer extends Module<Novi>{
 
 	public Renderer(){
 		ShapeUtils.region = PixmapUtils.blankTextureRegion();
+		camera = new OrthographicCamera(Gdx.graphics.getWidth() / scale, Gdx.graphics.getHeight() / scale);
 		matrix = new Matrix4();
 		batch = new SpriteBatch();
 		atlas = new Atlas(Gdx.files.internal("sprites/Novi.pack"));
@@ -53,16 +54,16 @@ public class Renderer extends Module<Novi>{
 		font.setUseIntegerPositions(false);
 		layout = new GlyphLayout();
 		recorder = new GifRecorder(batch);
-		//recorder.setSpeedMultiplier(3f);
 		Draw.init(this);
 		Shaders.loadAll();
+		
+		camera.zoom = 3f;
 		
 		BreakEffect.createChunks();
 	}
 	
 	@Override
 	public void init(){
-		camera = new OrthographicCamera(Gdx.graphics.getWidth() / scale, Gdx.graphics.getHeight() / scale);
 		player = getModule(ClientData.class).player;
 		world = getModule(World.class);
 		network = getModule(Network.class);
@@ -233,7 +234,7 @@ public class Renderer extends Module<Novi>{
 
 
 	public void zoom(float amount){
-		if(camera.zoom + amount < 0 || (camera.zoom + amount) * camera.viewportWidth > World.worldWidthPixels()) return;
+		if(camera.zoom + amount < 0) return;
 		if(camera.zoom < 3 || amount < 0) camera.zoom += amount;
 	}
 

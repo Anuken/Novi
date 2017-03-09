@@ -10,6 +10,7 @@ import io.anuke.novi.server.NoviServer;
 /**static utility class for making effects*
  * can be used clientside now*/
 public class Effects{
+	/**Server only.*/
 	public static void shake(float duration, float intensity, float x, float y){
 		server().sendToAllTCP(new EffectPacket().shake(duration, intensity, x, y));
 	}

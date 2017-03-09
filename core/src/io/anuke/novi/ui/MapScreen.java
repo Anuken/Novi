@@ -126,6 +126,10 @@ public class MapScreen extends Group{
 		
 	}
 	
+	public void setCenter(float x, float y){
+		
+	}
+	
 	public void updateMap(){
 		clearChildren();
 		objects.clear();
@@ -146,7 +150,11 @@ public class MapScreen extends Group{
 		
 		public MapObject(Marker marker){
 			this.marker = marker;
-			addListener(click = new ClickListener());
+			addListener(click = new ClickListener(){
+				public void clicked(InputEvent event, float x, float y){
+					marker.type.clicked(marker);
+				}
+			});
 		}
 		
 		@Override
@@ -199,6 +207,13 @@ public class MapScreen extends Group{
 			lay.setText(font, text);
 			
 			font.draw(batch, text, getX() + getWidth()/2 + lay.width/2f, getY(), Align.top, 0, false);
+			
+			font.setColor(1,1,0,(mscl-1f));
+			
+			if(marker.type.action() != null){
+				lay.setText(font, marker.type.action());
+				font.draw(batch, marker.type.action(), getX() + getWidth()/2 + lay.width/2f, getY() - 20, Align.top, 0, false);
+			}
 		
 			Pools.free(lay);
 			

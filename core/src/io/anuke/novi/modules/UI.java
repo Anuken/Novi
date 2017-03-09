@@ -161,7 +161,7 @@ public class UI extends Module<Novi>{
 		mapRefresh = true;
 	}
 	
-	public void openMap(){
+	public void toggleMap(){
 		if(mapMenu.isVisible()){
 			mapMenu.setVisible(false);
 			//stage.setKeyboardFocus(null);

@@ -32,7 +32,7 @@ public class Input extends Module<Novi>{
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.M)){
-			getModule(UI.class).openMap();
+			getModule(UI.class).toggleMap();
 		}
 
 		if(player.isDead() || getModule(UI.class).dialogOpen())
