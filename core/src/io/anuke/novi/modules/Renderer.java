@@ -3,6 +3,7 @@ package io.anuke.novi.modules;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -173,6 +174,8 @@ public class Renderer extends Module<Novi>{
 		color(Color.WHITE);
 		font.getData().setScale(1f / GUIscale);
 		
+		if(Gdx.input.isKeyJustPressed(Keys.F3)) debug = !debug;
+		
 		if(debug){
 			font.setColor(Color.ORANGE);
 			font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond() + "\n" + 
@@ -191,9 +194,6 @@ public class Renderer extends Module<Novi>{
 			color(Color.WHITE);
 			drawFont(network.initialconnect() ? "Connecting..." : "Failed to connect to server.", ghwidth() / 2, ghheight() / 2);
 		}
-		
-		//recorder.update();
-
 	}
 
 	public void clearScreen(){
