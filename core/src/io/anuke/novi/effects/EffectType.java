@@ -5,7 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Color;
 
 import io.anuke.novi.graphics.Draw;
-import io.anuke.ucore.UCore;
+import io.anuke.ucore.core.Mathf;
 import io.anuke.ucore.graphics.Hue;
 
 public enum EffectType{
@@ -122,11 +122,11 @@ public enum EffectType{
 	}
 	
 	int frameid(float life){
-		return UCore.clamp((int) (UCore.clamp(life / lifetime()) * frames.length), 0, frames.length - 1);
+		return Mathf.clamp((int) (Mathf.clamp(life / lifetime()) * frames.length), 0, frames.length - 1);
 	}
 
 	public String frame(float life){
-		int i = UCore.clamp((int) (UCore.clamp(life / lifetime()) * frames.length), 0, frames.length - 1);
+		int i = Mathf.clamp((int) (Mathf.clamp(life / lifetime()) * frames.length), 0, frames.length - 1);
 		return frames[i];
 	}
 

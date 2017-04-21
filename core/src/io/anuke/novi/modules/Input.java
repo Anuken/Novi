@@ -3,7 +3,6 @@ package io.anuke.novi.modules;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputMultiplexer;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.player.Player;
@@ -11,6 +10,7 @@ import io.anuke.novi.items.ShipType;
 import io.anuke.novi.network.packets.ClassSwitchPacket;
 import io.anuke.novi.network.packets.InputPacket;
 import io.anuke.novi.utils.InputType;
+import io.anuke.ucore.core.UInput;
 import io.anuke.ucore.modules.Module;
 
 public class Input extends Module<Novi>{
@@ -19,10 +19,7 @@ public class Input extends Module<Novi>{
 	public void init(){
 		player = getModule(ClientData.class).player;
 		
-		InputMultiplexer plex = new InputMultiplexer();
-		plex.addProcessor(getModule(UI.class).stage);
-		plex.addProcessor(this);
-		Gdx.input.setInputProcessor(plex);
+		UInput.addProcessor(this);
 	}
 
 	@Override
@@ -137,7 +134,7 @@ public class Input extends Module<Novi>{
 
 	@Override
 	public boolean scrolled(int amount){
-		if(getModule(UI.class).stage.getScrollFocus() == null)
+		if(!getModule(UI.class).dialogOpen())
 		getModule(Renderer.class).zoom(amount / 10f);
 		return false;
 	}

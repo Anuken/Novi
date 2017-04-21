@@ -73,7 +73,7 @@ public class Network extends Module<Novi>{
 					Novi.log("Recieved data packet.");
 				}else if(object instanceof EffectPacket){
 					EffectPacket effect = (EffectPacket)object;
-					effect.apply(t);
+					effect.apply(main);
 				}else if(object instanceof Entity){
 					Entity entity = (Entity)object;
 					//if(Entities.has(entity.getID())) return;

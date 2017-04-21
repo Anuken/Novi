@@ -4,18 +4,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
-import com.kotcrab.vis.ui.VisUI;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.modules.ClientData;
 import io.anuke.novi.modules.World;
-import io.anuke.ucore.UCore;
+import io.anuke.scene.Element;
+import io.anuke.scene.Group;
+import io.anuke.scene.event.InputEvent;
+import io.anuke.scene.event.InputListener;
+import io.anuke.scene.style.Styles;
+import io.anuke.scene.utils.ClickListener;
+import io.anuke.ucore.core.Mathf;
 import io.anuke.ucore.graphics.Hue;
 
 public class MapScreen extends Group{
@@ -31,7 +34,7 @@ public class MapScreen extends Group{
 			
 			public boolean scrolled (InputEvent event, float x, float y, int amount) {
 				zoom -= amount/10f;
-				zoom = UCore.clamp(zoom, 1f, 10f);
+				zoom = Mathf.clamp(zoom, 1f, 10f);
 				return false;
 			}
 			
@@ -138,22 +141,21 @@ public class MapScreen extends Group{
 		
 		for(Marker marker : markers){
 			MapObject object = new MapObject(marker);
-			addActor(object);
+			addChild(object);
 			objects.add(object);
 		}
 	}
 	
-	class MapObject extends Actor{
+	class MapObject extends Element{
 		Marker marker;
 		float mscl = 1f;
 		ClickListener click;
 		
 		public MapObject(Marker marker){
 			this.marker = marker;
-			addListener(click = new ClickListener(){
-				public void clicked(InputEvent event, float x, float y){
-					marker.type.clicked(marker);
-				}
+			
+			click = clicked(()->{
+				marker.type.clicked(marker);
 			});
 		}
 		
@@ -171,7 +173,7 @@ public class MapScreen extends Group{
 				mscl -= 0.01f;
 			}
 			
-			mscl = UCore.clamp(mscl, 1f, 2f);
+			mscl = Mathf.clamp(mscl, 1f, 2f);
 			
 			setColor(Hue.mix(marker.type.color(), Color.CORAL, mscl-1f));
 			
@@ -196,7 +198,7 @@ public class MapScreen extends Group{
 			
 			draw(batch, x, y);
 			
-			BitmapFont font = VisUI.getSkin().getFont("default-font");
+			BitmapFont font = Styles.styles.getFont("default-font");
 			
 			font.setColor(1,1,1,(mscl-1f));
 			

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.graphics.Draw;
-import io.anuke.ucore.UCore;
+import io.anuke.ucore.core.Mathf;
 import io.anuke.ucore.modules.Module;
 import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.noise.RidgedPerlin;
@@ -110,7 +110,7 @@ public class World extends Module<Novi>{
 				
 				if(z >= height || (z < height-1 && riv < -0.035)) continue;
 				
-				noise = UCore.round((float)(noise - riv), 0.15f);
+				noise = Mathf.round((float)(noise - riv), 0.15f);
 				
 				float a = height/35.0f;
 				

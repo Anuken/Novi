@@ -3,17 +3,17 @@ package io.anuke.novi.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.Align;
-import com.kotcrab.vis.ui.VisUI;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.player.Player;
 import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.modules.ClientData;
 import io.anuke.novi.modules.Renderer;
+import io.anuke.scene.Element;
+import io.anuke.scene.style.Styles;
 
-public class HealthBar extends Widget{
+public class HealthBar extends Element{
 	
 	public void draw(Batch batch, float alpha){
 		batch.setColor(Color.WHITE);
@@ -32,7 +32,7 @@ public class HealthBar extends Widget{
 		batch.draw(region, scale, scale, fract*region.getRotatedPackedWidth()*scale, region.getRotatedPackedHeight()*scale);
 		
 		
-		VisUI.getSkin().getFont("default-font").draw(batch, (int)player.health + "/" + player.getShip().getMaxhealth(), getX() + getWidth()/2*scale, getHeight()*scale - 1.2f*scale, 0, Align.center, false);
+		Styles.styles.getFont("default-font").draw(batch, (int)player.health + "/" + player.getShip().getMaxhealth(), getX() + getWidth()/2*scale, getHeight()*scale - 1.2f*scale, 0, Align.center, false);
 	}
 	
 	public float getPrefWidth(){

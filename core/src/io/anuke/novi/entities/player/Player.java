@@ -23,7 +23,7 @@ import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.utils.Timers;
-import io.anuke.ucore.UCore;
+import io.anuke.ucore.core.Mathf;
 import io.anuke.ucore.modules.ModuleController;
 import io.anuke.ucore.util.Angles;
 
@@ -309,7 +309,7 @@ public class Player extends DestructibleEntity implements Syncable{
 	
 	public boolean heal(float amount){
 		if(health >= ship.getMaxhealth()) return true;
-		health = UCore.clamp(health + amount, 0, ship.getMaxhealth());
+		health = Mathf.clamp(health + amount, 0, ship.getMaxhealth());
 		return false;
 	}
 

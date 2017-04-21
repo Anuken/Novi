@@ -2,17 +2,11 @@ package io.anuke.novi.modules;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.widget.*;
 
+import io.anuke.SceneModule;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
@@ -24,48 +18,56 @@ import io.anuke.novi.tween.Actions;
 import io.anuke.novi.ui.HealthBar;
 import io.anuke.novi.ui.MapScreen;
 import io.anuke.novi.ui.UIUtils;
-import io.anuke.ucore.modules.Module;
+import io.anuke.scene.style.Styles;
+import io.anuke.scene.style.TextureRegionDrawable;
+import io.anuke.scene.ui.*;
+import io.anuke.scene.ui.layout.Table;
+import io.anuke.scene.utils.CursorManager;
+import io.anuke.ucore.core.UInput;
 
-public class UI extends Module<Novi>{
+public class UI extends SceneModule<Novi>{
 	private boolean mapRefresh = false;
-	public Stage stage;
-	public VisTable hudtable;
-	public VisLabel inText; //interact label text
+	public Table hudtable;
+	public Label inText; //interact label text
 	public MapScreen map;
-	VisDialog classMenu;
-	VisTable mapMenu;
+	Dialog classMenu;
+	Table mapMenu;
 	
 	public UI(){
 		loadSkin();
-		stage = new Stage(new ScreenViewport());
 		setup();
 	}
 	
 	private void setup(){
-		hudtable = new VisTable();
-		hudtable.setFillParent(true);
-		stage.addActor(hudtable);
+		hudtable = fill();
 		
-		VisUI.getSkin().getFont("default-font").setUseIntegerPositions(false);
-		VisUI.getSkin().getFont("default-font").getData().setScale(1f/Renderer.GUIscale);
+		Styles.styles.getFont("default-font").setUseIntegerPositions(false);
+		Styles.styles.getFont("default-font").getData().setScale(1f/Renderer.GUIscale);
 		
 		setupHUD();
 		setupMenus();
+		
+		UInput.flipProcessors();
+	}
+	
+	public void init(){
+		Cursor cur = getModule(Renderer.class).cursor;
+		CursorManager.arrow = cur;
+		CursorManager.hand = cur;
+		CursorManager.ibeam = cur;
 	}
 	
 	private void setupMenus(){
-		VisTable center = new VisTable();
-		center.setFillParent(true);
-		stage.addActor(center);
+		Table center = fill();
 		
-		mapMenu = new VisTable();
+		mapMenu = new Table();
 		mapMenu.background("window");
 		mapMenu.add((map=new MapScreen())).size(600);
 		
 		center.add(mapMenu).expand().size(600);
 		mapMenu.setVisible(false);
 		
-		classMenu = new VisDialog("Classes"){
+		classMenu = new Dialog("Classes"){
 			public void result(Object object){
 				Actions.clear(getModule(ClientData.class).player);
 			}
@@ -81,13 +83,11 @@ public class UI extends Module<Novi>{
 		table.pad(10);
 		
 		for(ShipType ship : ShipType.values()){
-			VisImageButton button = new VisImageButton(new TextureRegionDrawable(Draw.region(ship.name())));
-			button.addListener(new ClickListener(){
-				public void clicked(InputEvent event, float x, float y){
-					getModule(Input.class).switchClass(ship);
-					Actions.clear(getModule(ClientData.class).player);
-					classMenu.hide();
-				}
+			ImageButton button = new ImageButton(new TextureRegionDrawable(Draw.region(ship.name())));
+			button.clicked(()->{
+				getModule(Input.class).switchClass(ship);
+				Actions.clear(getModule(ClientData.class).player);
+				classMenu.hide();
 			});
 			
 			button.getImageCell().size(100);
@@ -102,7 +102,7 @@ public class UI extends Module<Novi>{
 			table.row().padTop(8);
 		}
 		
-		VisTextButton cancel = new VisTextButton("Cancel");
+		TextButton cancel = new TextButton("Cancel");
 		cancel.pad(10f);
 	
 		classMenu.button(cancel, false);
@@ -112,18 +112,18 @@ public class UI extends Module<Novi>{
 		HealthBar bar = new HealthBar();
 		hudtable.left().bottom().add(bar);
 		
-		inText = new VisLabel();
+		inText = new Label("");
 		inText.setFillParent(true);
 		inText.setColor(1, 1, 1, 0);
 		inText.setAlignment(Align.center);
-		stage.addActor(inText);
+		scene.add(inText);
 	}
 	
 	private void loadSkin(){
-		VisUI.load(Gdx.files.internal("ui/uiskin.json"));
+		Styles.load(new Styles(Gdx.files.internal("ui/uiskin.json")));
 	}
 	
-	private void updateUIVisibility(){
+	private void updateUIibility(){
 		if(mapRefresh){
 			map.updateMap();
 			mapRefresh = false;
@@ -165,17 +165,17 @@ public class UI extends Module<Novi>{
 		if(mapMenu.isVisible()){
 			mapMenu.setVisible(false);
 			//stage.setKeyboardFocus(null);
-			stage.setScrollFocus(null);
+			scene.setScrollFocus(null);
 		}else{
 			getModule(Network.class).requestMap();
 			mapMenu.setVisible(true);
 			//stage.setKeyboardFocus(map);
-			stage.setScrollFocus(map);
+			scene.setScrollFocus(map);
 		}
 	}
 	
 	public void openClassMenu(){
-		classMenu.show(stage);
+		classMenu.show(scene);
 	}
 	
 	public float interactAlpha(){
@@ -183,7 +183,7 @@ public class UI extends Module<Novi>{
 	}
 	
 	public boolean dialogOpen(){
-		return stage.getKeyboardFocus() != null;
+		return scene.getKeyboardFocus() != null;
 	}
 	
 	//returns screen width / scale
@@ -198,17 +198,12 @@ public class UI extends Module<Novi>{
 	
 	@Override
 	public void update() {
-		updateUIVisibility();
+		updateUIibility();
 		updateInteractions();
 		
-		stage.act();
-		stage.draw();
+		scene.act();
+		scene.draw();
 		
 		getModule(Renderer.class).recorder.update();
-	}
-	
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width/Renderer.GUIscale, height/Renderer.GUIscale, true);
 	}
 }

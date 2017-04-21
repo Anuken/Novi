@@ -44,6 +44,7 @@ public class Renderer extends Module<Novi>{
 	public GifRecorder recorder;
 	public CopyOnWriteArrayList<Effect> effects = new CopyOnWriteArrayList<Effect>();
 	public boolean debug = true;
+	public Cursor cursor;
 
 	public Renderer(){
 		ShapeUtils.region = PixmapUtils.blankTextureRegion();
@@ -61,6 +62,12 @@ public class Renderer extends Module<Novi>{
 		camera.zoom = 3f;
 		
 		BreakEffect.createChunks();
+		
+		Texture texture = new Texture("cursors/cursor.png");
+		texture.getTextureData().prepare();
+		
+		cursor = Gdx.graphics.newCursor(texture.getTextureData().consumePixmap(), texture.getWidth()/2, texture.getHeight()/2);
+		Gdx.graphics.setCursor(cursor);
 	}
 	
 	@Override
@@ -68,12 +75,6 @@ public class Renderer extends Module<Novi>{
 		player = getModule(ClientData.class).player;
 		world = getModule(World.class);
 		network = getModule(Network.class);
-		
-		Texture texture = new Texture("cursors/cursor.png");
-		texture.getTextureData().prepare();
-		
-		Cursor cursor = Gdx.graphics.newCursor(texture.getTextureData().consumePixmap(), texture.getWidth()/2, texture.getHeight()/2);
-		Gdx.graphics.setCursor(cursor);
 	}
 
 	@Override
