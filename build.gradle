@@ -40,6 +40,7 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
     }
 }
 
@@ -50,10 +51,9 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 		compile "com.esotericsoftware:kryonet:2.22.0-RC1"
-		compile 'com.github.Anuken:ucore:7023da1348'
-		compile 'com.github.Anuken:GDXGifRecorder:1.1'
-		compile 'com.github.Anuken:uscene:fbd0ba4632'
-		compile 'com.github.anuken:universal-tween-engine:53638b0'
+		compile 'com.github.Anuken:ucore:-SNAPSHOT'
+		compile 'com.github.Anuken:GDXGifRecorder:-SNAPSHOT'
+		compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
 }
 

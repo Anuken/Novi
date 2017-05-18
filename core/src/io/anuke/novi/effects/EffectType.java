@@ -4,9 +4,10 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
 
-import io.anuke.novi.graphics.Draw;
-import io.anuke.ucore.core.Mathf;
+import io.anuke.novi.graphics.Wrap;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.graphics.Hue;
+import io.anuke.ucore.util.Mathf;
 
 public enum EffectType{
 	explosion(7){
@@ -35,7 +36,7 @@ public enum EffectType{
 				float y = rand.nextFloat() - 0.5f;
 				float len = 60f + rand.nextFloat() * 50f - e.fract() * 15f;
 
-				Draw.rect(frame(e.life), e.x + x * e.fract() * len, e.y + y * e.fract() * len);
+				Wrap.rect(frame(e.life), e.x + x * e.fract() * len, e.y + y * e.fract() * len);
 
 			}
 
@@ -60,7 +61,7 @@ public enum EffectType{
 
 			Draw.color(color);
 
-			Draw.rect("smoke" + (frameid(e.life)+3), e.x, e.y);
+			Wrap.rect("smoke" + (frameid(e.life)+3), e.x, e.y);
 
 			Draw.color();
 		}
@@ -132,9 +133,9 @@ public enum EffectType{
 
 	public void draw(Effect e){
 		if(frames != null && frames.length > 0){
-			Draw.rect(frame(e.life), e.x, e.y);
+			Wrap.rect(frame(e.life), e.x, e.y);
 		}else{
-			Draw.rect("error", e.x, e.y);
+			Wrap.rect("error", e.x, e.y);
 		}
 	}
 }

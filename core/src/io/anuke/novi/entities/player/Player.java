@@ -10,7 +10,7 @@ import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.DestructibleEntity;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.basic.Bullet;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.modules.Network;
@@ -23,9 +23,10 @@ import io.anuke.novi.server.InputHandler;
 import io.anuke.novi.server.NoviServer;
 import io.anuke.novi.utils.InterpolationData;
 import io.anuke.novi.utils.Timers;
-import io.anuke.ucore.core.Mathf;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.modules.ModuleController;
 import io.anuke.ucore.util.Angles;
+import io.anuke.ucore.util.Mathf;
 
 public class Player extends DestructibleEntity implements Syncable{
 	public transient Connection connection;
@@ -120,11 +121,11 @@ public class Player extends DestructibleEntity implements Syncable{
 			rotation += 360f;
 
 		if(shooting && !boosting){
-			rotation = Angles.MoveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed() * delta());
+			rotation = Angles.moveToward(rotation, Angles.mouseAngle(ModuleController.module(Renderer.class).camera, x, y), ship.getTurnspeed() * delta());
 		}else{
 			//align player rotation to velocity rotation
 			if(!valigned)
-				rotation = Angles.MoveToward(rotation, velocity.angle(), ship.getTurnspeed());
+				rotation = Angles.moveToward(rotation, velocity.angle(), ship.getTurnspeed());
 		}
 
 		boostUpdate();
@@ -222,7 +223,7 @@ public class Player extends DestructibleEntity implements Syncable{
 		
 		if(!client){
 			Draw.tcolor(Color.GOLD);
-			Draw.text(name, x, y + 14);
+			Wrap.text(name, x, y + 14);
 			Draw.tcolor();
 		}
 

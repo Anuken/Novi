@@ -9,8 +9,9 @@ import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.basic.Bullet;
 import io.anuke.novi.entities.basic.DamageArea;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.utils.Timers;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.util.Angles;
 
@@ -91,7 +92,7 @@ public enum ProjectileType{
 			defaultDraw(bullet);
 			
 			Draw.color(Hue.mix(Color.valueOf("82f4a8"), Color.valueOf("20344f"), bullet.life()/getLifetime()));
-			Draw.rect("minecenter", bullet.x, bullet.y, bullet.velocity.angle() - 90);
+			Wrap.rect("minecenter", bullet.x, bullet.y, bullet.velocity.angle() - 90);
 			Draw.color();
 		}
 		
@@ -159,7 +160,7 @@ public enum ProjectileType{
 			float x2 = bullet.x + vec.x, y2 = bullet.y + vec.y;
 			
 			Draw.colorl(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f));
-			Draw.laser("laser", "laserend", x, y, x2, y2, rotation);
+			Wrap.laser("laser", "laserend", x, y, x2, y2, rotation);
 			Draw.color();
 		}
 		
@@ -240,10 +241,10 @@ public enum ProjectileType{
 	}
 	
 	public void defaultDraw(Bullet bullet){
-		Draw.rect(drawName(), bullet.x, bullet.y, bullet.velocity.angle() - 90);
+		Wrap.rect(drawName(), bullet.x, bullet.y, bullet.velocity.angle() - 90);
 	}
 	
 	public void draw(Bullet bullet){
-		Draw.rect(drawName(), bullet.x, bullet.y, bullet.velocity.angle() - 90);
+		Wrap.rect(drawName(), bullet.x, bullet.y, bullet.velocity.angle() - 90);
 	}
 }

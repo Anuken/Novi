@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.basic.Bullet;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.network.SyncData;
 
@@ -25,8 +25,8 @@ public class BaseTurret extends BaseBlock{
 		
 		rotation = MathUtils.lerpAngleDeg(rotation, lastrotation, 0.09f);
 		
-		Draw.rect("ironblock", x, y, base.rotation);
-		Draw.rect("turret", x, y, rotation);
+		Wrap.rect("ironblock", x, y, base.rotation);
+		Wrap.rect("turret", x, y, rotation);
 	}
 
 	@Override

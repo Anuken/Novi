@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.Novi;
 import io.anuke.novi.entities.*;
-import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.graphics.Shaders;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.modules.ClientData;
 import io.anuke.novi.modules.UI;
 import io.anuke.novi.network.SyncData;
@@ -17,6 +17,7 @@ import io.anuke.novi.tween.Actions;
 import io.anuke.novi.ui.MarkerType;
 import io.anuke.novi.utils.Physics;
 import io.anuke.novi.utils.Timers;
+import io.anuke.ucore.core.Draw;
 
 public class RepairBase extends DestructibleEntity implements Syncable, Interactable, Markable{
 	public static float range = 200;
@@ -30,17 +31,17 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 	public void draw(){
 		
 		if(interacting)
-		Draw.shader(Shaders.outline, 0.6f, 0.6f, 1f, Novi.module(UI.class).interactAlpha());
+		Wrap.shader(Shaders.outline, 0.6f, 0.6f, 1f, Novi.module(UI.class).interactAlpha());
 		
-		Draw.rect("playerbase", x, y);
+		Wrap.rect("playerbase", x, y);
 		
 		if(interacting)
-		Draw.shader();
+		Wrap.shader();
 		
 		for(Entity entity : Entities.list()){
 			if(entity instanceof Player && Vector2.dst(entity.x, entity.y, x, y) < range && ((Player)entity).isVisible()){
 				Draw.colorl(0.85f + MathUtils.random(0.05f) + Math.abs(MathUtils.sin(Timers.time()/3f)/6f));
-				Draw.laser("healbeam", "healbeamend", x, y, entity.x, entity.y);
+				Wrap.laser("healbeamend", "healbeam", x, y, entity.x, entity.y);
 				Draw.color();
 			}
 		}

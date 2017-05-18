@@ -10,7 +10,7 @@ import io.anuke.novi.items.ShipType;
 import io.anuke.novi.network.packets.ClassSwitchPacket;
 import io.anuke.novi.network.packets.InputPacket;
 import io.anuke.novi.utils.InputType;
-import io.anuke.ucore.core.UInput;
+import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.modules.Module;
 
 public class Input extends Module<Novi>{
@@ -19,7 +19,7 @@ public class Input extends Module<Novi>{
 	public void init(){
 		player = getModule(ClientData.class).player;
 		
-		UInput.addProcessor(this);
+		Inputs.addProcessor(this);
 	}
 
 	@Override

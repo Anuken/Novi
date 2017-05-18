@@ -13,8 +13,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.world.Material;
+import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.noise.VoronoiNoise;
 
@@ -65,8 +67,8 @@ public class BreakEffect extends Effect{
 			
 			ObjectMap<Double, Pixmap> pixmaps = new ObjectMap<Double, Pixmap>();
 			
-			TextureRegion region = Draw.atlas().findRegion(name);
-			Pixmap regionpixmap = Draw.atlas().getPixmapOf(region);
+			TextureRegion region = DrawContext.atlas.findRegion(name);
+			Pixmap regionpixmap = DrawContext.atlas.getPixmapOf(region);
 			
 			noise.setSeed(MathUtils.random(9999));
 			dstnoise.setSeed(noise.getSeed());
@@ -132,7 +134,7 @@ public class BreakEffect extends Effect{
 			rotatevelocity = rotatedrag * rotatevelocity;
 			
 			Draw.color(l, l, l, a);
-			Draw.rect(chunk.region, x + effect.x, y + effect.y, rotation);
+			Wrap.rect(chunk.region, x + effect.x, y + effect.y, rotation);
 			Draw.color();
 		}
 		

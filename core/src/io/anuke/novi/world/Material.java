@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import io.anuke.novi.effects.EffectType;
 import io.anuke.novi.effects.Effects;
 import io.anuke.novi.entities.base.Base;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
+import io.anuke.ucore.core.Draw;
 
 public enum Material{
 	air, 
@@ -70,15 +71,15 @@ public enum Material{
 	}
 
 	public void defaultDraw(String region, Block block, Base base, int x, int y){
-		Draw.rect(region, worldx(base, x, y), worldy(base, x, y), base.rotation);
+		Wrap.rect(region, worldx(base, x, y), worldy(base, x, y), base.rotation);
 	}
 	
 	public void defaultDraw(String region, Block block, Base base, int x, int y, float rotation){
-		Draw.rect(region, worldx(base, x, y), worldy(base, x, y), rotation);
+		Wrap.rect(region, worldx(base, x, y), worldy(base, x, y), rotation);
 	}
 
 	public void defaultDraw(String region, Block block, Base base, int x, int y, float offsetx, float offsety){
-		Draw.rect(region, worldx(base, x, y) + offsetx, worldy(base, x, y) + offsety, base.rotation);
+		Wrap.rect(region, worldx(base, x, y) + offsetx, worldy(base, x, y) + offsety, base.rotation);
 	}
 
 	public void defaultDraw(String region, Block block, Base base, int x, int y, boolean damage){

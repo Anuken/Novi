@@ -3,14 +3,11 @@ package io.anuke.novi.modules;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
 
 import io.anuke.gif.GifRecorder;
 import io.anuke.novi.Novi;
@@ -18,27 +15,18 @@ import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.effects.Effect;
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.player.Player;
-import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.graphics.Shaders;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.modules.World.MapTile;
 import io.anuke.novi.modules.World.TileCache;
 import io.anuke.novi.utils.WrappedQuadTree;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.graphics.Atlas;
-import io.anuke.ucore.graphics.PixmapUtils;
-import io.anuke.ucore.graphics.ShapeUtils;
-import io.anuke.ucore.modules.Module;
+import io.anuke.ucore.modules.RendererModule;
 
-public class Renderer extends Module<Novi>{
-	public static final int GUIscale = 1;
-	public static final int scale = 5; //camera zoom/scale
+public class Renderer extends RendererModule<Novi>{
 	public float cameraShakeDuration, cameraShakeIntensity, cameraDrag;
 	public Network network;
-	public SpriteBatch batch; //novi's batch
-	public BitmapFont font; //a font for displaying text
-	public Matrix4 matrix; // matrix used for rendering gui and other things
-	public GlyphLayout layout; // used for getting font bounds
-	public OrthographicCamera camera; //a camera, seems self explanatory
-	public Atlas atlas; //texture atlas
 	public Player player; //player object from ClientData module
 	public World world; // world module
 	public GifRecorder recorder;
@@ -47,21 +35,12 @@ public class Renderer extends Module<Novi>{
 	public Cursor cursor;
 
 	public Renderer(){
-		ShapeUtils.region = PixmapUtils.blankTextureRegion();
-		camera = new OrthographicCamera(Gdx.graphics.getWidth() / scale, Gdx.graphics.getHeight() / scale);
-		matrix = new Matrix4();
-		batch = new SpriteBatch();
-		atlas = new Atlas(Gdx.files.internal("sprites/Novi.pack"));
-		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
-		font.setUseIntegerPositions(false);
-		layout = new GlyphLayout();
+		cameraScale = 2;
+		clearColor = Color.SKY.cpy().sub(0.1f, 0.1f, 0.1f, 0f);
+		
+		atlas = new Atlas("Novi.pack");
 		recorder = new GifRecorder(batch);
-		Draw.init(this);
 		Shaders.loadAll();
-		
-		camera.zoom = 3f;
-		
-		BreakEffect.createChunks();
 		
 		Texture texture = new Texture("cursors/cursor.png");
 		texture.getTextureData().prepare();
@@ -72,6 +51,8 @@ public class Renderer extends Module<Novi>{
 	
 	@Override
 	public void init(){
+		BreakEffect.createChunks();
+		
 		player = getModule(ClientData.class).player;
 		world = getModule(World.class);
 		network = getModule(Network.class);
@@ -80,44 +61,19 @@ public class Renderer extends Module<Novi>{
 	@Override
 	public void update(){
 		updateCamera();
-		batch.setProjectionMatrix(camera.combined); //make the batch use the camera projection
-		clearScreen();
-		doRender();
-		updateCamera();
-	}
-
-	void doRender(){
+		
 		clearScreen();
 		
 		renderMap();
 		
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
+		Draw.beginCam();
 		
-		//renderQuadTree(Entities.getSystem(SpatialSystem.class).quadtree);
 		Entities.drawAll(player.x, player.y);
 		drawEffects();
-		/*
-		Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 		
-		ShapeUtils.line(batch, camera.position.x, camera.position.y, v.x, v.y);
+		Draw.end();
 		
-		
-		Entities.spatial().raycast(camera.position.x, camera.position.y, v.x, v.y, (entity, x, y)->{
-			Draw.color(Color.PURPLE);
-			Draw.rect("blank", x, y, 4, 4, 0);
-			Draw.color(Color.RED);
-			Draw.crect("rect", entity.material.rect.x, entity.material.rect.y, entity.material.rect.width, entity.material.rect.height);
-		});
-		
-		Draw.color();
-		*/
-		batch.end();
-		batch.setProjectionMatrix(matrix);
-		batch.begin();
-		drawDebug();
-		batch.end();
-		batch.setColor(Color.WHITE);
+		updateCamera();
 	}
 	
 	void drawEffects(){
@@ -133,7 +89,7 @@ public class Renderer extends Module<Novi>{
 	void renderQuadTree(WrappedQuadTree tree){
 		if(tree == null) return;
 		
-		Draw.crect("border", tree.getBounds().x, tree.getBounds().y, tree.getBounds().width, tree.getBounds().height);
+		Wrap.crect("border", tree.getBounds().x, tree.getBounds().y, tree.getBounds().width, tree.getBounds().height);
 		renderQuadTree(tree.getBottomLeftChild());
 		renderQuadTree(tree.getBottomRightChild());
 		renderQuadTree(tree.getTopLeftChild());
@@ -170,7 +126,9 @@ public class Renderer extends Module<Novi>{
 			}
 		}
 	}
-
+	
+	//TODO move to UI
+	/*
 	public void drawDebug(){
 		color(Color.WHITE);
 		font.getData().setScale(1f / GUIscale);
@@ -196,12 +154,7 @@ public class Renderer extends Module<Novi>{
 			drawFont(network.initialconnect() ? "Connecting..." : "Failed to connect to server.", ghwidth() / 2, ghheight() / 2);
 		}
 	}
-
-	public void clearScreen(){
-		Color clear = Color.SKY.cpy().sub(0.1f, 0.1f, 0.1f, 0f);
-		Gdx.gl.glClearColor(clear.r, clear.g, clear.b, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	}
+*/
 
 	void updateCamera(){
 		//this is needed to reset the UI viewport.
@@ -221,11 +174,6 @@ public class Renderer extends Module<Novi>{
 		}
 	}
 
-	public void resize(int width, int height){
-		matrix.setToOrtho2D(0, 0, width / GUIscale, height / GUIscale);
-		camera.setToOrtho(false, width / scale, height / scale); //resize camera
-	}
-
 	public void shakeCamera(float duration, float intensity){
 		if(cameraShakeDuration > 0 && cameraShakeIntensity > intensity) return;
 		cameraShakeIntensity = intensity;
@@ -233,46 +181,8 @@ public class Renderer extends Module<Novi>{
 		cameraDrag = cameraShakeIntensity / cameraShakeDuration;
 	}
 
-
 	public void zoom(float amount){
 		if(camera.zoom + amount < 0) return;
 		if(camera.zoom < 3 || amount < 0) camera.zoom += amount;
-	}
-
-	public GlyphLayout getBounds(String text){
-		layout.setText(font, text);
-		return layout;
-	}
-
-	public void drawFont(String text, float x, float y){
-		layout.setText(font, text);
-		font.draw(batch, text, x - layout.width / 2, y + layout.height / 2);
-	}
-
-	//returns screen width / scale
-	public float ghwidth(){
-		return Gdx.graphics.getWidth() / GUIscale;
-	}
-
-	//returns screen height / scale
-	public float ghheight(){
-		return Gdx.graphics.getHeight() / GUIscale;
-	}
-
-	public void color(Color color){
-		batch.setColor(color);
-	}
-
-	public void color(float r, float g, float b, float a){
-		batch.setColor(new Color(r, g, b, a));
-	}
-
-	//utility/shortcut draw method
-	public void draw(String region, float x, float y){
-		batch.draw(atlas.findRegion(region), x - atlas.regionWidth(region) / 2, y - atlas.regionHeight(region) / 2);
-	}
-
-	public void drawc(String region, float x, float y){
-		batch.draw(atlas.findRegion(region), x, y);
 	}
 }

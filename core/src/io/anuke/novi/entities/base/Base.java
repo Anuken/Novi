@@ -16,7 +16,7 @@ import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Markable;
 import io.anuke.novi.entities.SolidEntity;
 import io.anuke.novi.entities.enemies.Enemy;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.modules.Network;
 import io.anuke.novi.modules.World;
 import io.anuke.novi.network.SyncData;
@@ -262,7 +262,7 @@ public abstract class Base extends Enemy implements Syncable, Markable{
 		data.update(this);
 		
 		if(texture != null)
-			Draw.rect(texture, x, y, rotation);
+			Wrap.rect(texture, x, y, rotation);
 		
 		for(int x = 0; x < size; x++){
 			for(int y = 0; y < size; y++){

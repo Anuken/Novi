@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.novi.effects.BreakEffect;
 import io.anuke.novi.entities.base.Base;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.modules.World;
 
@@ -27,7 +27,7 @@ public class Drone extends Enemy{
 	
 	@Override
 	public void draw(){
-		Draw.rect("drone", x, y, velocity.angle() - 90);
+		Wrap.rect("drone", x, y, velocity.angle() - 90);
 	}
 	
 	public void onDeath(){

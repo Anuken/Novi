@@ -2,10 +2,10 @@ package io.anuke.novi.ui;
 
 import com.badlogic.gdx.utils.Align;
 
-import io.anuke.scene.ui.Dialog;
-import io.anuke.scene.ui.Label;
-import io.anuke.scene.ui.TextButton;
-import io.anuke.scene.ui.layout.Table;
+import io.anuke.ucore.scene.ui.Dialog;
+import io.anuke.ucore.scene.ui.Label;
+import io.anuke.ucore.scene.ui.TextButton;
+import io.anuke.ucore.scene.ui.layout.Table;
 
 public class UIUtils{
 	public static void addCloseButton (Dialog dialog) {

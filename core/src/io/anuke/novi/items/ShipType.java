@@ -3,7 +3,7 @@ package io.anuke.novi.items;
 import com.badlogic.gdx.graphics.Color;
 
 import io.anuke.novi.entities.player.Player;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 import io.anuke.novi.server.InputHandler;
 
 public enum ShipType{
@@ -92,7 +92,7 @@ public enum ShipType{
 	}
 	
 	public void draw(Player player){
-		Draw.rect(name(), player.x, player.y, player.getDrawRotation());
+		Wrap.rect(name(), player.x, player.y, player.getDrawRotation());
 	}
 	
 	public int getBoostSpeed(){

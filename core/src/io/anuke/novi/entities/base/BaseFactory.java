@@ -1,7 +1,7 @@
 package io.anuke.novi.entities.base;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.graphics.Draw;
+import io.anuke.novi.graphics.Wrap;
 
 public class BaseFactory extends BaseBlock{
 	static final float buildtime = 60;
@@ -9,7 +9,7 @@ public class BaseFactory extends BaseBlock{
 	
 	@Override
 	public void draw(){
-		Draw.rect("dronemaker", x, y, base.rotation);
+		Wrap.rect("dronemaker", x, y, base.rotation);
 	}
 
 	@Override

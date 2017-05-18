@@ -9,17 +9,17 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.graphics.Draw;
 import io.anuke.novi.modules.ClientData;
 import io.anuke.novi.modules.World;
-import io.anuke.scene.Element;
-import io.anuke.scene.Group;
-import io.anuke.scene.event.InputEvent;
-import io.anuke.scene.event.InputListener;
-import io.anuke.scene.style.Styles;
-import io.anuke.scene.utils.ClickListener;
-import io.anuke.ucore.core.Mathf;
+import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.graphics.Hue;
+import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Group;
+import io.anuke.ucore.scene.event.InputEvent;
+import io.anuke.ucore.scene.event.InputListener;
+import io.anuke.ucore.scene.utils.ClickListener;
+import io.anuke.ucore.util.Mathf;
 
 public class MapScreen extends Group{
 	private Array<MapObject> objects = new Array<MapObject>();
@@ -198,7 +198,7 @@ public class MapScreen extends Group{
 			
 			draw(batch, x, y);
 			
-			BitmapFont font = Styles.styles.getFont("default-font");
+			BitmapFont font = DrawContext.skin.getFont("default-font");
 			
 			font.setColor(1,1,1,(mscl-1f));
 			

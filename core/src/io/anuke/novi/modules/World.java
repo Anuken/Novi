@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.utils.Array;
 
 import io.anuke.novi.Novi;
-import io.anuke.novi.graphics.Draw;
-import io.anuke.ucore.core.Mathf;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.modules.Module;
 import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.noise.RidgedPerlin;
 import io.anuke.ucore.noise.VoronoiNoise;
 import io.anuke.ucore.util.GridMap;
+import io.anuke.ucore.util.Mathf;
 
 public class World extends Module<Novi>{
 	public static final int tileSize = 512;
