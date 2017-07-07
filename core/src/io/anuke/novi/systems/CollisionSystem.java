@@ -1,13 +1,13 @@
 package io.anuke.novi.systems;
 
-import java.util.HashSet;
+import com.badlogic.gdx.utils.ObjectSet;
 
 import io.anuke.novi.entities.Entities;
 import io.anuke.novi.entities.Entity;
 import io.anuke.novi.entities.SolidEntity;
 
 public class CollisionSystem extends IteratingSystem{
-	HashSet<Long> collided = new HashSet<Long>(); //used for storing collisions each frame so entities don't collide twice
+	ObjectSet<Long> collided = new ObjectSet<Long>(); //used for storing collisions each frame so entities don't collide twice
 	SpatialSystem spatial;
 	
 	@Override

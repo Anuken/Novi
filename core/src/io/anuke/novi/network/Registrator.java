@@ -27,13 +27,14 @@ import io.anuke.novi.items.ProjectileType;
 import io.anuke.novi.items.ShipType;
 import io.anuke.novi.network.packets.*;
 import io.anuke.novi.network.packets.EffectPacket.ScreenEffectType;
-import io.anuke.novi.ui.MarkerType;
 import io.anuke.novi.ui.Marker;
+import io.anuke.novi.ui.MarkerType;
 import io.anuke.novi.utils.InputType;
 import io.anuke.novi.world.Block;
 import io.anuke.novi.world.Material;
 
 public class Registrator{
+	
 	public static void register(Kryo k){
 		k.register(ConnectPacket.class);
 		k.register(DataPacket.class);

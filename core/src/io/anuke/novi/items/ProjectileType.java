@@ -14,6 +14,7 @@ import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.util.Angles;
+import io.anuke.ucore.util.Mathf;
 
 public enum ProjectileType{
 	plasmabullet{
@@ -159,7 +160,7 @@ public enum ProjectileType{
 			
 			float x2 = bullet.x + vec.x, y2 = bullet.y + vec.y;
 			
-			Draw.colorl(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f));
+			Draw.colorl(Mathf.clamp(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f)));
 			Wrap.laser("laser", "laserend", x, y, x2, y2, rotation);
 			Draw.color();
 		}

@@ -1,13 +1,12 @@
 package io.anuke.novi.modules;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 import io.anuke.gif.GifRecorder;
 import io.anuke.novi.Novi;
@@ -30,7 +29,7 @@ public class Renderer extends RendererModule<Novi>{
 	public Player player; //player object from ClientData module
 	public World world; // world module
 	public GifRecorder recorder;
-	public CopyOnWriteArrayList<Effect> effects = new CopyOnWriteArrayList<Effect>();
+	public DelayedRemovalArray<Effect> effects = new DelayedRemovalArray<Effect>();
 	public boolean debug = true;
 	public Cursor cursor;
 
@@ -77,13 +76,15 @@ public class Renderer extends RendererModule<Novi>{
 	}
 	
 	void drawEffects(){
+		effects.begin();
 		for(Effect effect : effects){
 			if(effect.update()){
-				effects.remove(effect);
+				effects.removeValue(effect, true);
 			}else{
 				effect.draw();
 			}
 		}
+		effects.end();
 	}
 	
 	void renderQuadTree(WrappedQuadTree tree){
@@ -150,7 +151,7 @@ public class Renderer extends RendererModule<Novi>{
 		if( !network.connected() || !network.initialconnect()){
 			color(0, 0, 0, 0.5f);
 			batch.draw(atlas.findRegion("blank"), 0, 0, ghwidth(), ghheight());
-			color(Color.WHITE);
+			color(Color.WHITE);h
 			drawFont(network.initialconnect() ? "Connecting..." : "Failed to connect to server.", ghwidth() / 2, ghheight() / 2);
 		}
 	}
@@ -183,6 +184,6 @@ public class Renderer extends RendererModule<Novi>{
 
 	public void zoom(float amount){
 		if(camera.zoom + amount < 0) return;
-		if(camera.zoom < 3 || amount < 0) camera.zoom += amount;
+		if(camera.zoom < 2 || amount < 0) camera.zoom += amount;
 	}
 }

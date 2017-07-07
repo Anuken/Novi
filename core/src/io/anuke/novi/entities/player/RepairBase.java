@@ -18,6 +18,7 @@ import io.anuke.novi.ui.MarkerType;
 import io.anuke.novi.utils.Physics;
 import io.anuke.novi.utils.Timers;
 import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.util.Mathf;
 
 public class RepairBase extends DestructibleEntity implements Syncable, Interactable, Markable{
 	public static float range = 200;
@@ -40,14 +41,14 @@ public class RepairBase extends DestructibleEntity implements Syncable, Interact
 		
 		for(Entity entity : Entities.list()){
 			if(entity instanceof Player && Vector2.dst(entity.x, entity.y, x, y) < range && ((Player)entity).isVisible()){
-				Draw.colorl(0.85f + MathUtils.random(0.05f) + Math.abs(MathUtils.sin(Timers.time()/3f)/6f));
+				Draw.colorl(Mathf.clamp(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f)));
 				Wrap.laser("healbeamend", "healbeam", x, y, entity.x, entity.y);
 				Draw.color();
 			}
 		}
 		
 		if(Novi.module(UI.class).interactAlpha() <= 0f)
-		interacting = false;
+			interacting = false;
 	}
 	
 	@Override
